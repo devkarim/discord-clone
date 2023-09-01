@@ -2,7 +2,7 @@
 
 ## Overview
 
-A discord clone. This web application is a clone of Discordso this is **not intended** for commercial use.
+A discord clone. This web application is a clone of Discord so this is **not intended** for commercial use.
 
 Visit the website from [here](https://discord-clone.karimwael.com).
 
@@ -39,9 +39,11 @@ Clone the monorepo and navigate to it:
 
 ### Install required packages
 
-This monorepo uses `pnpm` as package manager, use the following to install:
+This monorepo uses `pnpm` as a package manager, use the following to install:
 
-- `pnpm i`
+```
+pnpm i
+```
 
 ### Setup .env file
 
@@ -61,9 +63,11 @@ You can check `.env.example` in each workspace/package for more information.
 
 ### Start development server
 
-Use this command to start the development server:
+Use this command to start the development servers (Next.js & Express.js) in parellel:
 
-`pnpm dev`
+```
+pnpm dev
+```
 
 ## Author
 
