@@ -1,80 +1,74 @@
-# Turborepo starter
+# Discord Clone
 
-This is an official starter Turborepo.
+## Overview
 
-## Using this example
+A discord clone. This web application is a clone of Discordso this is **not intended** for commercial use.
 
-Run the following command:
+Visit the website from [here](https://discord-clone.karimwael.com).
 
-```sh
-npx create-turbo@latest
-```
+This project is inspired by this [video](https://www.youtube.com/watch?v=ZbX4Ok9YX94) ❤️
 
-## What's inside?
+## Features
 
-This Turborepo includes the following packages/apps:
+- To be added.
 
-### Apps and Packages
+## Technologies
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
+- [React.js](https://react.dev)
+- [Next.js 13](https://nextjs.org)
+- [TypeScript](https://www.typescriptlang.org)
+- [Express.js](https://expressjs.com)
+- [Zod](https://zod.dev)
+- [Tailwind CSS](https://tailwindcss.com)
+- [Prisma](https://www.prisma.io)
+- [PlanetScale](https://planetscale.com)
+- [react-hook-form](https://react-hook-form.com)
+- [react-toastify](https://fkhadra.github.io/react-toastify)
+- [Headless UI](https://headlessui.com/react)
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## Prerequisites
 
-### Utilities
+#### - Node v20.5.1
 
-This Turborepo has some additional tools already setup for you:
+### Cloning this repo
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+Clone the monorepo and navigate to it:
 
-### Build
+- `git clone https://github.com/devkarim/discord-clone.git`
+- `cd discord-clone`
 
-To build all apps and packages, run the following command:
+### Install required packages
 
-```
-cd my-turborepo
-pnpm build
-```
+This monorepo uses `pnpm` as package manager, use the following to install:
 
-### Develop
+- `pnpm i`
 
-To develop all apps and packages, run the following command:
+### Setup .env file
 
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+These environment variables are required for the app to work:
 
 ```
-cd my-turborepo
-npx turbo login
+# for backend workspace
+NODE_ENV=
+PORT=
+SESSION_SECRET=
+
+# for database package
+DATABASE_URL=
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+You can check `.env.example` in each workspace/package for more information.
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+### Start development server
 
-```
-npx turbo link
-```
+Use this command to start the development server:
 
-## Useful Links
+`pnpm dev`
 
-Learn more about the power of Turborepo:
+## Author
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+This project is made by [@devkarim](https://github.com/devkarim).
+
+## License
+
+This project is licensed under the [MIT](https://github.com/devkarim/discord-clone/blob/main/LICENSE.md) License - feel free to explore, modify, and share.
