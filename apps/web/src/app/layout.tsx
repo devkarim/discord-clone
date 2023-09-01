@@ -1,13 +1,15 @@
 import './globals.css';
 
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Open_Sans } from 'next/font/google';
 
-const font = Inter({ subsets: ['latin'] });
+import { ThemeProvider } from '@/components/providers/theme-provider';
+
+const font = Open_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: `Web app`,
-  description: 'A web app',
+  title: `Discord Clone`,
+  description: 'A discord clone',
 };
 
 export default function RootLayout({
@@ -16,8 +18,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }): JSX.Element {
   return (
-    <html data-theme="dark" lang="en">
-      <body className={font.className}>{children}</body>
+    <html lang="en">
+      <body className={font.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          storageKey="discord-theme"
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
