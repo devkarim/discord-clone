@@ -2,10 +2,10 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "build:backend": "turbo run build --filter=...{./apps/backend}",
+    "build:backend": "turbo run build --filter=...{./apps/backend} --no-cache --force",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "start:backend": "turbo run start --filter=...{./apps/backend}",
+    "start:backend": "turbo run start --filter=...{./apps/backend} --no-cache --force",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
