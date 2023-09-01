@@ -4,7 +4,8 @@
   "description": "Express test server",
   "main": "./build/main.js",
   "scripts": {
-    "start": "tsc && node ./build/main.js",
+    "build": "tsc",
+    "start": "node ./build/main.js",
     "dev": "nodemon --files src/main.ts"
   },
   "keywords": [],
