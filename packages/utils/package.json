@@ -1,0 +1,14 @@
+{
+  "name": "utils",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
