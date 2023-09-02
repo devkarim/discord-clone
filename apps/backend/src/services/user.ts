@@ -34,5 +34,6 @@ export const parseSession = (user: User): Express.User => {
     email: user.email,
     name: user.name,
     username: user.username,
+    imageUrl: user.imageUrl,
   };
 };
