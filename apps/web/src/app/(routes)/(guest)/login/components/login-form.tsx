@@ -1,12 +1,15 @@
 'use client';
 
+import { Logger } from 'utils';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { LoginSchema, loginSchema, Exception } from 'models';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { LoginSchema, loginSchema } from '@/schema/login-schema';
 import {
   Form,
   FormField,
@@ -14,11 +17,13 @@ import {
   FormLabel,
   FormControl,
 } from '@/components/ui/form';
+import { login } from '@/services/auth';
 
 interface LoginFormProps {}
 
 const LoginForm: React.FC<LoginFormProps> = ({}) => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
@@ -28,11 +33,15 @@ const LoginForm: React.FC<LoginFormProps> = ({}) => {
     },
   });
 
-  const onSubmit = (data: LoginSchema) => {
+  const onSubmit = async (data: LoginSchema) => {
     setLoading(true);
     try {
-      console.log(data);
+      await login(data);
+      toast.success("You've successfully logged in!");
+      router.refresh();
     } catch (err) {
+      Logger.exception(err, 'login-form');
+      toast.error(Exception.parseError(err));
     } finally {
       setLoading(false);
     }
