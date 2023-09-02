@@ -1,13 +1,13 @@
-import { createUserSchema, loginUserSchema } from "@/schema/user.schema";
+import { registerSchema, loginSchema } from 'models';
 
-import validate from "./validate";
+import validate from './validate';
 
 const register = validate({
-  body: createUserSchema,
+  body: registerSchema,
 });
 
 const login = validate({
-  body: loginUserSchema,
+  body: loginSchema,
 });
 
 export default { register, login };
