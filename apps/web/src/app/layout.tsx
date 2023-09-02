@@ -1,9 +1,11 @@
 import './globals.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import type { Metadata } from 'next';
 import { Open_Sans } from 'next/font/google';
 
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import ToastProvider from '@/components/providers/toast-provider';
 
 const font = Open_Sans({ subsets: ['latin'] });
 
@@ -26,6 +28,7 @@ export default function RootLayout({
           enableSystem={false}
           storageKey="discord-theme"
         >
+          <ToastProvider />
           {children}
         </ThemeProvider>
       </body>
