@@ -1,13 +1,20 @@
-import { ZodError } from "zod";
-import { AxiosError } from "axios";
+import { ZodError } from 'zod';
+import { AxiosError } from 'axios';
 
 class Exception extends Error {
-  constructor(public message: string, public statusCode: number) {
+  constructor(
+    public message: string,
+    public statusCode: number
+  ) {
     super(message);
   }
 
   static manual(message: string, statusCode: number) {
     return new Exception(message, statusCode);
+  }
+
+  static parseError(err: unknown) {
+    return this.from(err).message;
   }
 
   static from(err: unknown) {
@@ -21,7 +28,7 @@ class Exception extends Error {
     if (err instanceof Error) {
       return this.fromError(err);
     }
-    return this.fromError(new Error("Internal server error"));
+    return this.fromError(new Error('Internal server error'));
   }
 
   static fromError(err: Error, statusCode: number = 500) {
@@ -35,7 +42,7 @@ class Exception extends Error {
 
   static fromAxios(err: AxiosError, statusCode?: number) {
     return new Exception(
-      "Internal server error",
+      'Internal server error',
       statusCode || err.response?.status || 500
     );
   }
