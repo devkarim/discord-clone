@@ -1,13 +1,14 @@
-import passport from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
 
-import Errors from "@/config/errors";
-import { comparePasswords } from "@/lib/hash";
+import { Errors } from 'models';
+
+import { comparePasswords } from '@/lib/hash';
 import {
   getFullUserByEmail,
   getFullUserById,
   parseSession,
-} from "@/services/user";
+} from '@/services/user';
 
 passport.serializeUser<number>(function (user, done) {
   done(null, user.id);
@@ -20,7 +21,7 @@ passport.deserializeUser<number>(async function (id, done) {
 });
 
 passport.use(
-  new LocalStrategy({ usernameField: "email" }, async function (
+  new LocalStrategy({ usernameField: 'email' }, async function (
     email,
     password,
     done
