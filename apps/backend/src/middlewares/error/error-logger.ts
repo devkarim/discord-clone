@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
 
-import Logger from "@/lib/logger";
-import Exception from "@/models/error";
+import { Logger } from 'utils';
+import Exception from '@/models/error';
 
 const errorLogger = (
   error: Exception,
