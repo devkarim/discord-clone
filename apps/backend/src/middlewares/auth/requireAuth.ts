@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
 
-import Errors from "@/config/errors";
+import { Errors } from 'models';
 
 const requireAuth = (req: Request, res: Response, next: NextFunction) => {
   if (!req.user) throw Errors.unauthenticated;
