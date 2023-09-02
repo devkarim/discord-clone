@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
 
-import Exception from "@/models/error";
+import { Exception } from 'models';
 
 const errorHandler = (
   error: unknown,

@@ -1,7 +1,11 @@
-import { Response } from "express";
+import { Response } from 'express';
 
-import { BaseResponse, BaseResponseNoData, ErrorResponse } from "./api";
-import Exception from "./error";
+import {
+  Exception,
+  BaseResponse,
+  BaseResponseNoData,
+  ErrorResponse,
+} from 'models';
 
 class ServerResponse {
   static success<T>(

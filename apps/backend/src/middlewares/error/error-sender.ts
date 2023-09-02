@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
 
-import Exception from "@/models/error";
-import ServerResponse from "@/models/response";
+import { Exception } from 'models';
+import ServerResponse from '@/models/response';
 
 const errorSender = (
   error: Exception,
