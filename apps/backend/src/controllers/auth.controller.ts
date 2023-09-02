@@ -1,14 +1,17 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
-import Errors from "@/config/errors";
-import ServerResponse from "@/models/response";
-import authValidator from "@/validators/auth.validator";
-import { createUser, isEmailTaken } from "@/services/user";
+import { Errors } from 'models';
+
+import ServerResponse from '@/models/response';
+import authValidator from '@/validators/auth.validator';
+import { createUser, isEmailTaken, isUsernameTaken } from '@/services/user';
 
 const register: typeof authValidator.register = async (req, res) => {
-  const { email } = req.body;
+  const { email, username } = req.body;
   const emailTaken = await isEmailTaken(email);
   if (emailTaken) throw Errors.emailTaken;
+  const usernameTaken = await isUsernameTaken(username);
+  if (usernameTaken) throw Errors.usernameTaken;
   const user = await createUser(req.body);
   return ServerResponse.success(res, user);
 };
