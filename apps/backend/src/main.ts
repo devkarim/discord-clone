@@ -10,17 +10,18 @@ import passport from 'passport';
 import session from 'express-session';
 
 import { env } from './config/env';
+import redisStore from './lib/redis';
 import apiRouter from './routes/api';
 import errorLogger from './middlewares/error/error-logger';
 import errorSender from './middlewares/error/error-sender';
 import errorHandler from './middlewares/error/error-handler';
-import { API_DOMAIN, API_URL, isProduction } from './config/constants';
+import { API_DOMAIN, API_URL, APP_URL, isProduction } from './config/constants';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ credentials: true, origin: 'localhost' }));
+app.use(cors({ credentials: true, origin: APP_URL }));
 if (isProduction) app.set('trust proxy', 1);
 app.use(
   session({
@@ -30,8 +31,9 @@ app.use(
       domain: API_DOMAIN,
     },
     secret: env.SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
+    store: redisStore,
   })
 );
 app.use(passport.initialize());
