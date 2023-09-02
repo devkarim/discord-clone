@@ -1,7 +1,17 @@
-export default function RoutesLayout({
+import { redirect } from 'next/navigation';
+
+import { getUser } from '@/actions/session';
+
+export default async function RoutesLayout({
   children,
 }: {
   children: React.ReactNode;
-}): JSX.Element {
+}) {
+  const user = await getUser();
+
+  if (!user) redirect('/login');
+
+  console.log(user);
+
   return <>{children}</>;
 }
