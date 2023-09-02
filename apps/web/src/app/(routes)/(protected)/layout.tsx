@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 
 import { getUser } from '@/actions/session';
+import MainSidebar from '@/components/sidebar/main-siderbar';
 
 export default async function RoutesLayout({
   children,
@@ -11,7 +12,5 @@ export default async function RoutesLayout({
 
   if (!user) redirect('/login');
 
-  console.log(user);
-
-  return <>{children}</>;
+  return <MainSidebar user={user}>{children}</MainSidebar>;
 }
