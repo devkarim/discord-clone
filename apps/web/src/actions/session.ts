@@ -1,11 +1,11 @@
 import { cookies } from 'next/headers';
 
 import { BaseResponse } from 'models';
-import { User } from 'database';
+import { UserSession } from 'database';
 
 import client from './client';
 
-type UserResponse = BaseResponse<Omit<User, 'password'>>;
+type UserResponse = BaseResponse<UserSession>;
 
 export const getSession = () => {
   const cookieStore = cookies();
