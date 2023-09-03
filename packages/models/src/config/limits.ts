@@ -4,5 +4,6 @@ export const Limits = {
   },
   username: {
     min: 3,
+    max: 36,
   },
 };

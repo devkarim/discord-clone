@@ -14,6 +14,7 @@ export const Messages = {
     },
     username: {
       min: `Username must be at least ${Limits.username.min} characters`,
+      max: `Username must be at most ${Limits.username.max} characters`,
     },
   },
   required: {
