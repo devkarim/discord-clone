@@ -6,6 +6,7 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "start:backend": "turbo run start --filter=...{./apps/backend} --no-cache --force",
+    "db:push": "turbo run db:push && turbo run db:generate",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
