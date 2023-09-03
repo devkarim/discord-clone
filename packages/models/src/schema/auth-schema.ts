@@ -15,7 +15,8 @@ export type LoginSchema = z.infer<typeof loginSchema>;
 export const registerSchema = loginSchema.extend({
   username: z
     .string({ required_error: Messages.required.username })
-    .min(Limits.username.min, Messages.limits.username.min),
+    .min(Limits.username.min, Messages.limits.username.min)
+    .max(Limits.username.max, Messages.limits.username.max),
 });
 
 export type RegisterSchema = z.infer<typeof registerSchema>;
