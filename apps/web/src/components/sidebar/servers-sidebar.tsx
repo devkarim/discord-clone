@@ -4,6 +4,7 @@ import { MdExplore } from '@react-icons/all-files/md/MdExplore';
 
 import { Separator } from '@/components/ui/separator';
 import HoverCircle from '@/components/ui/hover-circle';
+import AddServerHoverCircle from './hover-circles/add-server';
 
 interface ServerSidebarProps {}
 
@@ -17,13 +18,7 @@ const ServerSidebar: React.FC<ServerSidebarProps> = ({}) => {
       <Separator className="my-2 w-10 h-[2px]" />
       {/* TODO: User servers here */}
       {/* Add a new server */}
-      <HoverCircle
-        className="hover:bg-green-500 text-green-500"
-        showIndiaction={false}
-        tooltip="Add a Server"
-      >
-        <FaPlus className="text-2xl" />
-      </HoverCircle>
+      <AddServerHoverCircle />
       {/* Explore Servers */}
       <HoverCircle
         className="hover:bg-green-500 text-green-500"
