@@ -12,14 +12,137 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String?
-  username  String   @unique
-  email     String   @unique
-  password  String
-  imageUrl  String?
+  id       Int     @id @default(autoincrement())
+  name     String?
+  username String  @unique
+  email    String  @unique @db.VarChar(320)
+  password String  @db.Text
+  imageUrl String? @db.Text
+
+  servers Server[]
+  members Member[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Server {
+  id         Int     @id @default(autoincrement())
+  name       String
+  imageUrl   String? @db.Text
+  inviteCode String  @unique
+
+  ownerId Int
+  owner   User @relation(fields: [ownerId], references: [id])
+
+  channels Channel[]
+  members  Member[]
+  roles    Role[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([ownerId])
+}
+
+enum PermissionType {
+  KICK_MEMBERS
+  DELETE_MESSAGES
+  EDIT_MESSAGES
+  BAN_USERS
+}
+
+enum ChannelType {
+  TEXT
+  VOICE
+  VIDEO
+}
+
+model Channel {
+  id   Int         @id @default(autoincrement())
+  name String
+  type ChannelType @default(TEXT)
+
+  ownerId Int
+  owner   Member @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  serverId Int    @unique
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  messages Message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([ownerId])
+}
+
+model Message {
+  id      Int    @id @default(autoincrement())
+  content String @db.Text
+
+  fileUrl String? @db.Text
+
+  authorId Int
+  author   Member @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  channelId Int
+  channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  deleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([channelId])
+  @@index([authorId])
+}
+
+model Member {
+  id Int @id
+
+  role   Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  roleId Int
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+
+  serverId Int
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  channels Channel[]
+  messages Message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([roleId])
+  @@index([serverId])
+  @@index([userId])
+}
+
+model Permission {
+  id   Int            @id @default(autoincrement())
+  type PermissionType
+
+  role   Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  roleId Int
+
+  @@unique([roleId, type])
+}
+
+model Role {
+  id          Int          @id @default(autoincrement())
+  name        String
+  color       String
+  permissions Permission[]
+
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  serverId Int
+
+  members Member[]
+
+  @@index([serverId])
 }
 
 model Session {
