@@ -7,6 +7,9 @@ export const Messages = {
     usernameTaken: 'Username is already taken',
     unauthenticated: 'You need to be authenticated to do that',
     unauthorized: 'You need to be authorized to do that',
+    server: {
+      inviteCodeTaken: 'Invite code is already taken',
+    },
   },
   limits: {
     password: {
