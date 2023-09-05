@@ -27,6 +27,7 @@ import {
   FormLabel,
   FormControl,
 } from '@/components/ui/form';
+import { createServer } from '@/services/server';
 
 interface AddServerModalProps {}
 
@@ -40,6 +41,7 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
     resolver: zodResolver(createServerSchema),
     defaultValues: {
       name: '',
+      inviteCode: '',
     },
   });
 
@@ -54,13 +56,13 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
     setLoading(true);
     try {
       console.log(data);
-      if ('inviteCode' in data) {
-        await joinServer(data);
+      if (!('name' in data)) {
+        await join(data);
       } else {
-        await createServer(data);
+        await create(data);
       }
-      onOpenChange(false);
       router.refresh();
+      onOpenChange(false);
     } catch (err) {
       Logger.exception(err, 'server-modal-form');
       toast.error(Exception.parseError(err));
@@ -69,11 +71,13 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
     }
   };
 
-  const createServer = async (data: CreateServerSchema) => {
+  const create = async (data: CreateServerSchema) => {
+    const server = await createServer(data);
+    console.log(server);
     toast.success("You've successfully created a server!");
   };
 
-  const joinServer = async (data: JoinServerSchema) => {
+  const join = async (data: JoinServerSchema) => {
     toast.success("You've successfully joined the server!");
   };
 
@@ -107,6 +111,23 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
                     <Input
                       type="text"
                       placeholder="Your server name here"
+                      disabled={loading}
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={createForm.control}
+              name="inviteCode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>INVITE CODE</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Your server invite code here"
                       disabled={loading}
                       {...field}
                     />
