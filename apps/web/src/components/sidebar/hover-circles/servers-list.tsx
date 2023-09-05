@@ -1,21 +1,16 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 
-import { Server } from 'database';
-
-import { getUserServers } from '@/services/server';
 import HoverCircle from '@/components/ui/hover-circle';
+import useClientServers from '@/hooks/use-servers';
 
 interface ServersListProps {}
 
 const ServersList: React.FC<ServersListProps> = ({}) => {
-  const [servers, setServers] = useState<Server[]>([]);
+  const { isLoading, data: servers } = useClientServers();
 
-  useEffect(() => {
-    getUserServers().then((servers) => setServers(servers));
-  }, []);
+  if (isLoading || !servers) return null;
 
   return (
     <>
