@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ['database'],
+  transpilePackages: ['database', 'utils', 'models'],
 };
 
 module.exports = nextConfig;
