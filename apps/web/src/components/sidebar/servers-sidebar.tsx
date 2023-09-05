@@ -1,10 +1,11 @@
-import { FaPlus } from '@react-icons/all-files/fa6/FaPlus';
 import { FaDiscord } from '@react-icons/all-files/fa/FaDiscord';
 import { MdExplore } from '@react-icons/all-files/md/MdExplore';
 
 import { Separator } from '@/components/ui/separator';
 import HoverCircle from '@/components/ui/hover-circle';
+
 import AddServerHoverCircle from './hover-circles/add-server';
+import ServersList from './hover-circles/servers-list';
 
 interface ServerSidebarProps {}
 
@@ -16,7 +17,7 @@ const ServerSidebar: React.FC<ServerSidebarProps> = ({}) => {
         <FaDiscord className="text-3xl" />
       </HoverCircle>
       <Separator className="my-2 w-10 h-[2px]" />
-      {/* TODO: User servers here */}
+      <ServersList />
       {/* Add a new server */}
       <AddServerHoverCircle />
       {/* Explore Servers */}
