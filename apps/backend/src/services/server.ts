@@ -2,10 +2,15 @@ import { CreateServerSchema } from 'models';
 
 import prisma from '@/lib/prisma';
 
-export const createServer = (userId: number, data: CreateServerSchema) =>
+export const createServer = (
+  userId: number,
+  code: string,
+  data: CreateServerSchema
+) =>
   prisma.server.create({
     data: {
       ...data,
+      inviteCode: code,
       ownerId: userId,
     },
   });
