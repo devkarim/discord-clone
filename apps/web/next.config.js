@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  transpilePackages: ['database', 'utils', 'models'],
-};
+const nextConfig = {};
 
 module.exports = nextConfig;
