@@ -5,7 +5,7 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build", "db:generate"],
-      "outputs": [".next/**", "!.next/cache/**", "build"]
+      "outputs": [".next/**", "!.next/cache/**", "build/**"]
     },
     "start": {
       "cache": false
