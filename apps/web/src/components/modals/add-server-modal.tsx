@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Logger } from 'utils';
@@ -28,20 +27,20 @@ import {
   FormControl,
 } from '@/components/ui/form';
 import { createServer } from '@/services/server';
+import useClientServers from '@/hooks/use-servers';
 
 interface AddServerModalProps {}
 
 const AddServerModal: React.FC<AddServerModalProps> = () => {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const isOpen = useServerModal((state) => state.isOpen);
   const onOpenChange = useServerModal((state) => state.setOpen);
+  const { refetch } = useClientServers();
 
   const createForm = useForm<CreateServerSchema>({
     resolver: zodResolver(createServerSchema),
     defaultValues: {
       name: '',
-      inviteCode: '',
     },
   });
 
@@ -61,7 +60,7 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
       } else {
         await join(data);
       }
-      router.refresh();
+      refetch();
       onOpenChange(false);
     } catch (err) {
       Logger.exception(err, 'server-modal-form');
@@ -119,24 +118,7 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={createForm.control}
-              name="inviteCode"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>INVITE CODE</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      placeholder="Your server invite code here"
-                      disabled={loading}
-                      {...field}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={loading}>
               Create a Server
             </Button>
           </form>
@@ -167,7 +149,7 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={loading}>
               Join a Server
             </Button>
           </form>
