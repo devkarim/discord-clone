@@ -4,6 +4,7 @@
   "globalEnv": ["NODE_ENV"],
   "pipeline": {
     "build": {
+      "cache": false,
       "dependsOn": ["^build", "db:generate"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
