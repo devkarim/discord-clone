@@ -25,7 +25,9 @@ export default async function LoginPage({}: LoginPageProps) {
       <Card className="border-0 w-full max-w-xl">
         <CardHeader className="text-center space-y-4">
           <CardTitle>Welcome back!</CardTitle>
-          <CardDescription>We're so excited to see you again!</CardDescription>
+          <CardDescription>
+            We&apos;re so excited to see you again!
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <LoginForm />

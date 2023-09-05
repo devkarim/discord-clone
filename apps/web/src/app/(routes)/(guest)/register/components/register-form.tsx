@@ -97,7 +97,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({}) => {
           </Button>
           <p className="text-xs">
             <span className="opacity-40">
-              By registering, you agree to Discord Clone's{' '}
+              By registering, you agree to Discord Clone&apos;s{' '}
             </span>
             <span className="text-primary cursor-pointer hover:underline">
               Terms of Service
