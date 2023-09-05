@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { Errors } from 'models';
 
+import { generateCode } from '@/lib/utils';
 import {
   createServer,
   getServerByInviteCode,
@@ -12,9 +13,15 @@ import ServerResponse from '@/models/response';
 
 const create: typeof serverValidator.create = async (req, res) => {
   if (!req.user) throw Errors.unauthenticated;
-  const isCodeTaken = await getServerByInviteCode(req.body.inviteCode);
-  if (isCodeTaken) throw Errors.server.inviteCodeTaken;
-  const server = await createServer(req.user.id, req.body);
+  let code: string = '';
+  while (!code) {
+    const generatedCode = await generateCode();
+    const isCodeTaken = await getServerByInviteCode(generatedCode);
+    if (!isCodeTaken) {
+      code = generatedCode;
+    }
+  }
+  const server = await createServer(req.user.id, code, req.body);
   return ServerResponse.success(res, server);
 };
 
