@@ -86,6 +86,7 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
       createForm.reset();
       joinForm.reset();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
