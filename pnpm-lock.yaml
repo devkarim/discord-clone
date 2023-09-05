@@ -53,6 +53,9 @@ importers:
       module-alias:
         specifier: ^2.2.3
         version: 2.2.3
+      nanoid:
+        specifier: ^3.3.6
+        version: 3.3.6
       passport:
         specifier: ^0.6.0
         version: 0.6.0
@@ -132,6 +135,9 @@ importers:
       '@react-icons/all-files':
         specifier: https://github.com/react-icons/react-icons/releases/download/v4.10.1/react-icons-all-files-4.10.1.tgz
         version: '@github.com/react-icons/react-icons/releases/download/v4.10.1/react-icons-all-files-4.10.1.tgz(react@18.2.0)'
+      '@tanstack/react-query':
+        specifier: ^4.33.0
+        version: 4.33.0(react-dom@18.2.0)(react@18.2.0)
       axios:
         specifier: ^1.5.0
         version: 1.5.0
@@ -1226,6 +1232,28 @@ packages:
     resolution: {integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==}
     dependencies:
       tslib: 2.5.0
+    dev: false
+
+  /@tanstack/query-core@4.33.0:
+    resolution: {integrity: sha512-qYu73ptvnzRh6se2nyBIDHGBQvPY1XXl3yR769B7B6mIDD7s+EZhdlWHQ67JI6UOTFRaI7wupnTnwJ3gE0Mr/g==}
+    dev: false
+
+  /@tanstack/react-query@4.33.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-97nGbmDK0/m0B86BdiXzx3EW9RcDYKpnyL2+WwyuLHEgpfThYAnXFaMMmnTDuAO4bQJXEhflumIEUfKmP7ESGA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@tanstack/query-core': 4.33.0
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false
 
   /@tsconfig/node10@1.0.9:
