@@ -56,10 +56,10 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
     setLoading(true);
     try {
       console.log(data);
-      if (!('name' in data)) {
-        await join(data);
-      } else {
+      if ('name' in data) {
         await create(data);
+      } else {
+        await join(data);
       }
       router.refresh();
       onOpenChange(false);
