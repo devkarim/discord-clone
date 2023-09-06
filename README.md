@@ -28,7 +28,7 @@ This project is inspired by this [video](https://www.youtube.com/watch?v=ZbX4Ok9
 
 ## Prerequisites
 
-#### - Node v20.5.1
+#### - Node v18.17.1
 
 ### Cloning this repo
 
