@@ -15,7 +15,7 @@ const ServersList: React.FC<ServersListProps> = ({}) => {
   return (
     <>
       {servers.map((server) => (
-        <HoverCircle key={server.id} tooltip={server.name}>
+        <HoverCircle className="group" key={server.id} tooltip={server.name}>
           {server.imageUrl ? (
             <Image
               src={server.imageUrl}
@@ -24,7 +24,9 @@ const ServersList: React.FC<ServersListProps> = ({}) => {
               className="object-cover"
             />
           ) : (
-            <p className="opacity-60 text-2xl uppercase">{server.name[0]}</p>
+            <p className="opacity-60 text-2xl uppercase group-hover:opacity-100 transition-opacity">
+              {server.name[0]}
+            </p>
           )}
         </HoverCircle>
       ))}
