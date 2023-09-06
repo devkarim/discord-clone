@@ -15,10 +15,6 @@ module.exports = {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        'sidebar-dark': '#1e1f22',
-        'sidebar-light': '#e3e5e8',
-        'channels-dark': '#2b2d31',
-        'channels-light': '#f2f3f5',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
@@ -48,6 +44,15 @@ module.exports = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
+        },
+        sidebar: {
+          DEFAULT: 'hsl(var(--sidebar))',
+        },
+        channels: {
+          DEFAULT: 'hsl(var(--channels))',
+        },
+        'active-channel': {
+          DEFAULT: 'hsl(var(--active-channel))',
         },
       },
       borderRadius: {
