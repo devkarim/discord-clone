@@ -31,7 +31,6 @@ app.use(
       maxAge: 7 * 24 * 60 * 60 * 1000, // ms
       secure: isProduction,
       domain: isProduction ? '.karimwael.com' : 'localhost',
-      sameSite: 'none',
     },
     secret: env.SESSION_SECRET,
     resave: false,
