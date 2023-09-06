@@ -31,7 +31,7 @@ app.use(
       maxAge: 7 * 24 * 60 * 60 * 1000, // ms
       secure: isProduction,
       domain: APP_DOMAIN,
-      sameSite: 'lax',
+      sameSite: 'none',
     },
     secret: env.SESSION_SECRET,
     resave: false,
