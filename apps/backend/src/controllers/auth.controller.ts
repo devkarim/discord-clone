@@ -2,9 +2,9 @@ import { Request, Response } from 'express';
 
 import { Errors } from 'models';
 
-import ServerResponse from '@/models/response';
-import authValidator from '@/validators/auth.validator';
-import { createUser, isEmailTaken, isUsernameTaken } from '@/services/user';
+import ServerResponse from '../models/response.js';
+import authValidator from '../validators/auth.validator.js';
+import { createUser, isEmailTaken, isUsernameTaken } from '../services/user.js';
 
 const register: typeof authValidator.register = async (req, res) => {
   const { email, username } = req.body;

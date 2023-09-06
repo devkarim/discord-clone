@@ -1,9 +1,9 @@
-import express from "express";
-import passport from "passport";
+import express from 'express';
+import passport from 'passport';
 
-import authValidator from "@/validators/auth.validator";
-import requireAuth from "@/middlewares/auth/requireAuth";
-import authController from "@/controllers/auth.controller";
+import authValidator from '../validators/auth.validator.js';
+import requireAuth from '../middlewares/auth/requireAuth.js';
+import authController from '../controllers/auth.controller.js';
 
 const authRouter = express.Router();
 
@@ -11,9 +11,9 @@ const authRouter = express.Router();
 // @desc      Log into user's account
 // @access    Public
 authRouter.post(
-  "/login",
+  '/login',
   authValidator.login,
-  passport.authenticate("local", {
+  passport.authenticate('local', {
     failWithError: true,
   }),
   authController.login
@@ -22,11 +22,11 @@ authRouter.post(
 // @route     POST /auth/register
 // @desc      Create a new account
 // @access    Public
-authRouter.post("/register", authValidator.register, authController.register);
+authRouter.post('/register', authValidator.register, authController.register);
 
 // @route     GET /auth/me
 // @desc      Fetches current session data
 // @access    Private
-authRouter.get("/me", requireAuth, authController.me);
+authRouter.get('/me', requireAuth, authController.me);
 
 export default authRouter;

@@ -1,7 +1,7 @@
 import { createClient } from 'redis';
 import RedisStore from 'connect-redis';
 
-import { env } from '@/config/env';
+import { env } from '../config/env.js';
 
 const redisClient = createClient({ url: env.REDIS_DATABASE_URL });
 

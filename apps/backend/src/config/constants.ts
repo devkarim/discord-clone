@@ -1,4 +1,4 @@
-import { env } from './env';
+import { env } from './env.js';
 
 export const isDevelopment = env.NODE_ENV === 'development';
 export const isProduction = env.NODE_ENV === 'production';

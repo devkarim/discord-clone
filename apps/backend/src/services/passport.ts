@@ -3,12 +3,12 @@ import { Strategy as LocalStrategy } from 'passport-local';
 
 import { Errors } from 'models';
 
-import { comparePasswords } from '@/lib/hash';
+import { comparePasswords } from '../lib/hash.js';
 import {
   getFullUserByEmail,
   getFullUserById,
   parseSession,
-} from '@/services/user';
+} from '../services/user.js';
 
 passport.serializeUser<number>(function (user, done) {
   done(null, user.id);

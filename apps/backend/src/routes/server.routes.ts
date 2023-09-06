@@ -1,8 +1,8 @@
 import express from 'express';
 
-import requireAuth from '@/middlewares/auth/requireAuth';
-import serverValidator from '@/validators/server.validator';
-import serverController from '@/controllers/server.controller';
+import requireAuth from '../middlewares/auth/requireAuth.js';
+import serverValidator from '../validators/server.validator.js';
+import serverController from '../controllers/server.controller.js';
 
 const serverRouter = express.Router();
 

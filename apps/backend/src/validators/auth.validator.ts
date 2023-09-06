@@ -1,6 +1,6 @@
 import { registerSchema, loginSchema } from 'models';
 
-import validate from './validate';
+import validate from './validate.js';
 
 const register = validate({
   body: registerSchema,

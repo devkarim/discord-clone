@@ -1,21 +1,23 @@
 import 'dotenv/config';
-import moduleAlias from 'module-alias';
-moduleAlias.addAlias('@', __dirname);
-
-import './services/passport';
+import './services/passport.js';
 
 import cors from 'cors';
 import express from 'express';
 import passport from 'passport';
 import session from 'express-session';
 
-import { env } from './config/env';
-import redisStore from './lib/redis';
-import apiRouter from './routes/api';
-import errorLogger from './middlewares/error/error-logger';
-import errorSender from './middlewares/error/error-sender';
-import errorHandler from './middlewares/error/error-handler';
-import { API_DOMAIN, API_URL, APP_URL, isProduction } from './config/constants';
+import { env } from './config/env.js';
+import redisStore from './lib/redis.js';
+import apiRouter from './routes/api.js';
+import errorLogger from './middlewares/error/error-logger.js';
+import errorSender from './middlewares/error/error-sender.js';
+import errorHandler from './middlewares/error/error-handler.js';
+import {
+  API_DOMAIN,
+  API_URL,
+  APP_URL,
+  isProduction,
+} from './config/constants.js';
 
 const app = express();
 

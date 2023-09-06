@@ -2,14 +2,14 @@ import { Request, Response } from 'express';
 
 import { Errors } from 'models';
 
-import { generateCode } from '@/lib/utils';
+import { generateCode } from '../lib/utils.js';
 import {
   createServer,
   getServerByInviteCode,
   getUserServers,
-} from '@/services/server';
-import serverValidator from '@/validators/server.validator';
-import ServerResponse from '@/models/response';
+} from '../services/server.js';
+import serverValidator from '../validators/server.validator.js';
+import ServerResponse from '../models/response.js';
 
 const create: typeof serverValidator.create = async (req, res) => {
   if (!req.user) throw Errors.unauthenticated;

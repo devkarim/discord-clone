@@ -1,12 +1,17 @@
 {
   "extends": "tsconfig/backend.json",
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "files": true,
+  },
   "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "baseUrl": ".",
+    "esModuleInterop": true,
     "outDir": "./build",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
   },
   "include": ["./src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }

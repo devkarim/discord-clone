@@ -1,6 +1,6 @@
-import prisma from '@/lib/prisma';
-import { hash } from '@/lib/hash';
-import { exclude } from '@/lib/exclude-prisma';
+import prisma from '../lib/prisma.js';
+import { hash } from '../lib/hash.js';
+import { exclude } from '../lib/exclude-prisma.js';
 
 import { User } from 'database';
 import { RegisterSchema } from 'models';

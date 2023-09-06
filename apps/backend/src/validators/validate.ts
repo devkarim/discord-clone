@@ -1,6 +1,6 @@
 import { Exception } from 'models';
 
-import { Schemas, validate as zodValidate } from '@/lib/validation';
+import { Schemas, validate as zodValidate } from '../lib/validation.js';
 
 const validate = <P, Q extends PropertyDescriptor & ThisType<any>, B, R>(
   schemas: Schemas<P, Q, B, R>

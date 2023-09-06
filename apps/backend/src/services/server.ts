@@ -1,6 +1,6 @@
 import { CreateServerSchema } from 'models';
 
-import prisma from '@/lib/prisma';
+import prisma from '../lib/prisma.js';
 
 export const createServer = (
   userId: number,
