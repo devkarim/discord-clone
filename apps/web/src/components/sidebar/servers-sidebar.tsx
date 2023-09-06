@@ -11,7 +11,7 @@ interface ServerSidebarProps {}
 
 const ServerSidebar: React.FC<ServerSidebarProps> = ({}) => {
   return (
-    <div className="relative h-full w-24 bg-sidebar-light dark:bg-sidebar-dark flex flex-col items-center">
+    <div className="relative h-full w-24 bg-sidebar flex flex-col items-center">
       {/* Direct Messages */}
       <HoverCircle tooltip="Direct Messages" activeRoute="/">
         <FaDiscord className="text-3xl" />
