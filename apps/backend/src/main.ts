@@ -13,7 +13,7 @@ import errorLogger from './middlewares/error/error-logger.js';
 import errorSender from './middlewares/error/error-sender.js';
 import errorHandler from './middlewares/error/error-handler.js';
 import {
-  API_DOMAIN,
+  APP_DOMAIN,
   API_URL,
   APP_URL,
   isProduction,
@@ -30,7 +30,7 @@ app.use(
     cookie: {
       maxAge: 7 * 24 * 60 * 60 * 1000, // ms
       secure: isProduction,
-      domain: API_DOMAIN,
+      domain: APP_DOMAIN,
     },
     secret: env.SESSION_SECRET,
     resave: false,
