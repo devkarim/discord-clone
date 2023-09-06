@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node ./build/main.js",
-    "dev": "nodemon --files src/main.ts"
+    "dev": "nodemon --exec node --loader ts-node/esm src/main.ts"
   },
   "keywords": [],
   "author": {
