@@ -9,13 +9,16 @@ interface AddServerHoverCircleProps {}
 
 const AddServerHoverCircle: React.FC<AddServerHoverCircleProps> = ({}) => {
   const showServerModal = useServerModal((state) => state.show);
+  const isOpen = useServerModal((state) => state.isOpen);
 
   return (
     <HoverCircle
       className="hover:bg-green-500 text-green-500"
+      activeClassName="bg-green-500 text-green-500"
       showIndiaction={false}
       tooltip="Add a Server"
       onClick={showServerModal}
+      active={isOpen}
     >
       <FaPlus className="text-2xl" />
     </HoverCircle>
