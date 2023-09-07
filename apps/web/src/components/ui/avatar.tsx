@@ -10,6 +10,7 @@ interface AvatarProps extends Omit<ImageProps, 'src'> {
   src?: string | null;
   parentClassName?: string;
   firstLetterClassName?: string;
+  indicatorClassName?: string;
   status?: 'online' | 'invisible';
   isChannel?: boolean;
   children?: React.ReactNode;
@@ -21,6 +22,7 @@ const Avatar: React.FC<AvatarProps> = ({
   className,
   parentClassName,
   firstLetterClassName,
+  indicatorClassName,
   status = 'invisible',
   isChannel = false,
   children,
@@ -55,7 +57,8 @@ const Avatar: React.FC<AvatarProps> = ({
           isChannel && 'ring-channels',
           status == 'online' && 'bg-green-500',
           status == 'invisible' && 'bg-sidebar border-2 border-foreground/50',
-          status == 'invisible' && isChannel && 'bg-channels'
+          status == 'invisible' && isChannel && 'bg-channels',
+          indicatorClassName
         )}
       />
       {children}
