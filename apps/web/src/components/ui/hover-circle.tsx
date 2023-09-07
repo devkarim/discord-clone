@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 
@@ -23,9 +23,11 @@ const HoverCircle: React.FC<HoverCircleProps> = ({
   active,
   activeRoute,
   activeClassName,
+  onClick,
   ...props
 }) => {
   const pathname = usePathname();
+  const router = useRouter();
 
   const isActive = active || pathname == activeRoute;
 
@@ -46,12 +48,16 @@ const HoverCircle: React.FC<HoverCircleProps> = ({
           className={cn(
             'flex flex-col justify-center items-center relative overflow-hidden peer h-16 w-16 bg-background hover:bg-primary hover:text-foreground rounded-[32px] hover:rounded-2xl transition-all cursor-pointer duration-300',
             {
-              'rounded-2xl bg-primary text-foreground':
+              'groupactive rounded-2xl bg-primary text-foreground':
                 isActive && !activeClassName,
             },
             activeClassName && { [activeClassName]: isActive },
             className
           )}
+          onClick={
+            onClick ||
+            (activeRoute ? () => router.push(activeRoute) : undefined)
+          }
           {...props}
         />
         {showIndiaction && (
