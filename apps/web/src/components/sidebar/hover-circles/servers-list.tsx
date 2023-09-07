@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 
 import useClientServers from '@/hooks/use-servers';
 import HoverCircle from '@/components/ui/hover-circle';
@@ -11,7 +10,6 @@ interface ServersListProps {}
 
 const ServersList: React.FC<ServersListProps> = ({}) => {
   const { isLoading, data: servers } = useClientServers();
-  const pathname = usePathname();
 
   if (isLoading || !servers) return null;
 
@@ -22,7 +20,7 @@ const ServersList: React.FC<ServersListProps> = ({}) => {
           className="group"
           key={server.id}
           tooltip={server.name}
-          active={pathname == `/server/${server.id}`}
+          activeRoute={`/server/${server.id}`}
         >
           {server.imageUrl ? (
             <Image
@@ -32,7 +30,10 @@ const ServersList: React.FC<ServersListProps> = ({}) => {
               className="object-cover"
             />
           ) : (
-            <FirstLetter text={server.name} />
+            <FirstLetter
+              text={server.name}
+              className="group-[active]:opacity-100"
+            />
           )}
         </HoverCircle>
       ))}
