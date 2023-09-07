@@ -27,6 +27,7 @@ app.use(cors({ credentials: true, origin: APP_URL }));
 if (isProduction) app.set('trust proxy', 1);
 app.use(
   session({
+    name: 'discord_session',
     cookie: {
       maxAge: 7 * 24 * 60 * 60 * 1000, // ms
       secure: isProduction,

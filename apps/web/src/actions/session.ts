@@ -9,7 +9,7 @@ type UserResponse = BaseResponse<UserSession>;
 
 export const getSession = () => {
   const cookieStore = cookies();
-  const sessionId = cookieStore.get('connect.sid');
+  const sessionId = cookieStore.get('discord_session');
   return sessionId?.value;
 };
 
@@ -20,7 +20,7 @@ export const getUser = async () => {
     const user = await client
       .get<UserResponse>('/auth/me', {
         headers: {
-          cookie: `connect.sid=${sessionId}`,
+          cookie: `discord_session=${sessionId}`,
         },
       })
       .then((res) => res.data.data);
