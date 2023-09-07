@@ -6,7 +6,7 @@ interface ChatHeaderProps {}
 
 const ChatHeader: React.FC<ChatHeaderProps> = ({}) => {
   return (
-    <div className="w-full flex items-center px-3 py-3 shadow-md select-none">
+    <div className="w-full flex items-center px-3 py-3 h-16 shadow-md select-none">
       <MobileSidebar />
       <UserHeader username="Karim" />
     </div>
