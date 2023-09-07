@@ -9,6 +9,7 @@ import { BiSolidMicrophone } from '@react-icons/all-files/bi/BiSolidMicrophone';
 import { BiSolidMicrophoneOff } from '@react-icons/all-files/bi/BiSolidMicrophoneOff';
 
 import Avatar from './avatar';
+import IconButton from './icon-button';
 
 interface ClientControlProps {}
 
@@ -43,24 +44,42 @@ const ClientControl: React.FC<ClientControlProps> = ({}) => {
             <p className="text-xs opacity-60">Online</p>
           </div>
         </div>
-        <div className="flex gap-3 items-center opacity-60 text-xl mr-2">
-          <span className="inline-block cursor-pointer" onClick={onMute}>
+        <div className="flex items-center text-[1.4rem]">
+          <IconButton
+            className="opacity-60"
+            onClick={onMute}
+            tooltip={control.isMuted ? 'Unmute' : 'Mute'}
+            side="top"
+            bg
+          >
             {control.isMuted ? (
-              <BiSolidMicrophoneOff className="text-2xl text-destructive" />
+              <BiSolidMicrophoneOff className="text-destructive" />
             ) : (
-              <BiSolidMicrophone className="text-2xl" />
+              <BiSolidMicrophone />
             )}
-          </span>
-          <span className="inline-block cursor-pointer" onClick={onDeafen}>
+          </IconButton>
+          <IconButton
+            className="opacity-60"
+            onClick={onDeafen}
+            tooltip={control.isDeafen ? 'Undefean' : 'Defean'}
+            side="top"
+            bg
+          >
             {control.isDeafen ? (
-              <MdHeadsetOff className="text-2xl text-destructive" />
+              <MdHeadsetOff className="text-destructive" />
             ) : (
-              <MdHeadset className="text-2xl" />
+              <MdHeadset />
             )}
-          </span>
-          <span className="inline-block cursor-pointer" onClick={onSettings}>
+          </IconButton>
+          <IconButton
+            className="opacity-60 text-lg"
+            onClick={onSettings}
+            tooltip={'User Settings'}
+            side="top"
+            bg
+          >
             <FaGear />
-          </span>
+          </IconButton>
         </div>
       </div>
     </div>
