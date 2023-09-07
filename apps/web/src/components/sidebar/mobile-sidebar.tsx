@@ -10,15 +10,15 @@ interface MobileSidebarProps {}
 
 const MobileSidebar: React.FC<MobileSidebarProps> = ({}) => {
   return (
-    <div className="lg:hidden">
+    <div className="md:hidden">
       <Sheet>
         <SheetTrigger className="w-fit h-fit p-2" asChild>
           <FaBars className="cursor-pointer text-2xl select-none" />
         </SheetTrigger>
         <SheetContent
           side="left"
-          className="flex gap-0 p-0 lg:hidden"
-          overlayClassName="lg:hidden"
+          className="flex gap-0 p-0 md:hidden"
+          overlayClassName="md:hidden"
         >
           <ServerSidebar />
           <SecondarySidebar />
