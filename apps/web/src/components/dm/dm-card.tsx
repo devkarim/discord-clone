@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import Avatar from '@/components/ui/avatar';
+import SidebarCard from '@/components/sidebar/sidebar-card';
 
 interface DMCardProps {
   username: string;
@@ -11,12 +12,7 @@ interface DMCardProps {
 
 const DMCard: React.FC<DMCardProps> = ({ username, imageUrl, active }) => {
   return (
-    <div
-      className={cn(
-        'flex items-center gap-3 relative w-full hover:bg-active-channel/50 p-2 transition-colors rounded-md cursor-pointer group',
-        active && 'bg-active-channel'
-      )}
-    >
+    <SidebarCard active={active}>
       <Avatar src={imageUrl} name={username} alt={username} isChannel />
       <p
         className={cn(
@@ -26,7 +22,7 @@ const DMCard: React.FC<DMCardProps> = ({ username, imageUrl, active }) => {
       >
         {username}
       </p>
-    </div>
+    </SidebarCard>
   );
 };
 
