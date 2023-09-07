@@ -54,6 +54,7 @@ These environment variables are required for the app to work:
 NODE_ENV=
 PORT=
 SESSION_SECRET=
+REDIS_DATABASE_URL=
 
 # for database package
 DATABASE_URL=
