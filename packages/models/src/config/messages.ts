@@ -9,6 +9,7 @@ export const Messages = {
     unauthorized: 'You need to be authorized to do that',
     server: {
       inviteCodeTaken: 'Invite code is already taken',
+      invalidId: 'Invalid server id',
     },
   },
   limits: {

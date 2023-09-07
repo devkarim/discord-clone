@@ -9,6 +9,7 @@ export const Errors = {
       Messages.errors.server.inviteCodeTaken,
       400
     ),
+    invalidId: Exception.manual(Messages.errors.server.invalidId, 400),
   },
   usernameTaken: Exception.manual(Messages.errors.usernameTaken, 400),
   unauthenticated: Exception.manual(Messages.errors.unauthenticated, 401),
