@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-type ModalType = 'add-server' | 'navbar';
+type ModalType = 'add-server';
 
 interface ModalData {}
 
