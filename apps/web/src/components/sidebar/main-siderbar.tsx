@@ -1,8 +1,10 @@
 import { UserSession } from 'database';
 
+import ChatBox from '@/components/chat/chat-box';
+import ChatHeader from '@/components/ui/chat-header';
+
 import ServerSidebar from './servers-sidebar';
 import SidebarContent from './sidebar-content';
-import MobileSidebar from './mobile-sidebar';
 import SecondarySidebar from './secondary-sidebar';
 
 interface MainSidebarProps {
@@ -14,13 +16,18 @@ const MainSidebar: React.FC<MainSidebarProps> = ({ user, children }) => {
   return (
     <div className="flex h-screen max-h-screen">
       {/* Servers Sidebar */}
-      <MobileSidebar />
-      <div className="hidden lg:flex">
+      <div className="hidden md:flex">
         <ServerSidebar />
         <SecondarySidebar />
       </div>
       {/* Content */}
-      <SidebarContent>{children}</SidebarContent>
+      <SidebarContent>
+        <div>
+          <ChatHeader />
+          {children}
+        </div>
+        <ChatBox />
+      </SidebarContent>
     </div>
   );
 };
