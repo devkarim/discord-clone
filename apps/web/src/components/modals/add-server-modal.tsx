@@ -18,7 +18,7 @@ import Modal from '@/components/ui/modal';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import useServerModal from '@/hooks/use-server-modal';
+import useServerModal from '@/hooks/use-modal';
 import {
   Form,
   FormField,
@@ -33,8 +33,8 @@ interface AddServerModalProps {}
 
 const AddServerModal: React.FC<AddServerModalProps> = () => {
   const [loading, setLoading] = useState(false);
-  const isOpen = useServerModal((state) => state.isOpen);
-  const onOpenChange = useServerModal((state) => state.setOpen);
+  const isOpen = useServerModal((state) => state.isModalOpen('add-server'));
+  const onOpenChange = useServerModal((state) => state.setOpen('add-server'));
   const { refetch } = useClientServers();
 
   const createForm = useForm<CreateServerSchema>({
