@@ -7,6 +7,7 @@ import {
   createServer,
   getServerByInviteCode,
   getUserServers,
+  getServerById,
 } from '../services/server.js';
 import serverValidator from '../validators/server.validator.js';
 import ServerResponse from '../models/response.js';
@@ -31,4 +32,12 @@ const getServers = async (req: Request, res: Response) => {
   return ServerResponse.success(res, servers);
 };
 
-export default { create, getServers };
+const getServer: typeof serverValidator.getServer = async (req, res) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const server = await getServerById(serverId);
+  return ServerResponse.success(res, server);
+};
+
+export default { create, getServers, getServer };

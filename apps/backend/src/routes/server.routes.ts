@@ -21,4 +21,14 @@ serverRouter.post(
 // @access    Private
 serverRouter.get('/', requireAuth, serverController.getServers);
 
+// @route     GET /servers/:id
+// @desc      Get a specific server details
+// @access    Private
+serverRouter.get(
+  '/:id',
+  requireAuth,
+  serverValidator.getServer,
+  serverController.getServer
+);
+
 export default serverRouter;

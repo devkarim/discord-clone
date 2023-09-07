@@ -28,3 +28,6 @@ export const getUserServers = (userId: number) =>
       ownerId: userId,
     },
   });
+
+export const getServerById = (id: number) =>
+  prisma.server.findUnique({ where: { id } });
