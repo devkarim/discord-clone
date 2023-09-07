@@ -2,14 +2,14 @@
 
 import { FaPlus } from '@react-icons/all-files/fa6/FaPlus';
 
-import useServerModal from '@/hooks/use-modal';
+import useModal from '@/hooks/use-modal';
 import HoverCircle from '@/components/ui/hover-circle';
 
 interface AddServerHoverCircleProps {}
 
 const AddServerHoverCircle: React.FC<AddServerHoverCircleProps> = ({}) => {
-  const showServerModal = useServerModal((state) => state.show);
-  const isOpen = useServerModal((state) => state.isModalOpen('add-server'));
+  const showServerModal = useModal((state) => state.show);
+  const isOpen = useModal((state) => state.isModalOpen('add-server'));
 
   return (
     <HoverCircle

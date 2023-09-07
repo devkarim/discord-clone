@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-type ModalType = 'add-server';
+type ModalType = 'add-server' | 'navbar';
 
 interface ModalData {}
 
-interface ServerModalState {
+interface ModalState {
   isOpen: boolean;
   type: ModalType | null;
   data: ModalData | null;
@@ -18,7 +18,7 @@ interface ServerModalState {
   ) => (isOpen: boolean) => void;
 }
 
-const useServerModal = create<ServerModalState>()(
+const useModal = create<ModalState>()(
   devtools((set, get) => ({
     isOpen: false,
     type: null,
@@ -33,4 +33,4 @@ const useServerModal = create<ServerModalState>()(
   }))
 );
 
-export default useServerModal;
+export default useModal;
