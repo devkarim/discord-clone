@@ -12,8 +12,8 @@ const serverParamsSchema = z.object({
   id: z.string(),
 });
 
-const getServer = validate({
+const checkId = validate({
   params: serverParamsSchema,
 });
 
-export default { create, getServer };
+export default { create, checkId };

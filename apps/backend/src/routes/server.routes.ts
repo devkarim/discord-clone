@@ -27,8 +27,38 @@ serverRouter.get('/', requireAuth, serverController.getServers);
 serverRouter.get(
   '/:id',
   requireAuth,
-  serverValidator.getServer,
+  serverValidator.checkId,
   serverController.getServer
+);
+
+// @route     PATCH /servers/:id/invite
+// @desc      Generate a new invite code for a server
+// @access    Private
+serverRouter.patch(
+  '/:id/invite',
+  requireAuth,
+  serverValidator.checkId,
+  serverController.generateInviteCode
+);
+
+// @route     GET /servers/invite/:id
+// @desc      Get server by invite code
+// @access    Private
+serverRouter.get(
+  '/invite/:id',
+  requireAuth,
+  serverValidator.checkId,
+  serverController.getServerByInviteCode
+);
+
+// @route     POST /servers/join/:id
+// @desc      Join a server by an invite code
+// @access    Private
+serverRouter.post(
+  '/join/:id',
+  requireAuth,
+  serverValidator.checkId,
+  serverController.joinServer
 );
 
 export default serverRouter;
