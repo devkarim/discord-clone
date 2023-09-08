@@ -7,10 +7,12 @@ import Avatar from './avatar';
 import IconButton from './icon-button';
 
 interface UserHeaderProps {
-  username: string;
+  conversationId: string;
 }
 
-const UserHeader: React.FC<UserHeaderProps> = ({ username }) => {
+const UserHeader: React.FC<UserHeaderProps> = ({ conversationId }) => {
+  const username = 'Karim';
+
   return (
     <div className="flex w-full px-3 justify-between">
       <div className="flex gap-4 items-center">
