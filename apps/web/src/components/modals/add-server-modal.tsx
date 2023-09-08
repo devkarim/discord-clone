@@ -3,6 +3,7 @@
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Logger } from 'utils';
@@ -33,6 +34,7 @@ interface AddServerModalProps {}
 
 const AddServerModal: React.FC<AddServerModalProps> = () => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const isOpen = useModal((state) => state.isModalOpen('add-server'));
   const onOpenChange = useModal((state) => state.setOpen('add-server'));
   const { refetch } = useClientServers();
@@ -72,7 +74,7 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
 
   const create = async (data: CreateServerSchema) => {
     const server = await createServer(data);
-    console.log(server);
+    router.push(`/server/${server.id}`);
     toast.success("You've successfully created a server!");
   };
 
