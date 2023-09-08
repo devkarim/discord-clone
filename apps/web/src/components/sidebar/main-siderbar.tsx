@@ -1,6 +1,5 @@
 import { UserSession } from 'database';
 
-import ChatBox from '@/components/chat/chat-box';
 import ChatHeader from '@/components/ui/chat-header';
 
 import ServerSidebar from './servers-sidebar';
@@ -26,7 +25,6 @@ const MainSidebar: React.FC<MainSidebarProps> = ({ user, children }) => {
           <ChatHeader />
           {children}
         </div>
-        <ChatBox />
       </SidebarContent>
     </div>
   );
