@@ -11,6 +11,11 @@ export const Errors = {
     ),
     invalidId: Exception.manual(Messages.errors.server.invalidId, 400),
     invalidCode: Exception.manual(Messages.errors.server.invalidCode, 400),
+    ownerCannotLeave: Exception.manual(
+      Messages.errors.server.ownerCannotLeave,
+      400
+    ),
+    notInServer: Exception.manual(Messages.errors.server.notInServer, 400),
   },
   usernameTaken: Exception.manual(Messages.errors.usernameTaken, 400),
   unauthenticated: Exception.manual(Messages.errors.unauthenticated, 401),

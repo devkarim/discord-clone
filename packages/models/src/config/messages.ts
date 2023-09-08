@@ -11,6 +11,8 @@ export const Messages = {
       inviteCodeTaken: 'Invite code is already taken',
       invalidId: 'Invalid server id',
       invalidCode: 'Invalid server code',
+      ownerCannotLeave: "Server owner can't leave the server",
+      notInServer: 'Member is not in this server',
     },
   },
   limits: {
