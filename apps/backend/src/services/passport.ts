@@ -16,7 +16,7 @@ passport.serializeUser<number>(function (user, done) {
 
 passport.deserializeUser<number>(async function (id, done) {
   const user = await getFullUserById(id);
-  if (!user) return done(Errors.invalidCredentials);
+  if (!user) return done(null, false);
   done(null, parseSession(user));
 });
 
