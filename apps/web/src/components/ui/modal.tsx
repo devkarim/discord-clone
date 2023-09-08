@@ -40,12 +40,12 @@ const Modal: React.FC<ModalProps> = ({
               {title}
             </AlertDialogTitle>
           )}
+          {header}
           {subtitle && (
             <AlertDialogDescription className="text-center">
               {subtitle}
             </AlertDialogDescription>
           )}
-          {header}
         </AlertDialogHeader>
         {children}
       </AlertDialogContent>
