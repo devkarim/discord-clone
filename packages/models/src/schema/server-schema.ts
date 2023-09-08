@@ -22,3 +22,11 @@ export const joinServerSchema = z.object({
 });
 
 export type JoinServerSchema = z.infer<typeof joinServerSchema>;
+
+export const updateServerSchema = createServerSchema
+  .merge(joinServerSchema)
+  .extend({
+    imageUrl: z.string().url({ message: Messages.required.server.imageUrl }),
+  });
+
+export type UpdateServerSchema = z.infer<typeof updateServerSchema>;
