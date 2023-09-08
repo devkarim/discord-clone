@@ -35,9 +35,10 @@ model Server {
   ownerId Int
   owner   User @relation(fields: [ownerId], references: [id])
 
-  channels Channel[]
-  members  Member[]
-  roles    Role[]
+  categories Category[]
+  channels   Channel[]
+  members    Member[]
+  roles      Role[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -50,6 +51,8 @@ enum PermissionType {
   DELETE_MESSAGES
   EDIT_MESSAGES
   BAN_USERS
+  ADMINISTRATOR
+  OWNER
 }
 
 enum ChannelType {
@@ -66,8 +69,11 @@ model Channel {
   ownerId Int
   owner   Member @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
-  serverId Int    @unique
+  serverId Int
   server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  categoryId Int?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   messages Message[]
 
@@ -75,6 +81,22 @@ model Channel {
   updatedAt DateTime @updatedAt
 
   @@index([ownerId])
+  @@index([serverId])
+  @@index([categoryId])
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  isPrivate Boolean @default(false)
+
+  serverId Int
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  channels Channel[]
+
+  @@index([serverId])
 }
 
 model Message {
@@ -99,10 +121,10 @@ model Message {
 }
 
 model Member {
-  id Int @id
+  id Int @id @default(autoincrement())
 
-  role   Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  roleId Int
+  role   Role? @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  roleId Int?
 
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
@@ -116,17 +138,17 @@ model Member {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([userId, serverId])
   @@index([roleId])
   @@index([serverId])
-  @@index([userId])
 }
 
 model Permission {
   id   Int            @id @default(autoincrement())
   type PermissionType
 
-  role   Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
   roleId Int
+  role   Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
   @@unique([roleId, type])
 }
@@ -134,20 +156,12 @@ model Permission {
 model Role {
   id          Int          @id @default(autoincrement())
   name        String
-  color       String
   permissions Permission[]
 
-  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
   serverId Int
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
 
   members Member[]
 
   @@index([serverId])
-}
-
-model Session {
-  id        String   @id
-  sid       String   @unique
-  data      String
-  expiresAt DateTime
 }
