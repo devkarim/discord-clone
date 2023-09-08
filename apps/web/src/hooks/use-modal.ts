@@ -1,7 +1,13 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-type ModalType = 'add-server';
+type ModalType =
+  | 'add-server'
+  | 'invite'
+  | 'server-settings'
+  | 'create-channel'
+  | 'create-category'
+  | 'user-settings';
 
 interface ModalData {}
 
@@ -9,7 +15,7 @@ interface ModalState {
   isOpen: boolean;
   type: ModalType | null;
   data: ModalData | null;
-  show: (type: ModalType) => void;
+  show: (type: ModalType, data?: ModalData | null) => void;
   isModalOpen: (type: ModalType) => boolean;
   hide: () => void;
   setOpen: (
@@ -24,7 +30,7 @@ const useModal = create<ModalState>()(
     type: null,
     data: null,
     isModalOpen: (type) => get().isOpen && type === get().type,
-    show: (type) => set({ type, isOpen: true }),
+    show: (type, data) => set({ type, data, isOpen: true }),
     hide: () => set({ isOpen: false, type: null, data: null }),
     setOpen:
       (type, data = null) =>
