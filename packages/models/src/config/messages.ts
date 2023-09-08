@@ -10,6 +10,7 @@ export const Messages = {
     server: {
       inviteCodeTaken: 'Invite code is already taken',
       invalidId: 'Invalid server id',
+      invalidCode: 'Invalid server code',
     },
   },
   limits: {
@@ -32,6 +33,7 @@ export const Messages = {
     server: {
       inviteCode: 'Invite code is required',
       name: 'Name is required',
+      imageUrl: 'Server image must be a valid URL',
     },
     email: 'Email is required',
     password: 'Password is required',
