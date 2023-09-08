@@ -1,15 +1,16 @@
 'use client';
 
+import { useMemo } from 'react';
+
 import useServer from '@/hooks/use-server';
-import Hashtag from '@/components/ui/hashtag';
+import { Skeleton } from '@/components/ui/skeleton';
+import ClientControl from '@/components/ui/client-control';
+import ChannelCard from '@/components/channel/channel-card';
+import CategorySubHeader from '@/components/channel/category-sub-header';
 import ServerSidebarHeader from '@/components/server/server-sidebar-header';
 
-import SidebarContainer from './sidebar-container';
-import ClientControl from '../ui/client-control';
 import Content from './content';
-import { Skeleton } from '../ui/skeleton';
-import SidebarSubHeader from './sidebar-sub-header';
-import SidebarCard from './sidebar-card';
+import SidebarContainer from './sidebar-container';
 
 interface ServerSidebarProps {
   serverId: string;
@@ -17,6 +18,14 @@ interface ServerSidebarProps {
 
 const ServerSidebar: React.FC<ServerSidebarProps> = ({ serverId }) => {
   const { data: server } = useServer(+serverId);
+
+  const mappedCategories = useMemo(() => {
+    if (!server) return [];
+    return server.categories.map((category) => ({
+      ...category,
+      channels: server.channels.filter((c) => c.categoryId == category.id),
+    }));
+  }, [server]);
 
   if (!server)
     return (
@@ -29,19 +38,29 @@ const ServerSidebar: React.FC<ServerSidebarProps> = ({ serverId }) => {
 
   return (
     <SidebarContainer>
-      <ServerSidebarHeader name={server.name} />
+      <ServerSidebarHeader id={server.id} name={server.name} />
       <Content>
-        <SidebarSubHeader
-          label="information"
-          tooltip="Create Channel"
-          showAddButton
-        />
-        <div className="space-y-1">
-          <SidebarCard className="opacity-60 hover:opacity-100">
-            <Hashtag />
-            <p className="font-semibold">welcome</p>
-          </SidebarCard>
-        </div>
+        {server.channels
+          .filter((c) => !c.categoryId)
+          .map((channel) => (
+            <ChannelCard
+              key={channel.id}
+              name={channel.name}
+              type={channel.type}
+            />
+          ))}
+        {mappedCategories.map((category) => (
+          <div key={category.id}>
+            <CategorySubHeader name={category.name} />
+            {category.channels.map((channel) => (
+              <ChannelCard
+                key={channel.id}
+                name={channel.name}
+                type={channel.type}
+              />
+            ))}
+          </div>
+        ))}
       </Content>
       <ClientControl />
     </SidebarContainer>
