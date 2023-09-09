@@ -15,6 +15,7 @@ import {
   isUserInServer,
   isUserOwner,
   getMemberByServerUser,
+  isUserInServerCode,
 } from '../services/server.js';
 import serverValidator from '../validators/server.validator.js';
 import ServerResponse from '../models/response.js';
@@ -68,6 +69,8 @@ const joinServer: typeof serverValidator.checkId = async (req, res) => {
   if (!req.user) throw Errors.unauthenticated;
   const inviteCode = req.params.id;
   if (!inviteCode) throw Errors.server.invalidCode;
+  const isInServer = await isUserInServerCode(req.user.id, inviteCode);
+  if (isInServer) throw Errors.server.alreadyInServer;
   const checkServerCode = await getServerByCodeAndNotUser(
     req.user.id,
     inviteCode
