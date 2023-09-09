@@ -27,7 +27,7 @@ import {
   FormLabel,
   FormControl,
 } from '@/components/ui/form';
-import { createServer } from '@/services/server';
+import { createServer, joinServerByCode } from '@/services/server';
 import useClientServers from '@/hooks/use-servers';
 
 interface AddServerModalProps {}
@@ -79,6 +79,8 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
   };
 
   const join = async (data: JoinServerSchema) => {
+    const server = await joinServerByCode(data.inviteCode);
+    router.push(`/server/${server.id}`);
     toast.success("You've successfully joined the server!");
   };
 
