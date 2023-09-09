@@ -108,6 +108,14 @@ export const isUserInServer = async (userId: number, id: number) =>
     },
   }));
 
+export const isUserOwner = async (userId: number, id: number) =>
+  !!(await prisma.server.findFirst({
+    where: {
+      id,
+      ownerId: userId,
+    },
+  }));
+
 export const getServerByCodeAndNotUser = (userId: number, inviteCode: string) =>
   prisma.server.findUnique({
     where: {
@@ -156,6 +164,35 @@ export const addMemberToServer = async (userId: number, inviteCode: string) =>
       members: {
         create: {
           userId,
+        },
+      },
+    },
+  });
+
+export const removeMemberFromServer = async (userId: number, id: number) =>
+  prisma.server.update({
+    where: {
+      id,
+    },
+    data: {
+      members: {
+        deleteMany: {
+          userId,
+        },
+      },
+    },
+  });
+
+export const getMemberByServerUser = (userId: number, serverId: number) =>
+  prisma.member.findFirst({
+    where: {
+      userId,
+      serverId,
+    },
+    include: {
+      role: {
+        include: {
+          permissions: true,
         },
       },
     },
