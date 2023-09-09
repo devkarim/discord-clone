@@ -14,6 +14,10 @@ export const Messages = {
       ownerCannotLeave: "Server owner can't leave the server",
       notInServer: 'You are not in this server',
       alreadyInServer: 'You are already in this server',
+      category: {
+        exists: 'Category with this name already exists',
+        notExists: 'Category with this name does not exist',
+      },
     },
   },
   limits: {
@@ -31,12 +35,22 @@ export const Messages = {
         max: `Server name must be at most ${Limits.server.name.max} characters`,
       },
     },
+    channel: {
+      name: {
+        min: `Channel name must be at least ${Limits.channel.name.min} characters`,
+        max: `Channel name must be at most ${Limits.channel.name.max} characters`,
+      },
+    },
   },
   required: {
     server: {
       inviteCode: 'Invite code is required',
       name: 'Name is required',
       imageUrl: 'Server image must be a valid URL',
+    },
+    channel: {
+      name: 'Channel name is required',
+      type: 'Channel type is required',
     },
     email: 'Email is required',
     password: 'Password is required',

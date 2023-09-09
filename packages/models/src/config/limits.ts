@@ -16,4 +16,10 @@ export const Limits = {
       max: 36,
     },
   },
+  channel: {
+    name: {
+      min: 3,
+      max: 36,
+    },
+  },
 };

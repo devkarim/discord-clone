@@ -20,6 +20,10 @@ export const Errors = {
       Messages.errors.server.alreadyInServer,
       400
     ),
+    category: {
+      exists: Exception.manual(Messages.errors.server.category.exists, 400),
+      notExists: Exception.manual(Messages.errors.server.category.notExists, 400)
+    },
   },
   usernameTaken: Exception.manual(Messages.errors.usernameTaken, 400),
   unauthenticated: Exception.manual(Messages.errors.unauthenticated, 401),
