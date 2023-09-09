@@ -4,7 +4,6 @@ import { getUserServers } from '@/services/server';
 
 const useClientServers = () => {
   const query = useQuery({ queryKey: ['servers'], queryFn: getUserServers });
-
   return query;
 };
 
