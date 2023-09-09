@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import useModal from '@/hooks/use-modal';
 import { leaveServer } from '@/services/member';
+import { deleteServer } from '@/services/server';
 import useClientServers from '@/hooks/use-servers';
 import { canMemberDoAction } from '@/lib/permission';
 import useCurrentMember from '@/hooks/use-current-member';
@@ -39,6 +40,7 @@ const ServerSidebarHeader: React.FC<ServerSidebarHeaderProps> = ({
   name,
 }) => {
   const [isOpen, setOpen] = useState(false);
+  const [isOpenDelete, setOpenDelete] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { data: currentMember } = useCurrentMember();
@@ -57,6 +59,23 @@ const ServerSidebarHeader: React.FC<ServerSidebarHeaderProps> = ({
       setOpen(false);
       router.replace('/');
       refetch();
+      toast.success('You have left the server');
+    } catch (err) {
+      Logger.exception(err, 'server-sidebar-header');
+      toast.error(Exception.parseError(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteMyServer = async () => {
+    try {
+      setLoading(true);
+      await deleteServer(id);
+      setOpenDelete(false);
+      router.replace('/');
+      refetch();
+      toast.success('You have deleted the server');
     } catch (err) {
       Logger.exception(err, 'server-sidebar-header');
       toast.error(Exception.parseError(err));
@@ -73,6 +92,14 @@ const ServerSidebarHeader: React.FC<ServerSidebarHeaderProps> = ({
         title="Are you sure you want to leave the server?"
         subtitle="By leaving this server, you lose access to all of its channels and cannot rejoin unless you are re-invited."
         onConfirm={leave}
+        disabled={loading}
+      />
+      <ConfirmationModal
+        isOpen={isOpenDelete}
+        onOpenChange={setOpenDelete}
+        title="Are you sure you want to delete the server?"
+        subtitle="By deleting this server, you lose access to all of its channels. This action cannot be undone."
+        onConfirm={deleteMyServer}
         disabled={loading}
       />
       <DropdownMenu>
@@ -94,15 +121,24 @@ const ServerSidebarHeader: React.FC<ServerSidebarHeaderProps> = ({
           </DropdownMenuItem>
           {canManageServer && (
             <DropdownMenuGroup className="space-y-2">
-              <DropdownMenuItem className="font-semibold">
+              <DropdownMenuItem
+                className="font-semibold"
+                onClick={() => show('server-settings')}
+              >
                 <p>Server Settings</p>
                 <FaGear className="h-4 w-4 ml-auto" />
               </DropdownMenuItem>
-              <DropdownMenuItem className="font-semibold">
+              <DropdownMenuItem
+                className="font-semibold"
+                onClick={() => show('create-channel')}
+              >
                 <p>Create Channel</p>
                 <FaCirclePlus className="h-4 w-4 ml-auto" />
               </DropdownMenuItem>
-              <DropdownMenuItem className="font-semibold">
+              <DropdownMenuItem
+                className="font-semibold"
+                onClick={() => show('create-category')}
+              >
                 <p>Create Category</p>
                 <BiSolidFolderPlus className="h-4 w-4 ml-auto" />
               </DropdownMenuItem>
@@ -118,7 +154,10 @@ const ServerSidebarHeader: React.FC<ServerSidebarHeaderProps> = ({
             <FaSignOutAlt className="h-4 w-4 ml-auto" />
           </DropdownMenuItem>
           {canDeleteServer && (
-            <DropdownMenuItem className="font-semibold text-red-500  focus:bg-red-500">
+            <DropdownMenuItem
+              className="font-semibold text-red-500  focus:bg-red-500"
+              onClick={() => setOpenDelete(true)}
+            >
               <p>Delete Server</p>
               <FaTrash className="h-4 w-4 ml-auto" />
             </DropdownMenuItem>
