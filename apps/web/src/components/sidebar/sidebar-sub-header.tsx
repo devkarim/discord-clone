@@ -1,12 +1,15 @@
 import { FaPlus } from '@react-icons/all-files/fa6/FaPlus';
 
+import { cn } from '@/lib/utils';
 import IconButton from '@/components/ui/icon-button';
 
 interface SidebarSubHeaderProps {
-  label: string;
+  label?: string;
   tooltip?: string;
   showAddButton?: boolean;
   onClick?: () => void;
+  className?: string;
+  children?: React.ReactNode;
 }
 
 const SidebarSubHeader: React.FC<SidebarSubHeaderProps> = ({
@@ -14,11 +17,19 @@ const SidebarSubHeader: React.FC<SidebarSubHeaderProps> = ({
   tooltip,
   showAddButton,
   onClick,
+  className,
+  children,
 }) => {
   return (
-    <div className="flex justify-between items-center font-semibold group transition-opacity px-3">
+    <div
+      className={cn(
+        'flex justify-between items-center font-semibold group transition-opacity px-3',
+        className
+      )}
+    >
       <span className="text-sm opacity-60 group-hover:opacity-100 uppercase">
         {label}
+        {children}
       </span>
       {showAddButton && (
         <IconButton tooltip={tooltip} side="bottom" onClick={onClick}>
