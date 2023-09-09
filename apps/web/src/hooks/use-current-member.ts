@@ -1,16 +1,16 @@
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 
-import { getServer } from '@/services/server';
+import { getCurrentMember } from '@/services/member';
 
-const useCurrentServer = () => {
+const useCurrentMember = () => {
   const { serverId } = useParams();
 
   const query = useQuery({
-    queryKey: ['server', serverId],
+    queryKey: ['me-member', serverId],
     queryFn: () => {
       if (serverId && typeof serverId == 'string' && !isNaN(+serverId)) {
-        return getServer(+serverId);
+        return getCurrentMember(+serverId);
       }
       return null;
     },
@@ -19,4 +19,4 @@ const useCurrentServer = () => {
   return query;
 };
 
-export default useCurrentServer;
+export default useCurrentMember;
