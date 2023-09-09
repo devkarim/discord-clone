@@ -9,7 +9,9 @@ type ModalType =
   | 'create-category'
   | 'user-settings';
 
-interface ModalData {}
+interface ModalData {
+  category?: string;
+}
 
 interface ModalState {
   isOpen: boolean;
