@@ -38,6 +38,11 @@ const Modal: React.FC<ModalProps> = ({
           dense && 'p-0',
           className
         )}
+        overlayProps={{
+          onClick: (e) => {
+            if (e.target == e.currentTarget) onOpenChange(false);
+          },
+        }}
       >
         <AlertDialogHeader className="relative">
           <span
