@@ -6,6 +6,7 @@ interface ConfirmationModalProps extends React.ComponentProps<typeof Modal> {
   onConfirm: () => {};
   onCancel?: () => {};
   disabled?: boolean;
+  loading?: boolean;
 }
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
@@ -13,6 +14,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   onCancel,
   onOpenChange,
   disabled,
+  loading,
   title,
   ...props
 }) => {
@@ -32,10 +34,14 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       {...props}
     >
       <div className="flex gap-3 justify-end mt-6">
-        <Button onClick={onConfirm} disabled={disabled}>
+        <Button onClick={onConfirm} disabled={disabled} loading={loading}>
           Confirm
         </Button>
-        <Button onClick={cancel} variant="secondary" disabled={disabled}>
+        <Button
+          onClick={cancel}
+          variant="secondary"
+          disabled={disabled || loading}
+        >
           Cancel
         </Button>
       </div>

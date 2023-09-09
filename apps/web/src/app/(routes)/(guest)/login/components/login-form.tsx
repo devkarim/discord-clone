@@ -74,7 +74,7 @@ const LoginForm: React.FC<LoginFormProps> = ({}) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button type="submit" className="w-full" loading={loading}>
           Log in
         </Button>
       </form>

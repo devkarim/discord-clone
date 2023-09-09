@@ -26,7 +26,6 @@ const InvitePage: React.FC<InvitePageProps> = ({ params: { inviteCode } }) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(data);
     if (isLoading) return;
     if (data?.isInServer) {
       router.replace(`/server/${data.server.id}`);
@@ -42,7 +41,7 @@ const InvitePage: React.FC<InvitePageProps> = ({ params: { inviteCode } }) => {
 
   if (!data) return null;
 
-  const { server, isInServer } = data;
+  const { server } = data;
 
   const joinServer = async () => {
     if (!server) return;
@@ -77,7 +76,7 @@ const InvitePage: React.FC<InvitePageProps> = ({ params: { inviteCode } }) => {
         <Button
           className="w-full"
           variant="success"
-          disabled={loading}
+          loading={loading}
           onClick={joinServer}
         >
           Join

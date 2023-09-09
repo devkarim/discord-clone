@@ -82,7 +82,7 @@ const InviteModal: React.FC<InviteModalProps> = ({}) => {
         <Button
           className="space-x-2 w-fit"
           onClick={generateLink}
-          disabled={loading}
+          loading={loading}
         >
           <span>Generate new link</span>{' '}
           <RefreshCcw className="h-5 w-5 inline-block" />{' '}

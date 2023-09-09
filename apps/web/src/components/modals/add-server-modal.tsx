@@ -33,7 +33,8 @@ import useClientServers from '@/hooks/use-servers';
 interface AddServerModalProps {}
 
 const AddServerModal: React.FC<AddServerModalProps> = () => {
-  const [loading, setLoading] = useState(false);
+  const [joinLoading, setJoinLoading] = useState(false);
+  const [createLoading, setCreateLoading] = useState(false);
   const router = useRouter();
   const isOpen = useModal((state) => state.isModalOpen('add-server'));
   const onOpenChange = useModal((state) => state.setOpen('add-server'));
@@ -54,12 +55,12 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
   });
 
   const onSubmit = async (data: CreateServerSchema | JoinServerSchema) => {
-    setLoading(true);
     try {
-      console.log(data);
       if ('name' in data) {
+        setCreateLoading(true);
         await create(data);
       } else {
+        setJoinLoading(true);
         await join(data);
       }
       refetch();
@@ -68,7 +69,8 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
       Logger.exception(err, 'server-modal-form');
       toast.error(Exception.parseError(err));
     } finally {
-      setLoading(false);
+      setCreateLoading(false);
+      setJoinLoading(false);
     }
   };
 
@@ -115,14 +117,19 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
                     <Input
                       type="text"
                       placeholder="Your server name here"
-                      disabled={loading}
+                      disabled={createLoading || joinLoading}
                       {...field}
                     />
                   </FormControl>
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full"
+              loading={createLoading}
+              disabled={joinLoading}
+            >
               Create a Server
             </Button>
           </form>
@@ -146,14 +153,19 @@ const AddServerModal: React.FC<AddServerModalProps> = () => {
                     <Input
                       type="text"
                       placeholder="Your server invite code here"
-                      disabled={loading}
+                      disabled={createLoading || joinLoading}
                       {...field}
                     />
                   </FormControl>
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full"
+              loading={joinLoading}
+              disabled={createLoading}
+            >
               Join a Server
             </Button>
           </form>

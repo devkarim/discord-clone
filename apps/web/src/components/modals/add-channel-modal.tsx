@@ -192,7 +192,7 @@ const AddChannelModal: React.FC<AddChannelModalProps> = ({}) => {
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading}>
+              <Button type="submit" loading={loading}>
                 Create Channel
               </Button>
             </div>

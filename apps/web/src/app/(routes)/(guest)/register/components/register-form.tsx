@@ -92,7 +92,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({}) => {
         />
 
         <div className="space-y-2">
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full" loading={loading}>
             Create
           </Button>
           <p className="text-xs">

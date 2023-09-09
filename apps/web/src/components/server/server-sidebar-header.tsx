@@ -92,7 +92,7 @@ const ServerSidebarHeader: React.FC<ServerSidebarHeaderProps> = ({
         title="Are you sure you want to leave the server?"
         subtitle="By leaving this server, you lose access to all of its channels and cannot rejoin unless you are re-invited."
         onConfirm={leave}
-        disabled={loading}
+        loading={loading}
       />
       <ConfirmationModal
         isOpen={isOpenDelete}
@@ -100,7 +100,7 @@ const ServerSidebarHeader: React.FC<ServerSidebarHeaderProps> = ({
         title="Are you sure you want to delete the server?"
         subtitle="By deleting this server, you lose access to all of its channels. This action cannot be undone."
         onConfirm={deleteMyServer}
-        disabled={loading}
+        loading={loading}
       />
       <DropdownMenu>
         <DropdownMenuTrigger className="focus:outline-none">

@@ -99,7 +99,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({}) => {
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading}>
+              <Button type="submit" loading={loading}>
                 Create Category
               </Button>
             </div>
