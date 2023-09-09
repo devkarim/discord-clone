@@ -15,6 +15,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { generateInviteCode } from '@/services/server';
 import useCurrentServer from '@/hooks/use-current-server';
+import useCurrentMember from '@/hooks/use-current-member';
+import { canMemberDoAction } from '@/lib/permission';
 
 interface InviteModalProps {}
 
@@ -23,9 +25,13 @@ const InviteModal: React.FC<InviteModalProps> = ({}) => {
   const [isCopied, setIsCopied] = useState(false);
   const isOpen = useModal((state) => state.isModalOpen('invite'));
   const onOpenChange = useModal((state) => state.setOpen('invite'));
+  const { data: currentMember } = useCurrentMember();
   const { data: server, refetch } = useCurrentServer();
 
   const inviteLink = `${APP_URL}/invite/${server?.inviteCode}`;
+
+  const canGenerateLInks =
+    currentMember && canMemberDoAction(currentMember, 'GENERATE_INVITE_LINK');
 
   const copy = () => {
     navigator.clipboard.writeText(inviteLink);
@@ -62,7 +68,7 @@ const InviteModal: React.FC<InviteModalProps> = ({}) => {
       }
     >
       <div className="space-y-2">
-        <Label>SEND AN INVITE LINK TO FRIEND</Label>
+        <Label>SEND AN INVITE LINK TO A FRIEND</Label>
         <div className="flex items-center gap-3">
           <Input value={inviteLink} readOnly disabled={loading} />
           {isCopied ? (
@@ -72,14 +78,16 @@ const InviteModal: React.FC<InviteModalProps> = ({}) => {
           )}
         </div>
       </div>
-      <Button
-        className="space-x-2 w-fit"
-        onClick={generateLink}
-        disabled={loading}
-      >
-        <span>Generate new link</span>{' '}
-        <RefreshCcw className="h-5 w-5 inline-block" />{' '}
-      </Button>
+      {canGenerateLInks && (
+        <Button
+          className="space-x-2 w-fit"
+          onClick={generateLink}
+          disabled={loading}
+        >
+          <span>Generate new link</span>{' '}
+          <RefreshCcw className="h-5 w-5 inline-block" />{' '}
+        </Button>
+      )}
     </Modal>
   );
 };
