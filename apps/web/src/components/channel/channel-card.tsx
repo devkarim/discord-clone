@@ -15,13 +15,13 @@ interface ChannelCardProps {
 
 const ChannelCard: React.FC<ChannelCardProps> = ({ name, type }) => {
   return (
-    <SidebarCard className="opacity-60 hover:opacity-100">
+    <SidebarCard className="opacity-60 hover:opacity-100 gap-2">
       {type == 'VIDEO' ? (
-        <FaVideo className="text-xl" />
+        <FaVideo className="text-lg" />
       ) : type == 'VOICE' ? (
-        <HiSpeakerWave className="text-2xl" />
+        <HiSpeakerWave className="text-xl" />
       ) : (
-        <Hashtag />
+        <Hashtag className="text-lg" />
       )}
       <p className="font-semibold lowercase">{name}</p>
     </SidebarCard>
