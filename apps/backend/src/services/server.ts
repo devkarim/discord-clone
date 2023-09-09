@@ -167,45 +167,10 @@ export const getFreeCode = async () => {
   return code;
 };
 
-export const addMemberToServer = async (userId: number, inviteCode: string) =>
-  prisma.server.update({
-    where: {
-      inviteCode,
-    },
-    data: {
-      members: {
-        create: {
-          userId,
-        },
-      },
-    },
-  });
-
-export const removeMemberFromServer = async (userId: number, id: number) =>
-  prisma.server.update({
+export const deleteOwnerServer = async (ownerId: number, id: number) =>
+  prisma.server.delete({
     where: {
       id,
-    },
-    data: {
-      members: {
-        deleteMany: {
-          userId,
-        },
-      },
-    },
-  });
-
-export const getMemberByServerUser = (userId: number, serverId: number) =>
-  prisma.member.findFirst({
-    where: {
-      userId,
-      serverId,
-    },
-    include: {
-      role: {
-        include: {
-          permissions: true,
-        },
-      },
+      ownerId,
     },
   });
