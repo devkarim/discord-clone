@@ -3,6 +3,8 @@ import { AxiosError } from 'axios';
 import { ErrorResponse } from './api';
 
 export class Exception extends Error {
+  name = 'Exception';
+
   constructor(
     public message: string,
     public statusCode: number
@@ -27,15 +29,19 @@ export class Exception extends Error {
       return this.fromAxios(err);
     }
     if (err instanceof Error) {
-      if (err.name == 'AxiosError') {
-        return this.fromAxios(err as AxiosError);
-      }
       return this.fromError(err);
     }
     return this.fromError(new Error('Internal server error'));
   }
 
   static fromError(err: Error, statusCode: number = 500) {
+    if (err.name == 'AxiosError') {
+      return this.fromAxios(err as AxiosError);
+    } else if (err.name == 'ZodError') {
+      return this.fromZod(err as ZodError);
+    } else if (err.name == 'Exception') {
+      return err as Exception;
+    }
     return new Exception(err.message, statusCode);
   }
 
