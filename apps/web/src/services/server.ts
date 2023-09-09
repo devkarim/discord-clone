@@ -1,5 +1,5 @@
 import { Server } from 'database';
-import { BaseResponse, CreateServerSchema } from 'models';
+import { BaseResponse, BaseResponseNoData, CreateServerSchema } from 'models';
 
 import { ServerWithChannels } from '@/types/db';
 
@@ -25,7 +25,7 @@ export const getServer = (id: number) =>
 
 export const getServerByCode = (code: string) =>
   client
-    .get<ServerCodeResponse>(`/servers/invite/${code}`)
+    .get<ServerCodeResponse>(`/invites/${code}`)
     .then((res) => res.data.data);
 
 export const generateInviteCode = (serverId: number) =>
@@ -35,5 +35,8 @@ export const generateInviteCode = (serverId: number) =>
 
 export const joinServerByCode = (code: string) =>
   client
-    .post<ServerResponse>(`/servers/join/${code}`)
+    .post<ServerResponse>(`/invites/join/${code}`)
     .then((res) => res.data.data);
+
+export const deleteServer = (serverId: number) =>
+  client.delete<BaseResponseNoData>(`/servers/${serverId}`);
