@@ -27,7 +27,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     <Modal
       onOpenChange={onOpenChange}
       header={
-        <AlertDialogTitle className="pt-3 text-center">
+        <AlertDialogTitle className="pt-6 text-center">
           {title}
         </AlertDialogTitle>
       }
