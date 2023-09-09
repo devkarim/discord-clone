@@ -6,7 +6,7 @@ import useServer from '@/hooks/use-server';
 import { Skeleton } from '@/components/ui/skeleton';
 import ClientControl from '@/components/ui/client-control';
 import ChannelCard from '@/components/channel/channel-card';
-import CategorySubHeader from '@/components/channel/category-sub-header';
+import ChannelCategory from '@/components/channel/channel-category';
 import ServerSidebarHeader from '@/components/server/server-sidebar-header';
 
 import Content from './content';
@@ -17,7 +17,7 @@ interface ServerSidebarProps {
 }
 
 const ServerSidebar: React.FC<ServerSidebarProps> = ({ serverId }) => {
-  const { data: server } = useServer(+serverId);
+  const { data: server } = useServer(serverId);
 
   const mappedCategories = useMemo(() => {
     if (!server) return [];
@@ -39,27 +39,20 @@ const ServerSidebar: React.FC<ServerSidebarProps> = ({ serverId }) => {
   return (
     <SidebarContainer>
       <ServerSidebarHeader id={server.id} name={server.name} />
-      <Content>
-        {server.channels
-          .filter((c) => !c.categoryId)
-          .map((channel) => (
-            <ChannelCard
-              key={channel.id}
-              name={channel.name}
-              type={channel.type}
-            />
-          ))}
-        {mappedCategories.map((category) => (
-          <div key={category.id}>
-            <CategorySubHeader name={category.name} />
-            {category.channels.map((channel) => (
+      <Content className="space-y-0">
+        <div className="space-y-0">
+          {server.channels
+            .filter((c) => !c.categoryId)
+            .map((channel) => (
               <ChannelCard
                 key={channel.id}
                 name={channel.name}
                 type={channel.type}
               />
             ))}
-          </div>
+        </div>
+        {mappedCategories.map((category) => (
+          <ChannelCategory key={category.id} category={category} />
         ))}
       </Content>
       <ClientControl />
