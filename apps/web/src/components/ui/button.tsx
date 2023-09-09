@@ -58,12 +58,21 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(
+          loading && 'relative overflow-hidden',
+          buttonVariants({ variant, size, className })
+        )}
         ref={ref}
         disabled={disabled || loading}
         {...props}
       >
-        {loading ? <Loader2 className="h-6 w-6 animate-spin" /> : children}
+        {loading && (
+          <div className="absolute flex items-center justify-center w-full h-full bg-inherit z-50">
+            <Loader2 className="h-6 w-6 animate-spin" />
+          </div>
+        )}
+        {/* {loading ? <Loader2 className="h-6 w-6 animate-spin" /> : children} */}
+        {children}
       </Comp>
     );
   }
