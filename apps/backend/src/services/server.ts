@@ -108,6 +108,18 @@ export const isUserInServer = async (userId: number, id: number) =>
     },
   }));
 
+export const isUserInServerCode = async (userId: number, inviteCode: string) =>
+  !!(await prisma.server.findUnique({
+    where: {
+      inviteCode,
+      members: {
+        some: {
+          userId,
+        },
+      },
+    },
+  }));
+
 export const isUserOwner = async (userId: number, id: number) =>
   !!(await prisma.server.findFirst({
     where: {
