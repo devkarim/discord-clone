@@ -10,8 +10,11 @@ import {
   getFreeCode,
   updateServer,
   addMemberToServer,
+  removeMemberFromServer,
   getServerByCode,
   isUserInServer,
+  isUserOwner,
+  getMemberByServerUser,
 } from '../services/server.js';
 import serverValidator from '../validators/server.validator.js';
 import ServerResponse from '../models/response.js';
@@ -42,6 +45,8 @@ const generateInviteCode: typeof serverValidator.checkId = async (req, res) => {
   const serverId = +req.params.id;
   if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
   const inviteCode = await getFreeCode();
+  const isOwner = await isUserOwner(req.user.id, serverId);
+  if (!isOwner) throw Errors.unauthorized;
   const server = await updateServer(req.user.id, serverId, { inviteCode });
   return ServerResponse.success(res, server);
 };
@@ -72,6 +77,26 @@ const joinServer: typeof serverValidator.checkId = async (req, res) => {
   return ServerResponse.success(res, server);
 };
 
+const getCurrentMember: typeof serverValidator.checkId = async (req, res) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const member = await getMemberByServerUser(req.user.id, serverId);
+  return ServerResponse.success(res, member);
+};
+
+const leave: typeof serverValidator.checkId = async (req, res) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const isOwner = await isUserOwner(req.user.id, serverId);
+  if (isOwner) throw Errors.server.ownerCannotLeave;
+  const member = await getMemberByServerUser(req.user.id, serverId);
+  if (!member) throw Errors.server.notInServer;
+  await removeMemberFromServer(req.user.id, serverId);
+  return ServerResponse.success(res);
+};
+
 export default {
   create,
   getServers,
@@ -79,4 +104,6 @@ export default {
   generateInviteCode,
   getServerByInviteCode,
   joinServer,
+  getCurrentMember,
+  leave,
 };

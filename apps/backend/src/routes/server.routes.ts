@@ -61,4 +61,24 @@ serverRouter.post(
   serverController.joinServer
 );
 
+// @route     GET /servers/:id/member
+// @desc      Get member details of current user in a server
+// @access    Private
+serverRouter.get(
+  '/:id/member',
+  requireAuth,
+  serverValidator.checkId,
+  serverController.getCurrentMember
+);
+
+// @route     DELETE /servers/:id/leave
+// @desc      Leave a server
+// @access    Private
+serverRouter.delete(
+  '/:id/leave',
+  requireAuth,
+  serverValidator.checkId,
+  serverController.leave
+);
+
 export default serverRouter;
