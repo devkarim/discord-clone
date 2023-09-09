@@ -1,9 +1,9 @@
+import { User } from 'database';
+import { RegisterSchema } from 'models';
+
 import prisma from '../lib/prisma.js';
 import { hash } from '../lib/hash.js';
 import { exclude } from '../lib/exclude-prisma.js';
-
-import { User } from 'database';
-import { RegisterSchema } from 'models';
 
 export const createUser = async (data: RegisterSchema) => {
   const hashedPassword = await hash(data.password);

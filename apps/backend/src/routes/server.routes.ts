@@ -41,26 +41,6 @@ serverRouter.patch(
   serverController.generateInviteCode
 );
 
-// @route     GET /servers/invite/:id
-// @desc      Get server by invite code
-// @access    Private
-serverRouter.get(
-  '/invite/:id',
-  requireAuth,
-  serverValidator.checkId,
-  serverController.getServerByInviteCode
-);
-
-// @route     POST /servers/join/:id
-// @desc      Join a server by an invite code
-// @access    Private
-serverRouter.post(
-  '/join/:id',
-  requireAuth,
-  serverValidator.checkId,
-  serverController.joinServer
-);
-
 // @route     GET /servers/:id/member
 // @desc      Get member details of current user in a server
 // @access    Private
@@ -79,6 +59,36 @@ serverRouter.delete(
   requireAuth,
   serverValidator.checkId,
   serverController.leave
+);
+
+// @route     POST /servers/:id/channel
+// @desc      Create a channel in a server
+// @access    Private
+serverRouter.post(
+  '/:id/channel',
+  requireAuth,
+  serverValidator.createChannel,
+  serverController.createChannel
+);
+
+// @route     POST /servers/:id/category
+// @desc      Create a category in a server
+// @access    Private
+serverRouter.post(
+  '/:id/category',
+  requireAuth,
+  serverValidator.createCategory,
+  serverController.createCategory
+);
+
+// @route     DELETE /servers/:id
+// @desc      Delete server
+// @access    Private
+serverRouter.delete(
+  '/:id',
+  requireAuth,
+  serverValidator.checkId,
+  serverController.deleteServer
 );
 
 export default serverRouter;

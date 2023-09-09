@@ -1,6 +1,10 @@
 import { z } from 'zod';
 
-import { createServerSchema } from 'models';
+import {
+  createCategorySchema,
+  createChannelSchema,
+  createServerSchema,
+} from 'models';
 
 import validate from './validate.js';
 
@@ -16,4 +20,14 @@ const checkId = validate({
   params: serverParamsSchema,
 });
 
-export default { create, checkId };
+const createChannel = validate({
+  body: createChannelSchema,
+  params: serverParamsSchema,
+});
+
+const createCategory = validate({
+  body: createCategorySchema,
+  params: serverParamsSchema,
+});
+
+export default { create, checkId, createChannel, createCategory };

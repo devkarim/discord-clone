@@ -6,19 +6,24 @@ import {
   createServer,
   getUserServers,
   getServerById,
-  getServerByCodeAndNotUser,
   getFreeCode,
   updateServer,
-  addMemberToServer,
-  removeMemberFromServer,
-  getServerByCode,
-  isUserInServer,
   isUserOwner,
-  getMemberByServerUser,
-  isUserInServerCode,
+  deleteOwnerServer,
 } from '../services/server.js';
-import serverValidator from '../validators/server.validator.js';
+import {
+  removeMemberFromServer,
+  getMemberByServerUser,
+} from '../services/member.js';
 import ServerResponse from '../models/response.js';
+import { canMemberDoAction } from '../services/member.js';
+import { addChannelToServer } from '../services/channel.js';
+import {
+  addCategoryToServer,
+  getCategoryById,
+  isCategoryInServer,
+} from '../services/category.js';
+import serverValidator from '../validators/server.validator.js';
 
 const create: typeof serverValidator.create = async (req, res) => {
   if (!req.user) throw Errors.unauthenticated;
@@ -52,34 +57,6 @@ const generateInviteCode: typeof serverValidator.checkId = async (req, res) => {
   return ServerResponse.success(res, server);
 };
 
-const getServerByInviteCode: typeof serverValidator.checkId = async (
-  req,
-  res
-) => {
-  if (!req.user) throw Errors.unauthenticated;
-  const inviteCode = req.params.id;
-  if (!inviteCode) throw Errors.server.invalidCode;
-  const server = await getServerByCode(inviteCode);
-  if (!server) throw Errors.server.invalidCode;
-  const isInServer = await isUserInServer(req.user.id, server.id);
-  return ServerResponse.success(res, { server, isInServer });
-};
-
-const joinServer: typeof serverValidator.checkId = async (req, res) => {
-  if (!req.user) throw Errors.unauthenticated;
-  const inviteCode = req.params.id;
-  if (!inviteCode) throw Errors.server.invalidCode;
-  const isInServer = await isUserInServerCode(req.user.id, inviteCode);
-  if (isInServer) throw Errors.server.alreadyInServer;
-  const checkServerCode = await getServerByCodeAndNotUser(
-    req.user.id,
-    inviteCode
-  );
-  if (!checkServerCode) throw Errors.server.invalidCode;
-  const server = await addMemberToServer(req.user.id, inviteCode);
-  return ServerResponse.success(res, server);
-};
-
 const getCurrentMember: typeof serverValidator.checkId = async (req, res) => {
   if (!req.user) throw Errors.unauthenticated;
   const serverId = +req.params.id;
@@ -100,13 +77,65 @@ const leave: typeof serverValidator.checkId = async (req, res) => {
   return ServerResponse.success(res);
 };
 
+const createChannel: typeof serverValidator.createChannel = async (
+  req,
+  res
+) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const hasAccess = await canMemberDoAction(
+    req.user.id,
+    serverId,
+    'MANAGE_SERVER'
+  );
+  if (!hasAccess) throw Errors.unauthorized;
+  if (req.body.categoryId) {
+    const category = await getCategoryById(req.body.categoryId);
+    if (!category) throw Errors.server.category.notExists;
+    if (category.serverId !== serverId) throw Errors.server.category.notExists;
+  }
+  const channel = await addChannelToServer(req.user.id, serverId, req.body);
+  return ServerResponse.success(res, channel);
+};
+
+const createCategory: typeof serverValidator.createCategory = async (
+  req,
+  res
+) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const hasAccess = await canMemberDoAction(
+    req.user.id,
+    serverId,
+    'MANAGE_SERVER'
+  );
+  if (!hasAccess) throw Errors.unauthorized;
+  const existingCategory = await isCategoryInServer(req.body.name, serverId);
+  if (existingCategory) throw Errors.server.category.exists;
+  const category = await addCategoryToServer(serverId, req.body);
+  return ServerResponse.success(res, category);
+};
+
+const deleteServer: typeof serverValidator.checkId = async (req, res) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const isOwner = await isUserOwner(req.user.id, serverId);
+  if (!isOwner) throw Errors.unauthorized;
+  await deleteOwnerServer(req.user.id, serverId);
+  return ServerResponse.success(res);
+};
+
 export default {
   create,
   getServers,
   getServer,
   generateInviteCode,
-  getServerByInviteCode,
-  joinServer,
   getCurrentMember,
   leave,
+  createChannel,
+  createCategory,
+  deleteServer,
 };
