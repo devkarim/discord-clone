@@ -16,6 +16,10 @@ export const Errors = {
       400
     ),
     notInServer: Exception.manual(Messages.errors.server.notInServer, 400),
+    alreadyInServer: Exception.manual(
+      Messages.errors.server.alreadyInServer,
+      400
+    ),
   },
   usernameTaken: Exception.manual(Messages.errors.usernameTaken, 400),
   unauthenticated: Exception.manual(Messages.errors.unauthenticated, 401),

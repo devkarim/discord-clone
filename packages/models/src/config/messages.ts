@@ -12,7 +12,8 @@ export const Messages = {
       invalidId: 'Invalid server id',
       invalidCode: 'Invalid server code',
       ownerCannotLeave: "Server owner can't leave the server",
-      notInServer: 'Member is not in this server',
+      notInServer: 'You are not in this server',
+      alreadyInServer: 'You are already in this server',
     },
   },
   limits: {
