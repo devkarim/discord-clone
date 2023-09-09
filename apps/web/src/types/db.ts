@@ -6,3 +6,13 @@ export type ServerWithChannels = Prisma.ServerGetPayload<{
     categories: true;
   };
 }>;
+
+export type MemberWithPermissions = Prisma.MemberGetPayload<{
+  include: {
+    role: {
+      include: {
+        permissions: true;
+      };
+    };
+  };
+}>;
