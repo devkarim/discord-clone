@@ -3,14 +3,18 @@
 import { useRef } from 'react';
 import { BiSolidPlusCircle } from '@react-icons/all-files/bi/BiSolidPlusCircle';
 
+import { Channel } from 'database';
+
 import { Input } from '@/components/ui/input';
 import IconButton from '@/components/ui/icon-button';
 
 import EmojiPicker from './emoji-picker';
 
-interface ChatBoxProps {}
+interface ChatBoxProps {
+  channel?: Channel | null;
+}
 
-const ChatBox: React.FC<ChatBoxProps> = ({}) => {
+const ChatBox: React.FC<ChatBoxProps> = ({ channel }) => {
   const chatInput = useRef<HTMLInputElement>(null);
 
   return (
@@ -21,7 +25,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({}) => {
       <Input
         ref={chatInput}
         className="border-0 text-lg focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent placeholder:font-light placeholder:text-base placeholder:tracking-wider"
-        placeholder="Message with @Karim"
+        placeholder={`Message ${channel ? '#' + channel.name : ''}`}
       />
       <EmojiPicker
         onEmojiSelect={(emoji) => {
