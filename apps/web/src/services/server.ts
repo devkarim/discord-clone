@@ -1,7 +1,7 @@
 import { Server } from 'database';
 import { BaseResponse, BaseResponseNoData, CreateServerSchema } from 'models';
 
-import { ServerWithChannels } from '@/types/db';
+import { ServerWithChannels, FullMember } from '@/types/db';
 
 import client from './client';
 
@@ -9,6 +9,7 @@ type ServerResponse = BaseResponse<Server>;
 type ServerCodeResponse = BaseResponse<{ server: Server; isInServer: boolean }>;
 type ServerWithChannelsResponse = BaseResponse<ServerWithChannels>;
 type GetServersResponse = BaseResponse<Server[]>;
+type MembersResponse = BaseResponse<FullMember[]>;
 
 export const createServer = (data: CreateServerSchema) =>
   client
@@ -26,6 +27,11 @@ export const getServer = (id: number) =>
 export const getServerByCode = (code: string) =>
   client
     .get<ServerCodeResponse>(`/invites/${code}`)
+    .then((res) => res.data.data);
+
+export const getServerMembers = (serverId: number) =>
+  client
+    .get<MembersResponse>(`/servers/${serverId}/members`)
     .then((res) => res.data.data);
 
 export const generateInviteCode = (serverId: number) =>
