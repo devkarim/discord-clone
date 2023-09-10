@@ -21,6 +21,7 @@ const ServersList: React.FC<ServersListProps> = ({}) => {
           key={server.id}
           tooltip={server.name}
           activeRoute={`/server/${server.id}`}
+          startsWithRoute={`/server/${server.id}`}
         >
           {server.imageUrl ? (
             <Image
