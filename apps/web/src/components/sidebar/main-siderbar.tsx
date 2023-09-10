@@ -21,10 +21,8 @@ const MainSidebar: React.FC<MainSidebarProps> = ({ user, children }) => {
       </div>
       {/* Content */}
       <SidebarContent>
-        <div>
-          <ChatHeader />
-          {children}
-        </div>
+        <ChatHeader />
+        {children}
       </SidebarContent>
     </div>
   );
