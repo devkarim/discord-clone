@@ -5,7 +5,6 @@ import { useMemo } from 'react';
 import useServer from '@/hooks/use-server';
 import { Skeleton } from '@/components/ui/skeleton';
 import ClientControl from '@/components/ui/client-control';
-import ChannelCard from '@/components/channel/channel-card';
 import ChannelCategory from '@/components/channel/channel-category';
 import ServerSidebarHeader from '@/components/server/server-sidebar-header';
 
@@ -40,7 +39,7 @@ const ServerSidebar: React.FC<ServerSidebarProps> = ({ serverId }) => {
   return (
     <SidebarContainer>
       <ServerSidebarHeader id={server.id} name={server.name} />
-      <Content className="space-y-0">
+      <Content className="space-y-0 py-4 scrollbar">
         <div className="space-y-0">
           <ChannelsList
             channels={server.channels.filter((c) => !c.categoryId)}
