@@ -18,7 +18,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({}) => {
       {conversationId && typeof conversationId == 'string' ? (
         <UserHeader conversationId={conversationId} />
       ) : channelId && typeof channelId == 'string' ? (
-        <ChannelHeader channelId={channelId} />
+        <ChannelHeader />
       ) : (
         <h1 className="font-semibold text-xl px-2">Welcome back</h1>
       )}
