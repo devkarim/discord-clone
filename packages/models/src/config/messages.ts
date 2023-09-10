@@ -19,6 +19,9 @@ export const Messages = {
         notExists: 'Category with this name does not exist',
       },
     },
+    channel: {
+      invalidId: 'Invalid channel id',
+    },
   },
   limits: {
     password: {

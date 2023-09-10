@@ -22,8 +22,14 @@ export const Errors = {
     ),
     category: {
       exists: Exception.manual(Messages.errors.server.category.exists, 400),
-      notExists: Exception.manual(Messages.errors.server.category.notExists, 400)
+      notExists: Exception.manual(
+        Messages.errors.server.category.notExists,
+        400
+      ),
     },
+  },
+  channel: {
+    invalidId: Exception.manual(Messages.errors.channel.invalidId, 400),
   },
   usernameTaken: Exception.manual(Messages.errors.usernameTaken, 400),
   unauthenticated: Exception.manual(Messages.errors.unauthenticated, 401),
