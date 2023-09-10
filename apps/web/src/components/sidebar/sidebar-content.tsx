@@ -3,11 +3,7 @@ interface SidebarContentProps {
 }
 
 const SidebarContent: React.FC<SidebarContentProps> = ({ children }) => {
-  return (
-    <div className="h-full w-full flex flex-col justify-between">
-      {children}
-    </div>
-  );
+  return <div className="h-full w-full flex flex-col">{children}</div>;
 };
 
 export default SidebarContent;
