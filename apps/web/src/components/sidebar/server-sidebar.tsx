@@ -11,6 +11,7 @@ import ServerSidebarHeader from '@/components/server/server-sidebar-header';
 
 import Content from './content';
 import SidebarContainer from './sidebar-container';
+import ChannelsList from '../channel/channels-list';
 
 interface ServerSidebarProps {
   serverId: string;
@@ -41,15 +42,9 @@ const ServerSidebar: React.FC<ServerSidebarProps> = ({ serverId }) => {
       <ServerSidebarHeader id={server.id} name={server.name} />
       <Content className="space-y-0">
         <div className="space-y-0">
-          {server.channels
-            .filter((c) => !c.categoryId)
-            .map((channel) => (
-              <ChannelCard
-                key={channel.id}
-                name={channel.name}
-                type={channel.type}
-              />
-            ))}
+          <ChannelsList
+            channels={server.channels.filter((c) => !c.categoryId)}
+          />
         </div>
         {mappedCategories.map((category) => (
           <ChannelCategory key={category.id} category={category} />

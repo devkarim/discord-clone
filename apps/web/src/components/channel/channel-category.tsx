@@ -4,7 +4,7 @@ import { Category, Channel } from 'database';
 
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 
-import ChannelCard from './channel-card';
+import ChannelsList from './channels-list';
 import CategorySubHeader from './category-sub-header';
 
 interface ChannelCategoryProps {
@@ -22,13 +22,7 @@ const ChannelCategory: React.FC<ChannelCategoryProps> = ({ category }) => {
         isCollapsed={hide}
       />
       <CollapsibleContent>
-        {category.channels.map((channel) => (
-          <ChannelCard
-            key={channel.id}
-            name={channel.name}
-            type={channel.type}
-          />
-        ))}
+        <ChannelsList channels={category.channels} />
       </CollapsibleContent>
     </Collapsible>
   );
