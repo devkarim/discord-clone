@@ -12,12 +12,7 @@ import apiRouter from './routes/api.js';
 import errorLogger from './middlewares/error/error-logger.js';
 import errorSender from './middlewares/error/error-sender.js';
 import errorHandler from './middlewares/error/error-handler.js';
-import {
-  APP_DOMAIN,
-  API_URL,
-  APP_URL,
-  isProduction,
-} from './config/constants.js';
+import { API_URL, APP_URL, isProduction } from './config/constants.js';
 
 const app = express();
 

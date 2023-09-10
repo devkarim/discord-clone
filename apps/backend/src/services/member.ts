@@ -1,6 +1,39 @@
 import { PermissionType } from 'database';
 
 import prisma from '../lib/prisma.js';
+import { exclude } from 'src/lib/exclude-prisma.js';
+
+export const getServerMembers = (userId: number, serverId: number) =>
+  prisma.member.findMany({
+    where: {
+      serverId,
+      server: {
+        members: {
+          some: {
+            userId,
+          },
+        },
+      },
+    },
+    include: {
+      user: {
+        select: {
+          username: true,
+          imageUrl: true,
+          name: true,
+        },
+      },
+      role: true,
+    },
+  });
+
+export const getMemberInServer = (userId: number, serverId: number) =>
+  prisma.member.findFirst({
+    where: {
+      userId,
+      serverId,
+    },
+  });
 
 export const addMemberToServer = async (userId: number, inviteCode: string) =>
   prisma.server.update({

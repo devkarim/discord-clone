@@ -14,6 +14,7 @@ import {
 import {
   removeMemberFromServer,
   getMemberByServerUser,
+  getServerMembers,
 } from '../services/member.js';
 import ServerResponse from '../models/response.js';
 import { canMemberDoAction } from '../services/member.js';
@@ -23,6 +24,7 @@ import {
   getCategoryById,
   isCategoryInServer,
 } from '../services/category.js';
+import { getServerRoles } from '../services/role.js';
 import serverValidator from '../validators/server.validator.js';
 
 const create: typeof serverValidator.create = async (req, res) => {
@@ -118,6 +120,22 @@ const createCategory: typeof serverValidator.createCategory = async (
   return ServerResponse.success(res, category);
 };
 
+const getRoles: typeof serverValidator.checkId = async (req, res) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const roles = await getServerRoles(req.user.id, serverId);
+  return ServerResponse.success(res, roles);
+};
+
+const getMembers: typeof serverValidator.checkId = async (req, res) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const roles = await getServerMembers(req.user.id, serverId);
+  return ServerResponse.success(res, roles);
+};
+
 const deleteServer: typeof serverValidator.checkId = async (req, res) => {
   if (!req.user) throw Errors.unauthenticated;
   const serverId = +req.params.id;
@@ -137,5 +155,7 @@ export default {
   leave,
   createChannel,
   createCategory,
+  getRoles,
+  getMembers,
   deleteServer,
 };

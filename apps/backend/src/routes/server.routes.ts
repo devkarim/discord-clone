@@ -81,6 +81,26 @@ serverRouter.post(
   serverController.createCategory
 );
 
+// @route     GET /servers/:id/roles
+// @desc      Get roles with members info
+// @access    Private
+serverRouter.get(
+  '/:id/roles',
+  requireAuth,
+  serverValidator.checkId,
+  serverController.getRoles
+);
+
+// @route     GET /servers/:id/membes
+// @desc      Get members with roles and user info
+// @access    Private
+serverRouter.get(
+  '/:id/members',
+  requireAuth,
+  serverValidator.checkId,
+  serverController.getMembers
+);
+
 // @route     DELETE /servers/:id
 // @desc      Delete server
 // @access    Private
