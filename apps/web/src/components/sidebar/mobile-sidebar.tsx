@@ -12,7 +12,7 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({}) => {
   return (
     <div className="md:hidden">
       <Sheet>
-        <SheetTrigger className="w-fit h-fit p-2" asChild>
+        <SheetTrigger className="w-10 h-10 p-2" asChild>
           <FaBars className="cursor-pointer text-2xl select-none" />
         </SheetTrigger>
         <SheetContent
