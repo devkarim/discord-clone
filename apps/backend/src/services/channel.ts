@@ -30,3 +30,21 @@ export const addChannelToServer = (
     });
     return newChannel;
   });
+
+export const getChannelById = (userId: number, channelId: number) =>
+  prisma.channel.findUnique({
+    where: {
+      id: channelId,
+      server: {
+        members: {
+          some: {
+            userId,
+          },
+        },
+      },
+    },
+    include: {
+      category: true,
+      owner: true,
+    },
+  });
