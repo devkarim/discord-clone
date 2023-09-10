@@ -12,6 +12,7 @@ interface HoverCircleProps extends React.HTMLAttributes<HTMLDivElement> {
   tooltip?: React.ReactNode;
   active?: boolean;
   activeRoute?: string;
+  startsWithRoute?: string;
   activeClassName?: string;
 }
 
@@ -22,6 +23,7 @@ const HoverCircle: React.FC<HoverCircleProps> = ({
   showIndiaction = true,
   active,
   activeRoute,
+  startsWithRoute,
   activeClassName,
   onClick,
   ...props
@@ -29,7 +31,10 @@ const HoverCircle: React.FC<HoverCircleProps> = ({
   const pathname = usePathname();
   const router = useRouter();
 
-  const isActive = active || pathname == activeRoute;
+  const isActive =
+    active ||
+    pathname == activeRoute ||
+    (startsWithRoute && pathname.startsWith(startsWithRoute));
 
   return (
     <div
