@@ -3,7 +3,7 @@
 import { Tab } from '@/types/ui';
 import useModal from '@/hooks/use-modal';
 import useCurrentServer from '@/hooks/use-current-server';
-import ServerOverview from '@/components/settings/server/overview';
+import ServerOverview from '@/components/settings/server/server-overview';
 import SettingsContainer from '@/components/settings/settings-container';
 
 interface ServerSettingsModalProps {}
