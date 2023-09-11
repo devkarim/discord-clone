@@ -24,7 +24,6 @@ This project is inspired by this [video](https://www.youtube.com/watch?v=ZbX4Ok9
 - [PlanetScale](https://planetscale.com)
 - [react-hook-form](https://react-hook-form.com)
 - [react-toastify](https://fkhadra.github.io/react-toastify)
-- [Headless UI](https://headlessui.com/react)
 
 ## Prerequisites
 
@@ -64,7 +63,7 @@ You can check `.env.example` in each workspace/package for more information.
 
 ### Start development server
 
-Use this command to start the development servers (Next.js & Express.js) in parellel:
+Use this command to start the development servers (Next.js & Express.js) in parallel:
 
 ```
 pnpm dev
