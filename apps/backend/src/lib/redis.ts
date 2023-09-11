@@ -3,7 +3,10 @@ import RedisStore from 'connect-redis';
 
 import { env } from '../config/env.js';
 
-const redisClient = createClient({ url: env.REDIS_DATABASE_URL });
+const redisClient = createClient({
+  url: env.REDIS_DATABASE_URL,
+  pingInterval: 1000 * 60 * 5,
+});
 
 redisClient.connect().catch((err) => {
   console.error(err);
