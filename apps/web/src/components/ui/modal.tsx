@@ -17,6 +17,7 @@ interface ModalProps {
   subtitle?: string;
   className?: string;
   dense?: boolean;
+  closeBtn?: boolean;
   children?: React.ReactNode;
 }
 
@@ -28,6 +29,7 @@ const Modal: React.FC<ModalProps> = ({
   subtitle,
   className,
   dense = false,
+  closeBtn = false,
   children,
 }) => {
   return (
@@ -45,15 +47,17 @@ const Modal: React.FC<ModalProps> = ({
         }}
       >
         <AlertDialogHeader className="relative">
-          <span
-            className={cn(
-              'self-end absolute w-fit cursor-pointer opacity-40 hover:opacity-100 transition-opacity',
-              dense && 'm-4'
-            )}
-            onClick={() => onOpenChange(false)}
-          >
-            <FaXmark className="text-2xl" />
-          </span>
+          {closeBtn && (
+            <span
+              className={cn(
+                'self-end absolute w-fit cursor-pointer opacity-40 hover:opacity-100 transition-opacity',
+                dense && 'm-4'
+              )}
+              onClick={() => onOpenChange(false)}
+            >
+              <FaXmark className="text-2xl" />
+            </span>
+          )}
           {title && (
             <AlertDialogTitle className="text-center font-bold text-2xl">
               {title}
