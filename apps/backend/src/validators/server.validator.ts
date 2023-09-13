@@ -30,4 +30,9 @@ const createCategory = validate({
   params: serverParamsSchema,
 });
 
-export default { create, checkId, createChannel, createCategory };
+const updateServer = validate({
+  body: createServerSchema.partial(),
+  params: serverParamsSchema,
+});
+
+export default { create, checkId, createChannel, createCategory, updateServer };

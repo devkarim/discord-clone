@@ -101,6 +101,16 @@ serverRouter.get(
   serverController.getMembers
 );
 
+// @route     PATCH /servers/:id
+// @desc      Update server
+// @access    Private
+serverRouter.patch(
+  '/:id',
+  requireAuth,
+  serverValidator.updateServer,
+  serverController.editServer
+);
+
 // @route     DELETE /servers/:id
 // @desc      Delete server
 // @access    Private

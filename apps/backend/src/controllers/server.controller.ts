@@ -136,6 +136,20 @@ const getMembers: typeof serverValidator.checkId = async (req, res) => {
   return ServerResponse.success(res, roles);
 };
 
+const editServer: typeof serverValidator.updateServer = async (req, res) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const hasAccess = await canMemberDoAction(
+    req.user.id,
+    serverId,
+    'MANAGE_SERVER'
+  );
+  if (!hasAccess) throw Errors.unauthorized;
+  const server = await updateServer(req.user.id, serverId, req.body);
+  return ServerResponse.success(res, server);
+};
+
 const deleteServer: typeof serverValidator.checkId = async (req, res) => {
   if (!req.user) throw Errors.unauthenticated;
   const serverId = +req.params.id;
@@ -157,5 +171,6 @@ export default {
   createCategory,
   getRoles,
   getMembers,
+  editServer,
   deleteServer,
 };
