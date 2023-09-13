@@ -6,6 +6,10 @@ export const createServerSchema = z.object({
     .string({ required_error: Messages.required.server.name })
     .min(Limits.server.name.min, { message: Messages.limits.server.name.min })
     .max(Limits.server.name.max, { message: Messages.limits.server.name.max }),
+  imageUrl: z
+    .string()
+    .url({ message: Messages.required.server.imageUrl })
+    .optional(),
 });
 
 export type CreateServerSchema = z.infer<typeof createServerSchema>;
@@ -23,10 +27,6 @@ export const joinServerSchema = z.object({
 
 export type JoinServerSchema = z.infer<typeof joinServerSchema>;
 
-export const updateServerSchema = createServerSchema
-  .merge(joinServerSchema)
-  .extend({
-    imageUrl: z.string().url({ message: Messages.required.server.imageUrl }),
-  });
+export const updateServerSchema = createServerSchema.merge(joinServerSchema);
 
 export type UpdateServerSchema = z.infer<typeof updateServerSchema>;
