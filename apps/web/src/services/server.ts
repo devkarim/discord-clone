@@ -44,5 +44,13 @@ export const joinServerByCode = (code: string) =>
     .post<ServerResponse>(`/invites/join/${code}`)
     .then((res) => res.data.data);
 
+export const updateServer = (
+  serverId: number,
+  data: Partial<CreateServerSchema>
+) =>
+  client
+    .patch<ServerResponse>(`/servers/${serverId}`, data)
+    .then((res) => res.data.data);
+
 export const deleteServer = (serverId: number) =>
   client.delete<BaseResponseNoData>(`/servers/${serverId}`);
