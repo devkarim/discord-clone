@@ -22,6 +22,10 @@ export const Messages = {
     channel: {
       invalidId: 'Invalid channel id',
     },
+    role: {
+      invalidId: 'Invalid role id',
+      deleteOwner: "Can't delete owner role",
+    },
   },
   limits: {
     password: {
