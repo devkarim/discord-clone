@@ -36,6 +36,7 @@ export type ServerWithRoles = Prisma.ServerGetPayload<{
 
 export type FullRole = Prisma.RoleGetPayload<{
   include: {
+    permissions: true;
     members: {
       include: {
         user: true;
