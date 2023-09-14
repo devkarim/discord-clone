@@ -24,7 +24,12 @@ import {
   getCategoryById,
   isCategoryInServer,
 } from '../services/category.js';
-import { getServerRoles } from '../services/role.js';
+import {
+  addRoleToServer,
+  deleteRoleFromServer,
+  getRoleById,
+  getServerRoles,
+} from '../services/role.js';
 import serverValidator from '../validators/server.validator.js';
 
 const create: typeof serverValidator.create = async (req, res) => {
@@ -124,8 +129,42 @@ const getRoles: typeof serverValidator.checkId = async (req, res) => {
   if (!req.user) throw Errors.unauthenticated;
   const serverId = +req.params.id;
   if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const hasAccess = await canMemberDoAction(
+    req.user.id,
+    serverId,
+    'MANAGE_SERVER'
+  );
+  if (!hasAccess) throw Errors.unauthorized;
   const roles = await getServerRoles(req.user.id, serverId);
   return ServerResponse.success(res, roles);
+};
+
+const addRole: typeof serverValidator.addRole = async (req, res) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const hasAccess = await canMemberDoAction(req.user.id, serverId, 'ADD_ROLE');
+  if (!hasAccess) throw Errors.unauthorized;
+  const role = await addRoleToServer(
+    serverId,
+    req.body.name,
+    req.body.permissions
+  );
+  return ServerResponse.success(res, role);
+};
+
+const deleteRole: typeof serverValidator.deleteRole = async (req, res) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const hasAccess = await canMemberDoAction(req.user.id, serverId, 'ADD_ROLE');
+  if (!hasAccess) throw Errors.unauthorized;
+  const existingRole = await getRoleById(serverId, req.body.roleId);
+  if (!existingRole) throw Errors.role.invalidId;
+  if (existingRole.permissions.some((p) => p.type === 'OWNER'))
+    throw Errors.role.deleteOwner;
+  const role = await deleteRoleFromServer(serverId, req.body.roleId);
+  return ServerResponse.success(res, role);
 };
 
 const getMembers: typeof serverValidator.checkId = async (req, res) => {
@@ -172,5 +211,7 @@ export default {
   getRoles,
   getMembers,
   editServer,
+  addRole,
+  deleteRole,
   deleteServer,
 };

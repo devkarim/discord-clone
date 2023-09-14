@@ -111,6 +111,26 @@ serverRouter.patch(
   serverController.editServer
 );
 
+// @route     POST /servers/:id/roles
+// @desc      Add new role to server
+// @access    Private
+serverRouter.post(
+  '/:id/roles',
+  requireAuth,
+  serverValidator.addRole,
+  serverController.addRole
+);
+
+// @route     DELETE /servers/:id/roles
+// @desc      Delete role from server
+// @access    Private
+serverRouter.delete(
+  '/:id/roles',
+  requireAuth,
+  serverValidator.deleteRole,
+  serverController.deleteRole
+);
+
 // @route     DELETE /servers/:id
 // @desc      Delete server
 // @access    Private

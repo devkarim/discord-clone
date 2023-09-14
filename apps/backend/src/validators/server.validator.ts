@@ -4,6 +4,8 @@ import {
   createCategorySchema,
   createChannelSchema,
   createServerSchema,
+  createRoleSchema,
+  deleteRoleSchema,
 } from 'models';
 
 import validate from './validate.js';
@@ -35,4 +37,22 @@ const updateServer = validate({
   params: serverParamsSchema,
 });
 
-export default { create, checkId, createChannel, createCategory, updateServer };
+const addRole = validate({
+  params: serverParamsSchema,
+  body: createRoleSchema,
+});
+
+const deleteRole = validate({
+  params: serverParamsSchema,
+  body: deleteRoleSchema,
+});
+
+export default {
+  create,
+  checkId,
+  createChannel,
+  createCategory,
+  updateServer,
+  addRole,
+  deleteRole,
+};
