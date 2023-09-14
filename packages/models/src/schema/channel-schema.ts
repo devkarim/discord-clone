@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { ChannelType } from 'database';
+
 import { Messages, Limits } from '../config';
 
 export const createChannelSchema = z.object({
@@ -11,7 +13,7 @@ export const createChannelSchema = z.object({
     .max(Limits.channel.name.max, {
       message: Messages.limits.channel.name.max,
     }),
-  type: z.enum(['TEXT', 'VOICE', 'VIDEO'], {
+  type: z.nativeEnum(ChannelType, {
     required_error: Messages.required.channel.type,
     invalid_type_error: Messages.required.channel.type,
   }),
