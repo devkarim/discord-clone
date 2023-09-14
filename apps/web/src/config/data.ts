@@ -40,3 +40,5 @@ export const EMOJIS = [
   '😵',
   '🤮',
 ];
+
+export const DEFAULT_ROLE_COLOR = '#C20071';
