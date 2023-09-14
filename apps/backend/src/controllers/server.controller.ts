@@ -145,11 +145,7 @@ const addRole: typeof serverValidator.addRole = async (req, res) => {
   if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
   const hasAccess = await canMemberDoAction(req.user.id, serverId, 'ADD_ROLE');
   if (!hasAccess) throw Errors.unauthorized;
-  const role = await addRoleToServer(
-    serverId,
-    req.body.name,
-    req.body.permissions
-  );
+  const role = await addRoleToServer(serverId, req.body);
   return ServerResponse.success(res, role);
 };
 
@@ -157,14 +153,16 @@ const deleteRole: typeof serverValidator.deleteRole = async (req, res) => {
   if (!req.user) throw Errors.unauthenticated;
   const serverId = +req.params.id;
   if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const roleId = +req.params.roleId;
+  if (!roleId || isNaN(roleId)) throw Errors.role.invalidId;
   const hasAccess = await canMemberDoAction(req.user.id, serverId, 'ADD_ROLE');
   if (!hasAccess) throw Errors.unauthorized;
-  const existingRole = await getRoleById(serverId, req.body.roleId);
+  const existingRole = await getRoleById(serverId, roleId);
   if (!existingRole) throw Errors.role.invalidId;
   if (existingRole.permissions.some((p) => p.type === 'OWNER'))
     throw Errors.role.deleteOwner;
-  const role = await deleteRoleFromServer(serverId, req.body.roleId);
-  return ServerResponse.success(res, role);
+  await deleteRoleFromServer(serverId, roleId);
+  return ServerResponse.success(res);
 };
 
 const getMembers: typeof serverValidator.checkId = async (req, res) => {

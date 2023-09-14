@@ -121,11 +121,11 @@ serverRouter.post(
   serverController.addRole
 );
 
-// @route     DELETE /servers/:id/roles
+// @route     DELETE /servers/:id/roles/:roleId
 // @desc      Delete role from server
 // @access    Private
 serverRouter.delete(
-  '/:id/roles',
+  '/:id/roles/:roleId',
   requireAuth,
   serverValidator.deleteRole,
   serverController.deleteRole
