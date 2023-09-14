@@ -43,8 +43,9 @@ const addRole = validate({
 });
 
 const deleteRole = validate({
-  params: serverParamsSchema,
-  body: deleteRoleSchema,
+  params: serverParamsSchema.extend({
+    roleId: z.string(),
+  }),
 });
 
 export default {
