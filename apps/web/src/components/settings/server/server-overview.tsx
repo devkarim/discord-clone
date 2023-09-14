@@ -21,7 +21,7 @@ const ServerOverview: React.FC<ServerOverviewProps> = ({}) => {
   const { refetch: refetchServers } = useClientServers();
   const [name, setName] = useState<string>();
   const [loading, setLoading] = useState(false);
-  const [saveChangesOpen, setSaveChangesOpen] = useState(true);
+  const [saveChangesOpen, setSaveChangesOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
 
   useEffect(() => {
@@ -38,6 +38,7 @@ const ServerOverview: React.FC<ServerOverviewProps> = ({}) => {
       setSaveChangesOpen(false);
       refetch();
       refetchServers();
+      toast.success('Server updated successfully');
     } catch (err) {
       Logger.exception(err, 'register-form');
       toast.error(Exception.parseError(err));
