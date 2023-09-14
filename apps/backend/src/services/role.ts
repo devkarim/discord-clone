@@ -1,6 +1,5 @@
-import { PermissionType } from 'database';
-
 import prisma from '../lib/prisma.js';
+import { CreateRoleSchema } from 'models';
 
 export const getRoleById = (serverId: number, roleId: number) =>
   prisma.role.findUnique({
@@ -35,17 +34,14 @@ export const getServerRoles = (userId: number, serverId: number) =>
     },
   });
 
-export const addRoleToServer = (
-  serverId: number,
-  name: string,
-  permissionTypes: PermissionType[]
-) =>
+export const addRoleToServer = (serverId: number, data: CreateRoleSchema) =>
   prisma.role.create({
     data: {
-      name,
+      name: data.name,
+      color: data.color,
       serverId,
       permissions: {
-        createMany: { data: permissionTypes.map((type) => ({ type })) },
+        createMany: { data: data.permissions.map((type) => ({ type })) },
       },
     },
   });
