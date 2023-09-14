@@ -275,6 +275,9 @@ importers:
       axios:
         specifier: ^1.5.0
         version: 1.5.0
+      database:
+        specifier: workspace:*
+        version: link:../database
       zod:
         specifier: ^3.22.2
         version: 3.22.2
