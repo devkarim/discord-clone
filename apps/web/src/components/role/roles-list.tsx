@@ -8,11 +8,19 @@ import {
 } from '@/components/ui/table';
 
 import RoleRow from './role-row';
+import { Skeleton } from '../ui/skeleton';
 
 interface RolesListProps {}
 
 const RolesList: React.FC<RolesListProps> = ({}) => {
-  const { data: roles } = useCurrentRoles();
+  const { isLoading, data: roles } = useCurrentRoles();
+
+  if (isLoading)
+    return (
+      <div>
+        <Skeleton className="w-full h-64" />
+      </div>
+    );
 
   if (!roles) return null;
 
