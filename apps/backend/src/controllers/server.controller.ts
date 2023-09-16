@@ -145,6 +145,8 @@ const addRole: typeof serverValidator.addRole = async (req, res) => {
   if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
   const hasAccess = await canMemberDoAction(req.user.id, serverId, 'ADD_ROLE');
   if (!hasAccess) throw Errors.unauthorized;
+  if (req.body.permissions?.some((p) => p === 'OWNER'))
+    throw Errors.role.addOwner;
   const role = await addRoleToServer(serverId, req.body);
   return ServerResponse.success(res, role);
 };
