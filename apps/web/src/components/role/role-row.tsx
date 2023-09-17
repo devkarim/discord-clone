@@ -19,6 +19,7 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { deleteServerRole } from '@/services/server';
+import useCurrentRoles from '@/hooks/use-current-roles';
 
 interface RoleRowProps {
   role: FullRole;
@@ -26,12 +27,15 @@ interface RoleRowProps {
 
 const RoleRow: React.FC<RoleRowProps> = ({ role }) => {
   const [loading, setLoading] = useState(false);
+  const { refetch } = useCurrentRoles();
 
   const deleteRole = async () => {
     if (loading) return;
     try {
-      await deleteServerRole(role.serverId, role.id);
       setLoading(true);
+      await deleteServerRole(role.serverId, role.id);
+      toast.success(`Role ${role.name} deleted successfully!`);
+      refetch();
     } catch (err) {
       console.error(err);
       toast.error(Exception.parseError(err));
