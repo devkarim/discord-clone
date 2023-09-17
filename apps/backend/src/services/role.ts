@@ -40,9 +40,14 @@ export const addRoleToServer = (serverId: number, data: CreateRoleSchema) =>
       name: data.name,
       color: data.color,
       serverId,
-      permissions: {
-        createMany: { data: data.permissions.map((type) => ({ type })) },
-      },
+      permissions: data.permissions
+        ? {
+            createMany: {
+              data: data.permissions.map((type) => ({ type })),
+              skipDuplicates: true,
+            },
+          }
+        : undefined,
     },
   });
 
