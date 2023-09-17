@@ -22,4 +22,10 @@ export const Limits = {
       max: 36,
     },
   },
+  role: {
+    name: {
+      min: 3,
+      max: 36,
+    },
+  },
 };

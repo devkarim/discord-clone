@@ -25,6 +25,7 @@ export const Messages = {
     role: {
       invalidId: 'Invalid role id',
       deleteOwner: "Can't delete owner role",
+      addOwner: "Can't add owner role",
     },
   },
   limits: {
@@ -46,6 +47,12 @@ export const Messages = {
       name: {
         min: `Channel name must be at least ${Limits.channel.name.min} characters`,
         max: `Channel name must be at most ${Limits.channel.name.max} characters`,
+      },
+    },
+    role: {
+      name: {
+        min: `Role name must be at least ${Limits.role.name.min} characters`,
+        max: `Role name must be at most ${Limits.role.name.max} characters`,
       },
     },
   },

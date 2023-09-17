@@ -34,6 +34,7 @@ export const Errors = {
   role: {
     invalidId: Exception.manual(Messages.errors.role.invalidId, 400),
     deleteOwner: Exception.manual(Messages.errors.role.deleteOwner, 400),
+    addOwner: Exception.manual(Messages.errors.role.addOwner, 400),
   },
   usernameTaken: Exception.manual(Messages.errors.usernameTaken, 400),
   unauthenticated: Exception.manual(Messages.errors.unauthenticated, 401),
