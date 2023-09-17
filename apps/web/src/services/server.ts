@@ -1,5 +1,10 @@
-import { Server } from 'database';
-import { BaseResponse, BaseResponseNoData, CreateServerSchema } from 'models';
+import { Role, Server } from 'database';
+import {
+  BaseResponse,
+  BaseResponseNoData,
+  CreateRoleSchema,
+  CreateServerSchema,
+} from 'models';
 
 import { ServerWithChannels, FullMember, FullRole } from '@/types/db';
 
@@ -11,6 +16,7 @@ type ServerWithChannelsResponse = BaseResponse<ServerWithChannels>;
 type GetServersResponse = BaseResponse<Server[]>;
 type MembersResponse = BaseResponse<FullMember[]>;
 type RolesResponse = BaseResponse<FullRole[]>;
+type RoleResponse = BaseResponse<Role>;
 
 export const createServer = (data: CreateServerSchema) =>
   client
@@ -33,6 +39,11 @@ export const getServerByCode = (code: string) =>
 export const getServerRoles = (serverId: number) =>
   client
     .get<RolesResponse>(`/servers/${serverId}/roles`)
+    .then((res) => res.data.data);
+
+export const addServerRole = (serverId: number, data: CreateRoleSchema) =>
+  client
+    .post<RoleResponse>(`/servers/${serverId}/roles`, data)
     .then((res) => res.data.data);
 
 export const deleteServerRole = (serverId: number, roleId: number) =>
