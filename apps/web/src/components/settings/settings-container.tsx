@@ -40,7 +40,7 @@ const SettingsContainer: React.FC<SettingsContainerProps> = ({
               ))}
             </div>
           </TabsList>
-          <div className="relative py-16 px-12 pr-16 max-w-4xl">
+          <div className="relative py-16 px-12 pr-16 max-w-4xl overflow-auto scrollbar-none">
             <div className="absolute text-center space-y-2 right-0 text-foreground/60 select-none py-8">
               <div
                 className="peer hover:bg-foreground/5 rounded-full border-2 p-3 border-foreground/60 cursor-pointer hover:text-foreground/100 transition-colors"
