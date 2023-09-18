@@ -45,7 +45,7 @@ const RoleRow: React.FC<RoleRowProps> = ({ role }) => {
   };
 
   return (
-    <TableRow key={role.id}>
+    <TableRow>
       <TableCell className="text-base">
         <div className="flex items-center gap-2">
           {role.permissions.some((p) => p.type == 'OWNER') ? (
