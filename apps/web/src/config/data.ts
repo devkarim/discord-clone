@@ -80,7 +80,7 @@ export const PERMISSION_DESCRIPTIONS: {
   },
   MANAGE_USERS: {
     name: 'Manage Users',
-    description: 'Manage users',
+    description: 'Allow members to add roles to and remove roles from members.',
   },
   GENERATE_INVITE_LINK: {
     name: 'Create Invite',
