@@ -1,7 +1,18 @@
 import { PermissionType } from 'database';
 
 import prisma from '../lib/prisma.js';
-import { exclude } from 'src/lib/exclude-prisma.js';
+
+export const getMemberById = (id: number, serverId: number) =>
+  prisma.member.findUnique({
+    where: { id, serverId },
+    include: {
+      role: {
+        include: {
+          permissions: true,
+        },
+      },
+    },
+  });
 
 export const getServerMembers = (userId: number, serverId: number) =>
   prisma.member.findMany({
@@ -32,6 +43,28 @@ export const getMemberInServer = (userId: number, serverId: number) =>
     where: {
       userId,
       serverId,
+    },
+  });
+
+export const assignRoleToMember = async (
+  id: number,
+  serverId: number,
+  roleId: number
+) =>
+  prisma.member.update({
+    where: { id, serverId },
+    data: {
+      role: { connect: { id: roleId } },
+    },
+  });
+
+export const removeRoleFromMember = async (id: number, serverId: number) =>
+  prisma.member.update({
+    where: { id, serverId },
+    data: {
+      role: {
+        disconnect: true,
+      },
     },
   });
 
