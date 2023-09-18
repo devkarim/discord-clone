@@ -4,6 +4,7 @@ import { Tab } from '@/types/ui';
 import useModal from '@/hooks/use-modal';
 import useCurrentServer from '@/hooks/use-current-server';
 import ServerRoles from '@/components/settings/server/server-roles';
+import ServerMembers from '@/components/settings/server/server-members';
 import SettingsContainer from '@/components/settings/settings-container';
 import ServerOverview from '@/components/settings/server/server-overview';
 
@@ -23,6 +24,11 @@ const ServerSettingsModal: React.FC<ServerSettingsModalProps> = ({}) => {
       name: 'Roles',
       title: 'Roles',
       content: <ServerRoles />,
+    },
+    {
+      name: 'Members',
+      title: 'Members',
+      content: <ServerMembers />,
     },
   ];
 
