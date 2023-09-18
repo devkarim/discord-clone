@@ -35,6 +35,13 @@ export const Errors = {
     invalidId: Exception.manual(Messages.errors.role.invalidId, 400),
     deleteOwner: Exception.manual(Messages.errors.role.deleteOwner, 400),
     addOwner: Exception.manual(Messages.errors.role.addOwner, 400),
+    kickOwner: Exception.manual(Messages.errors.role.kickOwner, 400),
+    banOwner: Exception.manual(Messages.errors.role.banOwner, 400),
+    changeOwner: Exception.manual(Messages.errors.role.changeOwner, 400),
+  },
+  member: {
+    invalidId: Exception.manual(Messages.errors.member.invalidId, 400),
+    notInServer: Exception.manual(Messages.errors.member.notInServer, 400),
   },
   usernameTaken: Exception.manual(Messages.errors.usernameTaken, 400),
   unauthenticated: Exception.manual(Messages.errors.unauthenticated, 401),

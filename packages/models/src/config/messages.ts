@@ -26,6 +26,13 @@ export const Messages = {
       invalidId: 'Invalid role id',
       deleteOwner: "Can't delete owner role",
       addOwner: "Can't add owner role",
+      kickOwner: "Can't kick owner",
+      banOwner: "Can't ban owner",
+      changeOwner: "Can't change owner role",
+    },
+    member: {
+      invalidId: 'Invalid member id',
+      notInServer: 'Member is not in this server',
     },
   },
   limits: {
