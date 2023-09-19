@@ -15,6 +15,9 @@ import {
   removeMemberFromServer,
   getMemberByServerUser,
   getServerMembers,
+  getMemberById,
+  assignRoleToMember,
+  removeRoleFromMember,
 } from '../services/member.js';
 import ServerResponse from '../models/response.js';
 import { canMemberDoAction } from '../services/member.js';
@@ -175,6 +178,91 @@ const getMembers: typeof serverValidator.checkId = async (req, res) => {
   return ServerResponse.success(res, roles);
 };
 
+const changeMemberRole: typeof serverValidator.changeMemberRole = async (
+  req,
+  res
+) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const memberId = +req.params.memberId;
+  if (!memberId || isNaN(memberId)) throw Errors.member.invalidId;
+  const hasAccess = await canMemberDoAction(
+    req.user.id,
+    serverId,
+    'MANAGE_USERS'
+  );
+  if (!hasAccess) throw Errors.unauthorized;
+  const member = await getMemberById(memberId, serverId);
+  if (!member) throw Errors.member.notInServer;
+  if (member.role?.permissions.some((p) => p.type === 'OWNER'))
+    throw Errors.role.changeOwner;
+  const isOwner = await isUserOwner(req.user.id, serverId);
+  if (
+    !isOwner ||
+    member.role?.permissions.some((p) => p.type == 'ADMINISTRATOR')
+  )
+    throw Errors.unauthorized;
+  if (req.body.roleId) {
+    const role = await getRoleById(serverId, req.body.roleId);
+    if (!role) throw Errors.role.invalidId;
+    const newMember = await assignRoleToMember(
+      memberId,
+      serverId,
+      req.body.roleId
+    );
+    return ServerResponse.success(res, newMember);
+  }
+  const newMember = await removeRoleFromMember(memberId, serverId);
+  return ServerResponse.success(res, newMember);
+};
+
+const kickMember: typeof serverValidator.checkMemberId = async (req, res) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const memberId = +req.params.memberId;
+  if (!memberId || isNaN(memberId)) throw Errors.member.invalidId;
+  const hasAccess = await canMemberDoAction(
+    req.user.id,
+    serverId,
+    'KICK_MEMBERS'
+  );
+  if (!hasAccess) throw Errors.unauthorized;
+  const member = await getMemberById(memberId, serverId);
+  if (!member) throw Errors.member.notInServer;
+  if (member.role?.permissions.some((p) => p.type === 'OWNER'))
+    throw Errors.role.kickOwner;
+  const isOwner = isUserOwner(req.user.id, serverId);
+  if (
+    !isOwner ||
+    member.role?.permissions.some((p) => p.type == 'ADMINISTRATOR')
+  )
+    throw Errors.unauthorized;
+  await removeMemberFromServer(member.userId, serverId);
+  return ServerResponse.success(res);
+};
+
+const banMember: typeof serverValidator.checkMemberId = async (req, res) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const memberId = +req.params.memberId;
+  if (!memberId || isNaN(memberId)) throw Errors.member.invalidId;
+  const hasAccess = await canMemberDoAction(req.user.id, serverId, 'BAN_USERS');
+  if (!hasAccess) throw Errors.unauthorized;
+  const member = await getMemberById(memberId, serverId);
+  if (!member) throw Errors.member.notInServer;
+  if (member.role?.permissions.some((p) => p.type === 'OWNER'))
+    throw Errors.role.banOwner;
+  const isOwner = await isUserOwner(req.user.id, serverId);
+  if (
+    !isOwner ||
+    member.role?.permissions.some((p) => p.type == 'ADMINISTRATOR')
+  )
+    throw Errors.unauthorized;
+};
+
 const editServer: typeof serverValidator.updateServer = async (req, res) => {
   if (!req.user) throw Errors.unauthenticated;
   const serverId = +req.params.id;
@@ -214,4 +302,7 @@ export default {
   addRole,
   deleteRole,
   deleteServer,
+  changeMemberRole,
+  kickMember,
+  banMember,
 };

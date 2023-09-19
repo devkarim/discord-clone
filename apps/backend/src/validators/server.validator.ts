@@ -48,6 +48,21 @@ const deleteRole = validate({
   }),
 });
 
+const checkMemberId = validate({
+  params: serverParamsSchema.extend({
+    memberId: z.string(),
+  }),
+});
+
+const changeMemberRole = validate({
+  params: serverParamsSchema.extend({
+    memberId: z.string(),
+  }),
+  body: z.object({
+    roleId: z.number().optional(),
+  }),
+});
+
 export default {
   create,
   checkId,
@@ -56,4 +71,6 @@ export default {
   updateServer,
   addRole,
   deleteRole,
+  checkMemberId,
+  changeMemberRole,
 };

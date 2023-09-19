@@ -91,7 +91,7 @@ serverRouter.get(
   serverController.getRoles
 );
 
-// @route     GET /servers/:id/membes
+// @route     GET /servers/:id/members
 // @desc      Get members with roles and user info
 // @access    Private
 serverRouter.get(
@@ -99,6 +99,36 @@ serverRouter.get(
   requireAuth,
   serverValidator.checkId,
   serverController.getMembers
+);
+
+// @route     PATCH /servers/:id/members/:memberId/role
+// @desc      Change member's role
+// @access    Private
+serverRouter.patch(
+  '/:id/members/:memberId/role',
+  requireAuth,
+  serverValidator.changeMemberRole,
+  serverController.changeMemberRole
+);
+
+// @route     DELETE /servers/:id/members/:memberId
+// @desc      Kick member from server
+// @access    Private
+serverRouter.delete(
+  '/:id/members/:memberId',
+  requireAuth,
+  serverValidator.checkMemberId,
+  serverController.kickMember
+);
+
+// @route     DELETE /servers/:id/members/:memberId/ban
+// @desc      Ban member from server
+// @access    Private
+serverRouter.delete(
+  '/:id/members/:memberId/ban',
+  requireAuth,
+  serverValidator.checkMemberId,
+  serverController.banMember
 );
 
 // @route     PATCH /servers/:id
