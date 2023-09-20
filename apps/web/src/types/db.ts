@@ -7,6 +7,16 @@ export type ServerWithChannels = Prisma.ServerGetPayload<{
   };
 }>;
 
+export type ServerWithMembersCount = Prisma.ServerGetPayload<{
+  include: {
+    _count: {
+      select: {
+        members: true;
+      };
+    };
+  };
+}>;
+
 export type MemberWithPermissions = Prisma.MemberGetPayload<{
   include: {
     role: {
