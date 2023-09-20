@@ -32,6 +32,7 @@ model Server {
   name       String
   imageUrl   String? @db.Text
   inviteCode String  @unique
+  isPublic   Boolean @default(false)
 
   ownerId Int
   owner   User @relation(fields: [ownerId], references: [id])
