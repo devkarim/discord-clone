@@ -49,7 +49,12 @@ const ServerSidebarHeader: React.FC<ServerSidebarHeaderProps> = ({
 
   if (!currentMember) return null;
 
-  const canManageServer = canMemberDoAction(currentMember, 'MANAGE_SERVER');
+  const canManageServer = canMemberDoAction(currentMember, [
+    'MANAGE_SERVER',
+    'ADD_ROLE',
+    'BAN_USERS',
+    'KICK_MEMBERS',
+  ]);
   const canDeleteServer = canMemberDoAction(currentMember, 'OWNER');
 
   const leave = async () => {
