@@ -29,10 +29,13 @@ export const Messages = {
       kickOwner: "Can't kick owner",
       banOwner: "Can't ban owner",
       changeOwner: "Can't change owner role",
+      changeSelf: "Can't change own role",
     },
     member: {
       invalidId: 'Invalid member id',
       notInServer: 'Member is not in this server',
+      kickSelf: "Can't kick yourself",
+      banSelf: "Can't ban yourself",
     },
   },
   limits: {

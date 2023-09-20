@@ -38,10 +38,13 @@ export const Errors = {
     kickOwner: Exception.manual(Messages.errors.role.kickOwner, 400),
     banOwner: Exception.manual(Messages.errors.role.banOwner, 400),
     changeOwner: Exception.manual(Messages.errors.role.changeOwner, 400),
+    changeSelf: Exception.manual(Messages.errors.role.changeSelf, 400),
   },
   member: {
     invalidId: Exception.manual(Messages.errors.member.invalidId, 400),
     notInServer: Exception.manual(Messages.errors.member.notInServer, 400),
+    kickSelf: Exception.manual(Messages.errors.member.kickSelf, 400),
+    banSelf: Exception.manual(Messages.errors.member.banSelf, 400),
   },
   usernameTaken: Exception.manual(Messages.errors.usernameTaken, 400),
   unauthenticated: Exception.manual(Messages.errors.unauthenticated, 401),
