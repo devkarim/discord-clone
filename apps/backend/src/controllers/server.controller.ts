@@ -160,7 +160,7 @@ const deleteRole: typeof serverValidator.deleteRole = async (req, res) => {
   if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
   const roleId = +req.params.roleId;
   if (!roleId || isNaN(roleId)) throw Errors.role.invalidId;
-  const hasAccess = await canMemberDoAction(req.user.id, serverId, 'ADD_ROLE');
+  const hasAccess = await canMemberDoAction(req.user.id, serverId, 'OWNER');
   if (!hasAccess) throw Errors.unauthorized;
   const existingRole = await getRoleById(serverId, roleId);
   if (!existingRole) throw Errors.role.invalidId;
@@ -195,17 +195,20 @@ const changeMemberRole: typeof serverValidator.changeMemberRole = async (
   if (!hasAccess) throw Errors.unauthorized;
   const member = await getMemberById(memberId, serverId);
   if (!member) throw Errors.member.notInServer;
+  if (member.userId === req.user.id) throw Errors.role.changeSelf;
   if (member.role?.permissions.some((p) => p.type === 'OWNER'))
     throw Errors.role.changeOwner;
   const isOwner = await isUserOwner(req.user.id, serverId);
   if (
-    !isOwner ||
+    !isOwner &&
     member.role?.permissions.some((p) => p.type == 'ADMINISTRATOR')
   )
     throw Errors.unauthorized;
   if (req.body.roleId) {
     const role = await getRoleById(serverId, req.body.roleId);
     if (!role) throw Errors.role.invalidId;
+    if (role.permissions.some((p) => p.type === 'OWNER'))
+      throw Errors.role.addOwner;
     const newMember = await assignRoleToMember(
       memberId,
       serverId,
@@ -231,11 +234,12 @@ const kickMember: typeof serverValidator.checkMemberId = async (req, res) => {
   if (!hasAccess) throw Errors.unauthorized;
   const member = await getMemberById(memberId, serverId);
   if (!member) throw Errors.member.notInServer;
+  if (member.userId === req.user.id) throw Errors.member.kickSelf;
   if (member.role?.permissions.some((p) => p.type === 'OWNER'))
     throw Errors.role.kickOwner;
   const isOwner = isUserOwner(req.user.id, serverId);
   if (
-    !isOwner ||
+    !isOwner &&
     member.role?.permissions.some((p) => p.type == 'ADMINISTRATOR')
   )
     throw Errors.unauthorized;
@@ -253,11 +257,12 @@ const banMember: typeof serverValidator.checkMemberId = async (req, res) => {
   if (!hasAccess) throw Errors.unauthorized;
   const member = await getMemberById(memberId, serverId);
   if (!member) throw Errors.member.notInServer;
+  if (member.userId === req.user.id) throw Errors.member.banSelf;
   if (member.role?.permissions.some((p) => p.type === 'OWNER'))
     throw Errors.role.banOwner;
   const isOwner = await isUserOwner(req.user.id, serverId);
   if (
-    !isOwner ||
+    !isOwner &&
     member.role?.permissions.some((p) => p.type == 'ADMINISTRATOR')
   )
     throw Errors.unauthorized;
