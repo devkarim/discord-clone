@@ -27,6 +27,10 @@ export const joinServerSchema = z.object({
 
 export type JoinServerSchema = z.infer<typeof joinServerSchema>;
 
-export const updateServerSchema = createServerSchema.merge(joinServerSchema);
+export const updateServerSchema = createServerSchema
+  .merge(joinServerSchema)
+  .extend({
+    isPublic: z.boolean().optional(),
+  });
 
 export type UpdateServerSchema = z.infer<typeof updateServerSchema>;
