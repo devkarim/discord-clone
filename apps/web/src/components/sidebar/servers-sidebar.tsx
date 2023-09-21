@@ -24,6 +24,8 @@ const ServerSidebar: React.FC<ServerSidebarProps> = ({}) => {
       <HoverCircle
         className="hover:bg-green-500 text-green-500"
         tooltip="Explore Servers"
+        activeClassName="bg-green-500 !text-white"
+        activeRoute="/explore"
       >
         <MdExplore className="text-3xl" />
       </HoverCircle>
