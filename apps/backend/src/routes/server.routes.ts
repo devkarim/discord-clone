@@ -21,6 +21,11 @@ serverRouter.post(
 // @access    Private
 serverRouter.get('/', requireAuth, serverController.getServers);
 
+// @route     GET /servers/public
+// @desc      Fetch public servers
+// @access    Private
+serverRouter.get('/public', requireAuth, serverController.getPublicServers);
+
 // @route     GET /servers/:id
 // @desc      Get a specific server details
 // @access    Private

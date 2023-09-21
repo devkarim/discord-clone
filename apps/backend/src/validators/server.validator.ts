@@ -5,7 +5,7 @@ import {
   createChannelSchema,
   createServerSchema,
   createRoleSchema,
-  deleteRoleSchema,
+  updateServerSchema,
 } from 'models';
 
 import validate from './validate.js';
@@ -33,7 +33,7 @@ const createCategory = validate({
 });
 
 const updateServer = validate({
-  body: createServerSchema.partial(),
+  body: updateServerSchema.partial(),
   params: serverParamsSchema,
 });
 

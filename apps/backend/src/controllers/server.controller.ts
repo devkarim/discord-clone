@@ -10,6 +10,7 @@ import {
   updateServer,
   isUserOwner,
   deleteOwnerServer,
+  fetchPublicServers,
 } from '../services/server.js';
 import {
   removeMemberFromServer,
@@ -45,6 +46,12 @@ const create: typeof serverValidator.create = async (req, res) => {
 const getServers = async (req: Request, res: Response) => {
   if (!req.user) throw Errors.unauthenticated;
   const servers = await getUserServers(req.user.id);
+  return ServerResponse.success(res, servers);
+};
+
+const getPublicServers = async (req: Request, res: Response) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const servers = await fetchPublicServers(req.user.id);
   return ServerResponse.success(res, servers);
 };
 
@@ -295,6 +302,7 @@ const deleteServer: typeof serverValidator.checkId = async (req, res) => {
 export default {
   create,
   getServers,
+  getPublicServers,
   getServer,
   generateInviteCode,
   getCurrentMember,

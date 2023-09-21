@@ -2,6 +2,7 @@ import { CreateServerSchema, Exception, UpdateServerSchema } from 'models';
 
 import prisma from '../lib/prisma.js';
 import { generateCode } from '../lib/utils.js';
+import { isProduction } from '../config/constants.js';
 
 export const createServer = (
   userId: number,
@@ -53,6 +54,30 @@ export const createServer = (
     });
 
     return server;
+  });
+
+export const fetchPublicServers = (userId?: number) =>
+  prisma.server.findMany({
+    where: {
+      isPublic: true,
+      NOT:
+        userId && isProduction
+          ? {
+              members: {
+                some: {
+                  userId,
+                },
+              },
+            }
+          : undefined,
+    },
+    include: {
+      _count: {
+        select: {
+          members: true,
+        },
+      },
+    },
   });
 
 export const getServerByInviteCode = (inviteCode: string) =>
