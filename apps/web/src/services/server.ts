@@ -4,16 +4,23 @@ import {
   BaseResponseNoData,
   CreateRoleSchema,
   CreateServerSchema,
+  UpdateServerSchema,
 } from 'models';
 
-import { ServerWithChannels, FullMember, FullRole } from '@/types/db';
+import {
+  ServerWithChannels,
+  FullMember,
+  FullRole,
+  ServerWithMembersCount,
+} from '@/types/db';
 
 import client from './client';
 
 type ServerResponse = BaseResponse<Server>;
 type ServerCodeResponse = BaseResponse<{ server: Server; isInServer: boolean }>;
 type ServerWithChannelsResponse = BaseResponse<ServerWithChannels>;
-type GetServersResponse = BaseResponse<Server[]>;
+type ServersResponse = BaseResponse<Server[]>;
+type ServersWithMembersCountResponse = BaseResponse<ServerWithMembersCount[]>;
 type MembersResponse = BaseResponse<FullMember[]>;
 type RolesResponse = BaseResponse<FullRole[]>;
 type RoleResponse = BaseResponse<Role>;
@@ -24,7 +31,12 @@ export const createServer = (data: CreateServerSchema) =>
     .then((res) => res.data.data);
 
 export const getUserServers = () =>
-  client.get<GetServersResponse>('/servers').then((res) => res.data.data);
+  client.get<ServersResponse>('/servers').then((res) => res.data.data);
+
+export const getPublicServers = () =>
+  client
+    .get<ServersWithMembersCountResponse>(`/servers/public`)
+    .then((res) => res.data.data);
 
 export const getServer = (id: number) =>
   client
@@ -66,7 +78,7 @@ export const joinServerByCode = (code: string) =>
 
 export const updateServer = (
   serverId: number,
-  data: Partial<CreateServerSchema>
+  data: Partial<UpdateServerSchema>
 ) =>
   client
     .patch<ServerResponse>(`/servers/${serverId}`, data)
