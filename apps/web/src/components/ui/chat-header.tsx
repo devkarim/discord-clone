@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 
 import MobileSidebar from '@/components/sidebar/mobile-sidebar';
 
@@ -11,6 +11,9 @@ interface ChatHeaderProps {}
 
 const ChatHeader: React.FC<ChatHeaderProps> = ({}) => {
   const { channelId, conversationId } = useParams();
+  const pathname = usePathname();
+
+  const isExplore = pathname == '/explore';
 
   return (
     <div className="w-full flex items-center px-3 py-3 h-16 shadow-md select-none">
@@ -20,7 +23,9 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({}) => {
       ) : channelId && typeof channelId == 'string' ? (
         <ChannelHeader />
       ) : (
-        <h1 className="font-semibold text-xl px-2">Welcome back</h1>
+        <h1 className="font-semibold text-xl px-2">
+          {isExplore ? 'Discover new servers here' : 'Welcome back'}
+        </h1>
       )}
     </div>
   );
