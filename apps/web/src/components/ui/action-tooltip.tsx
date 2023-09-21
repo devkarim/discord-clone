@@ -19,7 +19,7 @@ const ActionTooltip: React.FC<ActionTooltipProps> = ({
   return (
     <TooltipProvider>
       <Tooltip delayDuration={0} disableHoverableContent>
-        <TooltipTrigger>{children}</TooltipTrigger>
+        <TooltipTrigger type="button">{children}</TooltipTrigger>
         {label && <TooltipContent {...props}>{label}</TooltipContent>}
       </Tooltip>
     </TooltipProvider>
