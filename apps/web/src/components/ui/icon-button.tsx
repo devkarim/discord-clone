@@ -14,6 +14,7 @@ interface IconButtonProps {
   side?: 'bottom' | 'top' | 'right' | 'left' | undefined;
   bg?: boolean;
   active?: boolean;
+  disabled?: boolean;
   children: React.ReactNode;
 }
 
@@ -25,13 +26,16 @@ const IconButton: React.FC<IconButtonProps> = ({
   side,
   bg = false,
   active = false,
+  disabled = false,
   children,
 }) => {
   const [isMouseOut, setIsMouseOut] = useState(true);
 
   return (
     <ActionTooltip label={tooltip} side={side} sideOffset={12}>
-      <p
+      <button
+        type="button"
+        disabled={disabled}
         className={cn(
           'cursor-pointer opacity-60 hover:opacity-100 transition-opacity',
           bg && 'p-2 hover:bg-foreground/10 rounded-lg transition-colors',
@@ -47,7 +51,7 @@ const IconButton: React.FC<IconButtonProps> = ({
         onClick={onClick}
       >
         {children}
-      </p>
+      </button>
     </ActionTooltip>
   );
 };
