@@ -29,6 +29,7 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "redis": "^4.6.8",
+    "socket.io": "^4.7.2",
     "utils": "workspace:*",
     "zod": "^3.22.2"
   },
