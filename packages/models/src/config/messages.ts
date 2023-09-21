@@ -65,6 +65,9 @@ export const Messages = {
         max: `Role name must be at most ${Limits.role.name.max} characters`,
       },
     },
+    message: {
+      min: `Message must be at least ${Limits.message.min} characters`,
+    },
   },
   required: {
     server: {
@@ -79,5 +82,9 @@ export const Messages = {
     email: 'Email is required',
     password: 'Password is required',
     username: 'Username is required',
+    message: {
+      content: 'Message content is required',
+      fileUrl: 'Message file must be a valid URL',
+    },
   },
 } as const;

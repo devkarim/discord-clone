@@ -28,4 +28,7 @@ export const Limits = {
       max: 36,
     },
   },
+  message: {
+    min: 1,
+  },
 };
