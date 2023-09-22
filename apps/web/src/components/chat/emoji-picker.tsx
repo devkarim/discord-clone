@@ -25,9 +25,13 @@ interface Emoji {
 
 interface EmojiPickerProps {
   onEmojiSelect?: (emoji: Emoji) => void;
+  disabled?: boolean;
 }
 
-const EmojiPicker: React.FC<EmojiPickerProps> = ({ onEmojiSelect }) => {
+const EmojiPicker: React.FC<EmojiPickerProps> = ({
+  onEmojiSelect,
+  disabled,
+}) => {
   const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [emojiIndex, setEmojiIndex] = useState<number>(0);
@@ -46,15 +50,14 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({ onEmojiSelect }) => {
   };
 
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger>
+    <Popover onOpenChange={(open) => setIsOpen(open)}>
+      <PopoverTrigger disabled={disabled}>
         <IconButton
           className={cn(
             'text-2xl opacity-100 text-foreground/80 hover:text-foreground/100 transition-all hover:scale-125 grayscale hover:grayscale-0',
             isOpen && 'text-foreground/100 scale-125 grayscale-0'
           )}
           onHover={onHover}
-          onClick={() => setIsOpen(true)}
         >
           {EMOJIS[emojiIndex]}
         </IconButton>
