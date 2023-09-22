@@ -14,6 +14,27 @@ export const getMemberById = (id: number, serverId: number) =>
     },
   });
 
+export const getMemberByChannelId = (id: number, channelId: number) =>
+  prisma.member.findFirst({
+    where: {
+      userId: id,
+      server: {
+        channels: {
+          some: {
+            id: channelId,
+          },
+        },
+      },
+    },
+    include: {
+      role: {
+        include: {
+          permissions: true,
+        },
+      },
+    },
+  });
+
 export const getServerMembers = (userId: number, serverId: number) =>
   prisma.member.findMany({
     where: {
