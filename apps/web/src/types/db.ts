@@ -67,3 +67,13 @@ export type FullMember = Prisma.MemberGetPayload<{
     role: true;
   };
 }>;
+
+export type MessageWithAuthor = Prisma.MessageGetPayload<{
+  include: {
+    author: {
+      include: {
+        user: true;
+      };
+    };
+  };
+}>;
