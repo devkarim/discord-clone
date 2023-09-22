@@ -2,8 +2,8 @@ import { redirect } from 'next/navigation';
 
 import { getUser } from '@/actions/session';
 import MainSidebar from '@/components/sidebar/main-siderbar';
-import AddServerModal from '@/components/modals/add-server-modal';
 import ModalsProvider from '@/components/providers/modals-provider';
+import SocketProvider from '@/components/providers/socket-provider';
 
 export default async function RoutesLayout({
   children,
@@ -15,9 +15,9 @@ export default async function RoutesLayout({
   if (!user) redirect('/login');
 
   return (
-    <>
+    <SocketProvider>
       <ModalsProvider />
       <MainSidebar user={user}>{children}</MainSidebar>
-    </>
+    </SocketProvider>
   );
 }
