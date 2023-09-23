@@ -5,9 +5,9 @@ import { MessageWithAuthor } from '@/types/db';
 import client from './client';
 
 type MessageWithAuthorResponse = BaseResponse<MessageWithAuthor>;
-type MessagesWithAuthorResponse = BaseResponse<{
+export type MessagesWithAuthorResponse = BaseResponse<{
   messages: MessageWithAuthor[];
-  cursor: number;
+  cursor?: number;
 }>;
 
 export const createMessage = async (
@@ -18,7 +18,9 @@ export const createMessage = async (
     .post<MessageWithAuthorResponse>(`/channels/${channelId}/messages`, data)
     .then((res) => res.data.data);
 
-export const getChannelMessages = (channelId: number) =>
+export const getChannelMessages = (channelId: number, cursor?: number) =>
   client
-    .get<MessagesWithAuthorResponse>(`/channels/${channelId}/messages`)
+    .get<MessagesWithAuthorResponse>(`/channels/${channelId}/messages`, {
+      params: { cursor },
+    })
     .then((res) => res.data.data);
