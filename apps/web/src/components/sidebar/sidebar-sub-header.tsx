@@ -1,7 +1,10 @@
+'use client';
+
 import { FaPlus } from '@react-icons/all-files/fa6/FaPlus';
 
 import { cn } from '@/lib/utils';
 import IconButton from '@/components/ui/icon-button';
+import { useEffect, useState } from 'react';
 
 interface SidebarSubHeaderProps {
   label?: string;
@@ -20,6 +23,14 @@ const SidebarSubHeader: React.FC<SidebarSubHeaderProps> = ({
   className,
   children,
 }) => {
+  const [isMounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
+
   return (
     <div
       className={cn(
