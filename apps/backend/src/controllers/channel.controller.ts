@@ -2,7 +2,11 @@ import { Errors } from 'models';
 
 import ServerResponse from '../models/response.js';
 import { getChannelById } from '../services/channel.js';
-import { createMessage, getChannelMessages } from '../services/message.js';
+import {
+  MESSAGES_BATCH,
+  createMessage,
+  getChannelMessages,
+} from '../services/message.js';
 import channelValidator from '../validators/channel.validator.js';
 import SocketHandler from '../models/socket-handler.js';
 import { getMemberByChannelId } from '../services/member.js';
@@ -38,7 +42,10 @@ const getMessages: typeof channelValidator.checkId = async (req, res) => {
   const messages = await getChannelMessages(channelId);
   return ServerResponse.success(res, {
     messages,
-    cursor: messages[messages.length - 1]?.id,
+    cursor:
+      messages.length === MESSAGES_BATCH
+        ? messages[MESSAGES_BATCH - 1].id
+        : undefined,
   });
 };
 
