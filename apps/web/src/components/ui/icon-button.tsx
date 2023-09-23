@@ -33,13 +33,12 @@ const IconButton: React.FC<IconButtonProps> = ({
 
   return (
     <ActionTooltip label={tooltip} side={side} sideOffset={12}>
-      <button
-        type="button"
-        disabled={disabled}
+      <p
         className={cn(
           'cursor-pointer opacity-60 hover:opacity-100 transition-opacity',
           bg && 'p-2 hover:bg-foreground/10 rounded-lg transition-colors',
           active && 'opacity-100',
+          disabled && 'cursor-default opacity-40 hover:opacity-40',
           className
         )}
         onMouseEnter={() => {
@@ -51,7 +50,7 @@ const IconButton: React.FC<IconButtonProps> = ({
         onClick={onClick}
       >
         {children}
-      </button>
+      </p>
     </ActionTooltip>
   );
 };
