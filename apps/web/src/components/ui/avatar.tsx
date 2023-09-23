@@ -12,6 +12,7 @@ interface AvatarProps extends Omit<ImageProps, 'src'> {
   firstLetterClassName?: string;
   indicatorClassName?: string;
   status?: 'online' | 'invisible';
+  showStatus?: boolean;
   isChannel?: boolean;
   children?: React.ReactNode;
 }
@@ -25,6 +26,7 @@ const Avatar: React.FC<AvatarProps> = ({
   indicatorClassName,
   status = 'invisible',
   isChannel = false,
+  showStatus = true,
   children,
   ...props
 }) => {
@@ -51,16 +53,18 @@ const Avatar: React.FC<AvatarProps> = ({
           />
         )}
       </div>
-      <Indicator
-        className={cn(
-          'absolute right-0 bottom-0 ring-4 ring-sidebar',
-          isChannel && 'ring-channels',
-          status == 'online' && 'bg-green-500',
-          status == 'invisible' && 'bg-sidebar border-2 border-foreground/50',
-          status == 'invisible' && isChannel && 'bg-channels',
-          indicatorClassName
-        )}
-      />
+      {showStatus && (
+        <Indicator
+          className={cn(
+            'absolute right-0 bottom-0 ring-4 ring-sidebar',
+            isChannel && 'ring-channels',
+            status == 'online' && 'bg-green-500',
+            status == 'invisible' && 'bg-sidebar border-2 border-foreground/50',
+            status == 'invisible' && isChannel && 'bg-channels',
+            indicatorClassName
+          )}
+        />
+      )}
       {children}
     </div>
   );
