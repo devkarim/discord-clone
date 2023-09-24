@@ -1,21 +1,19 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { getChannelMessages } from '@/services/message';
 
 const useCurrentMessages = () => {
   const { channelId } = useParams();
 
-  const query = useQuery({
-    queryKey: ['channel-messages', channelId],
-    queryFn: () => {
-      if (channelId && typeof channelId == 'string' && !isNaN(+channelId)) {
-        return getChannelMessages(+channelId);
-      }
-      return null;
+  const query = useInfiniteQuery({
+    queryKey: [`channel:messages:${channelId}`],
+    queryFn: ({ pageParam }) => {
+      return getChannelMessages(+channelId, pageParam);
     },
+    getNextPageParam: (lastPage) => lastPage.cursor,
   });
 
   return query;
