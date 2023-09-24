@@ -46,6 +46,7 @@ export const Errors = {
     kickSelf: Exception.manual(Messages.errors.member.kickSelf, 400),
     banSelf: Exception.manual(Messages.errors.member.banSelf, 400),
   },
+  invalidCursor: Exception.manual(Messages.errors.invalidCursor, 400),
   usernameTaken: Exception.manual(Messages.errors.usernameTaken, 400),
   unauthenticated: Exception.manual(Messages.errors.unauthenticated, 401),
   unauthorized: Exception.manual(Messages.errors.unauthorized, 403),

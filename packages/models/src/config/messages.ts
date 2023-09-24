@@ -37,6 +37,7 @@ export const Messages = {
       kickSelf: "Can't kick yourself",
       banSelf: "Can't ban yourself",
     },
+    invalidCursor: 'Invalid cursor',
   },
   limits: {
     password: {
