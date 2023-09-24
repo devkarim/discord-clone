@@ -1,5 +1,6 @@
+import Avatar from '@/components/ui/avatar';
+import { formatDate } from '@/lib/utils';
 import { MessageWithAuthor } from '@/types/db';
-import Avatar from '../ui/avatar';
 
 interface MessageProps {
   message: MessageWithAuthor;
@@ -17,8 +18,11 @@ const Message: React.FC<MessageProps> = ({ message }) => {
         firstLetterClassName="text-2xl"
       />
       <div>
-        <div className="flex select-none">
+        <div className="flex items-center gap-2 select-none">
           <p className="font-semibold">{message.author.user.username}</p>
+          <p className="text-foreground/60 text-xs">
+            {formatDate(message.createdAt)}
+          </p>
         </div>
         <div>
           <p className="break-all">{message.content}</p>
