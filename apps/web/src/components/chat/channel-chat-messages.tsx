@@ -2,6 +2,7 @@
 
 import { Loader2 } from 'lucide-react';
 
+import useChatSocket from '@/hooks/use-chat-socket';
 import useCurrentChannel from '@/hooks/use-current-channel';
 import useCurrentMessages from '@/hooks/use-current-messages';
 
@@ -11,7 +12,14 @@ interface ChannelChatMessagesProps {}
 
 const ChannelChatMessages: React.FC<ChannelChatMessagesProps> = ({}) => {
   const { data: channel, isLoading: isChannelLoading } = useCurrentChannel();
-  const { data, isLoading: isMessagesLoading } = useCurrentMessages();
+  const {
+    data,
+    isLoading: isMessagesLoading,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useCurrentMessages();
+  useChatSocket(channel?.id);
 
   if (isChannelLoading || isMessagesLoading)
     return (
@@ -32,7 +40,11 @@ const ChannelChatMessages: React.FC<ChannelChatMessagesProps> = ({}) => {
     <ChatMessages
       name={'#' + channel.name}
       isChannel
-      messages={data.messages}
+      messages={data.pages.flatMap((page) => page.messages)}
+      hasNextPage={hasNextPage}
+      isFetchingNextPage={isFetchingNextPage}
+      fetchNextPage={fetchNextPage}
+      currentPageCount={data.pages[0].messages.length}
     />
   );
 };
