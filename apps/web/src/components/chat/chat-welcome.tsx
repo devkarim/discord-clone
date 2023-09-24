@@ -10,7 +10,7 @@ const ChatWelcome: React.FC<ChatWelcomeProps> = ({
   isChannel = false,
 }) => {
   return (
-    <div className="space-y-4 select-none">
+    <div className="space-y-4 select-none px-6">
       <div className="p-4 rounded-full bg-foreground/5 w-fit h-fit">
         <Hashtag className="text-5xl" />
       </div>
