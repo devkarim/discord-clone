@@ -2,7 +2,7 @@ import { SendMessageSchema } from 'models';
 
 import prisma from '../lib/prisma.js';
 
-export const MESSAGES_BATCH = 10;
+export const MESSAGES_BATCH = 15;
 
 export const createMessage = (
   channelId: number,
