@@ -10,3 +10,6 @@ export const APP_URL = isDevelopment
 export const API_URL = isDevelopment
   ? 'http://localhost:8000'
   : 'https://api.discord.karimwael.com';
+
+export const CHAT_QUERY_KEY = 'chat:messages';
+export const CHAT_ADD_KEY = 'chat:messages:new';

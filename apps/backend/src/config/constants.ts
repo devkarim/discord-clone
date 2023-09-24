@@ -15,3 +15,5 @@ export const API_URL = isDevelopment
 export const APP_URL = isDevelopment
   ? `http://${APP_DOMAIN}:3000`
   : `https://${APP_DOMAIN}`;
+
+export const CHAT_ADD_KEY = 'chat:messages:new';
