@@ -2,13 +2,17 @@ import { useEffect } from 'react';
 import { UseInfiniteQueryResult, useQueryClient } from '@tanstack/react-query';
 
 import { MessageWithAuthor } from '@/types/db';
-
-import useSocket from './use-socket';
+import { CHAT_ADD_KEY, CHAT_QUERY_KEY } from '@/config/constants';
 import { MessagesWithAuthorResponse } from '@/services/message';
 
-const useChatSocket = (queryKey: string, addKey: string) => {
+import useSocket from './use-socket';
+
+const useChatSocket = (chatId?: number) => {
   const { socket, isConnected } = useSocket();
   const queryClient = useQueryClient();
+
+  const addKey = `${CHAT_ADD_KEY}:${chatId}`;
+  const queryKey = `${CHAT_QUERY_KEY}:${chatId}`;
 
   useEffect(() => {
     if (!socket) return;
@@ -30,6 +34,7 @@ const useChatSocket = (queryKey: string, addKey: string) => {
           ...newData[0],
           messages: [message, ...newData[0].messages],
         };
+
         return {
           ...oldData,
           pages: newData,
@@ -40,7 +45,7 @@ const useChatSocket = (queryKey: string, addKey: string) => {
     return () => {
       socket.off(addKey);
     };
-  }, [socket, isConnected, addKey, queryClient, queryKey]);
+  }, [socket, isConnected, queryClient, chatId, addKey, queryKey]);
 };
 
 export default useChatSocket;
