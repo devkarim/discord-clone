@@ -1,14 +1,22 @@
-import Avatar from '@/components/ui/avatar';
 import { formatDate } from '@/lib/utils';
+import Avatar from '@/components/ui/avatar';
 import { MessageWithAuthor } from '@/types/db';
+
+import { FaPen } from '@react-icons/all-files/fa/FaPen';
+import { FaTrash } from '@react-icons/all-files/fa/FaTrash';
+import ActionTooltip from '@/components/ui/action-tooltip';
 
 interface MessageProps {
   message: MessageWithAuthor;
 }
 
 const Message: React.FC<MessageProps> = ({ message }) => {
+  const onEdit = async () => {};
+
+  const onDelete = async () => {};
+
   return (
-    <div className="flex gap-4 items-center hover:bg-sidebar/20 py-2 px-6">
+    <div className="group relative flex gap-4 items-center hover:bg-sidebar/20 py-2 px-6">
       <Avatar
         src={message.author.user.imageUrl}
         name={message.author.user.username}
@@ -27,6 +35,24 @@ const Message: React.FC<MessageProps> = ({ message }) => {
         <div>
           <p className="break-all">{message.content}</p>
         </div>
+      </div>
+      <div className="absolute -top-5 right-5 bg-background border-[0.5px] rounded-md hidden group-hover:flex shadow-md overflow-hidden">
+        <ActionTooltip label="Edit">
+          <div
+            className="hover:bg-active-channel p-3 transition-colors cursor-pointer"
+            onClick={onEdit}
+          >
+            <FaPen />
+          </div>
+        </ActionTooltip>
+        <ActionTooltip label="Delete">
+          <div
+            className="hover:bg-active-channel p-3 transition-colors cursor-pointer text-destructive"
+            onClick={onDelete}
+          >
+            <FaTrash />
+          </div>
+        </ActionTooltip>
       </div>
     </div>
   );
