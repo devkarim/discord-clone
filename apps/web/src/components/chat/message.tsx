@@ -23,7 +23,7 @@ const Message: React.FC<MessageProps> = ({ message }) => {
         alt="avatar"
         showStatus={false}
         parentClassName="w-12 h-12 select-none"
-        firstLetterClassName="text-2xl"
+        firstLetterClassName="text-2xl group-hover:opacity-60"
       />
       <div>
         <div className="flex items-center gap-2 select-none">
