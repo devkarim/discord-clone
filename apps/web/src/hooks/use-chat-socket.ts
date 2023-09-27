@@ -2,8 +2,13 @@ import { useEffect } from 'react';
 import { UseInfiniteQueryResult, useQueryClient } from '@tanstack/react-query';
 
 import { MessageWithAuthor } from '@/types/db';
-import { CHAT_ADD_KEY, CHAT_QUERY_KEY } from '@/config/constants';
 import { MessagesWithAuthorResponse } from '@/services/message';
+import {
+  CHAT_ADD_KEY,
+  CHAT_DELETE_KEY,
+  CHAT_QUERY_KEY,
+  CHAT_UPDATE_KEY,
+} from '@/config/constants';
 
 import useSocket from './use-socket';
 
@@ -11,11 +16,14 @@ const useChatSocket = (chatId?: number) => {
   const { socket, isConnected } = useSocket();
   const queryClient = useQueryClient();
 
-  const addKey = `${CHAT_ADD_KEY}:${chatId}`;
-  const queryKey = `${CHAT_QUERY_KEY}:${chatId}`;
-
   useEffect(() => {
     if (!socket) return;
+    const addKey = `${CHAT_ADD_KEY}:${chatId}`;
+    const updateKey = `${CHAT_UPDATE_KEY}:${chatId}`;
+    const deleteKey = `${CHAT_DELETE_KEY}:${chatId}`;
+    const queryKey = `${CHAT_QUERY_KEY}:${chatId}`;
+
+    // Add new message to the top of the list
     socket.on(addKey, (message: MessageWithAuthor) => {
       queryClient.setQueryData<
         UseInfiniteQueryResult<MessagesWithAuthorResponse['data']>['data']
@@ -42,10 +50,50 @@ const useChatSocket = (chatId?: number) => {
       });
     });
 
+    // Update message in the list
+    socket.on(updateKey, (message: MessageWithAuthor) => {
+      queryClient.setQueryData<
+        UseInfiniteQueryResult<MessagesWithAuthorResponse['data']>['data']
+      >([queryKey], (oldData) => {
+        if (!oldData || !oldData.pages || oldData.pages.length == 0) return;
+        const newData = oldData.pages.map((page) => ({
+          ...page,
+          messages: page.messages.map((m) =>
+            m.id === message.id ? message : m
+          ),
+        }));
+
+        return {
+          ...oldData,
+          pages: newData,
+        };
+      });
+    });
+
+    // Delete message from the list
+    socket.on(deleteKey, (messageId: number) => {
+      queryClient.setQueryData<
+        UseInfiniteQueryResult<MessagesWithAuthorResponse['data']>['data']
+      >([queryKey], (oldData) => {
+        if (!oldData || !oldData.pages || oldData.pages.length == 0) return;
+        const newData = oldData.pages.map((page) => ({
+          ...page,
+          messages: page.messages.filter((m) => m.id !== messageId),
+        }));
+
+        return {
+          ...oldData,
+          pages: newData,
+        };
+      });
+    });
+
     return () => {
       socket.off(addKey);
+      socket.off(updateKey);
+      socket.off(deleteKey);
     };
-  }, [socket, isConnected, queryClient, chatId, addKey, queryKey]);
+  }, [socket, isConnected, queryClient, chatId]);
 };
 
 export default useChatSocket;
