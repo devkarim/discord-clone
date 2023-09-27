@@ -1,4 +1,4 @@
-import { SendMessageSchema } from 'models';
+import { SendMessageSchema, UpdateMessageSchema } from 'models';
 
 import prisma from '../lib/prisma.js';
 
@@ -19,6 +19,23 @@ export const createMessage = (
       author: {
         include: {
           user: true,
+        },
+      },
+    },
+  });
+
+export const getMessageById = (id: number) =>
+  prisma.message.findUnique({
+    where: { id },
+    include: {
+      author: {
+        include: {
+          user: true,
+        },
+      },
+      channel: {
+        include: {
+          server: true,
         },
       },
     },
@@ -47,4 +64,22 @@ export const getChannelMessages = (channelId: number, cursorTo?: number) =>
     orderBy: {
       createdAt: 'desc',
     },
+  });
+
+export const editMessage = (id: number, data: Partial<UpdateMessageSchema>) =>
+  prisma.message.update({
+    where: { id },
+    data,
+    include: {
+      author: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+
+export const deleteMessageById = (id: number) =>
+  prisma.message.delete({
+    where: { id },
   });
