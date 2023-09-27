@@ -1,6 +1,10 @@
 import moment from 'moment';
-import { type ClassValue, clsx } from 'clsx';
+import { toast } from 'react-toastify';
 import { twMerge } from 'tailwind-merge';
+import { type ClassValue, clsx } from 'clsx';
+
+import { Logger } from 'utils';
+import { Exception } from 'models';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -20,4 +24,9 @@ export const formatDate = (date: Date): string => {
     : isYesterday
     ? 'Yesterday at ' + moment(date).format('hh:mm A')
     : moment(date).format('DD/MM/YYYY hh:mm A');
+};
+
+export const handleError = (err: unknown) => {
+  Logger.exception(err);
+  toast.error(Exception.parseError(err));
 };
