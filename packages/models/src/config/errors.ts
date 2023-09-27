@@ -31,6 +31,9 @@ export const Errors = {
   channel: {
     invalidId: Exception.manual(Messages.errors.channel.invalidId, 400),
   },
+  message: {
+    invalidId: Exception.manual(Messages.errors.message.invalidId, 400),
+  },
   role: {
     invalidId: Exception.manual(Messages.errors.role.invalidId, 400),
     deleteOwner: Exception.manual(Messages.errors.role.deleteOwner, 400),

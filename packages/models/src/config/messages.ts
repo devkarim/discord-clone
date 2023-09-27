@@ -37,6 +37,9 @@ export const Messages = {
       kickSelf: "Can't kick yourself",
       banSelf: "Can't ban yourself",
     },
+    message: {
+      invalidId: 'Invalid message id',
+    },
     invalidCursor: 'Invalid cursor',
   },
   limits: {
