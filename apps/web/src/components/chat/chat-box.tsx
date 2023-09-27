@@ -1,11 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BiSolidPlusCircle } from '@react-icons/all-files/bi/BiSolidPlusCircle';
 
-import { Channel } from 'database';
 import { Exception, SendMessageSchema, sendMessageSchema } from 'models';
 
 import { Input } from '@/components/ui/input';
@@ -16,10 +16,11 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import EmojiPicker from './emoji-picker';
 
 interface ChatBoxProps {
-  channel?: Channel | null;
+  chatId: number;
+  name: string;
 }
 
-const ChatBox: React.FC<ChatBoxProps> = ({ channel }) => {
+const ChatBox: React.FC<ChatBoxProps> = ({ chatId, name }) => {
   const form = useForm<SendMessageSchema>({
     resolver: zodResolver(sendMessageSchema),
     defaultValues: {
@@ -30,9 +31,8 @@ const ChatBox: React.FC<ChatBoxProps> = ({ channel }) => {
   const loading = form.formState.isSubmitting;
 
   const sendMessage = async (values: SendMessageSchema) => {
-    if (!channel) return;
     try {
-      await createMessage(channel.id, values);
+      await createMessage(chatId, values);
       form.reset();
     } catch (err) {
       toast.error(Exception.parseError(err));
@@ -57,7 +57,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ channel }) => {
                     type="text"
                     autoComplete="off"
                     className="border-0 text-lg focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent placeholder:font-light placeholder:text-base placeholder:tracking-wider"
-                    placeholder={`Message ${channel ? '#' + channel.name : ''}`}
+                    placeholder={`Message ${name}`}
                     {...field}
                   />
                   <EmojiPicker

@@ -9,7 +9,9 @@ interface ChannelChatBoxProps {}
 const ChannelChatBox: React.FC<ChannelChatBoxProps> = ({}) => {
   const { data: channel } = useCurrentChannel();
 
-  return <ChatBox channel={channel} />;
+  if (!channel) return null;
+
+  return <ChatBox chatId={channel.id} name={'#' + channel.name} />;
 };
 
 export default ChannelChatBox;
