@@ -15,6 +15,9 @@ const useCurrentMessages = () => {
       return getChannelMessages(+channelId, pageParam);
     },
     getNextPageParam: (lastPage) => lastPage.cursor,
+    refetchIntervalInBackground: false,
+    refetchInterval: 0,
+    refetchOnReconnect: false,
   });
 
   return query;
