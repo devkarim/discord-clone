@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { createMessage } from '@/services/message';
 import IconButton from '@/components/ui/icon-button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import CreateAttachmentModal from '@/components/modals/create-attachment-modal';
 
 import EmojiPicker from './emoji-picker';
 
@@ -21,6 +22,7 @@ interface ChatBoxProps {
 }
 
 const ChatBox: React.FC<ChatBoxProps> = ({ chatId, name }) => {
+  const [isCreateAttachmentOpen, setCreateAttachmentOpen] = useState(false);
   const form = useForm<SendMessageSchema>({
     resolver: zodResolver(sendMessageSchema),
     defaultValues: {
@@ -41,6 +43,13 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chatId, name }) => {
 
   return (
     <Form {...form}>
+      <CreateAttachmentModal
+        isOpen={isCreateAttachmentOpen}
+        onOpenChange={setCreateAttachmentOpen}
+        onClientUploadComplete={(url) =>
+          sendMessage({ content: url, fileUrl: url })
+        }
+      />
       <form onSubmit={form.handleSubmit(sendMessage)}>
         <FormField
           control={form.control}
@@ -49,7 +58,11 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chatId, name }) => {
             <FormItem>
               <FormControl>
                 <div className="flex gap-3 items-center m-6 bg-foreground/5 py-2 px-4 rounded-xl">
-                  <IconButton className="text-3xl" disabled={loading}>
+                  <IconButton
+                    className="text-3xl"
+                    disabled={loading}
+                    onClick={() => setCreateAttachmentOpen(true)}
+                  >
                     <BiSolidPlusCircle />
                   </IconButton>
                   <Input
