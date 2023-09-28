@@ -7,7 +7,7 @@ interface MembersListProps {
 
 const MembersList: React.FC<MembersListProps> = ({ members }) => {
   return (
-    <div>
+    <div className="space-y-4">
       {members.map((member) => (
         <div key={member.id} className="flex items-center space-x-2">
           <Avatar alt="member-image" name={member.user.username} isChannel />
