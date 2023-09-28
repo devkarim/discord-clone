@@ -6,11 +6,13 @@ import { MessageWithAuthor } from '@/types/db';
 
 import ChatWelcome from './chat-welcome';
 import MessagesList from './messages-list';
+import { PendingMessage } from '@/hooks/use-pending-messages';
 
 interface ChatMessagesProps {
   name: string;
   isChannel?: boolean;
   messages: MessageWithAuthor[];
+  pendingMessages: PendingMessage[];
   hasNextPage?: boolean;
   isFetchingNextPage: boolean;
   fetchNextPage: () => void;
@@ -21,6 +23,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
   name,
   isChannel,
   messages,
+  pendingMessages,
   hasNextPage,
   isFetchingNextPage,
   fetchNextPage,
@@ -81,7 +84,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
       )}
       <div className="space-y-6">
         {!hasNextPage && <ChatWelcome name={name} isChannel={isChannel} />}
-        <MessagesList messages={messages} />
+        <MessagesList messages={messages} pendingMessages={pendingMessages} />
       </div>
       <div ref={bottomDiv} />
     </div>

@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { UpdateMessageSchema } from 'models';
 
 import Avatar from '@/components/ui/avatar';
 import { MessageWithAuthor } from '@/types/db';
 import { canMemberDoAction } from '@/lib/permission';
-import { formatDate, handleError } from '@/lib/utils';
+import { cn, formatDate, handleError } from '@/lib/utils';
 import useCurrentMember from '@/hooks/use-current-member';
 import ActionTooltip from '@/components/ui/action-tooltip';
 import { deleteMessage, updateMessage } from '@/services/message';
@@ -15,7 +16,10 @@ import MessageActions from './message-actions';
 import MessageEdit from './message-edit';
 
 interface MessageProps {
-  message: MessageWithAuthor;
+  message: Omit<MessageWithAuthor, 'id'> & {
+    id?: number;
+    pendingMessageId?: string;
+  };
 }
 
 const Message: React.FC<MessageProps> = ({ message }) => {
@@ -36,6 +40,8 @@ const Message: React.FC<MessageProps> = ({ message }) => {
   const isEdited = message.updatedAt !== message.createdAt;
 
   const saveEdit = async (data: UpdateMessageSchema) => {
+    if (!message.id || message.pendingMessageId)
+      return toast.error('This message is pending, please wait...');
     try {
       setLoading(true);
       await updateMessage(message.id, data);
@@ -48,6 +54,8 @@ const Message: React.FC<MessageProps> = ({ message }) => {
   };
 
   const onDelete = async () => {
+    if (!message.id || message.pendingMessageId)
+      return toast.error('This message is pending, please wait...');
     try {
       setLoading(true);
       await deleteMessage(message.id);
@@ -60,7 +68,12 @@ const Message: React.FC<MessageProps> = ({ message }) => {
   };
 
   return (
-    <div className="group relative flex gap-4 items-center hover:bg-sidebar/20 py-2 px-6">
+    <div
+      className={cn(
+        'group relative flex gap-4 items-center hover:bg-sidebar/20 py-2 px-6',
+        message.pendingMessageId && 'opacity-60'
+      )}
+    >
       <ConfirmationModal
         isOpen={deleting}
         onOpenChange={setDeleting}
