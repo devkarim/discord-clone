@@ -12,8 +12,9 @@ import ActionTooltip from '@/components/ui/action-tooltip';
 import { deleteMessage, updateMessage } from '@/services/message';
 import ConfirmationModal from '@/components/modals/confirmation-modal';
 
-import MessageActions from './message-actions';
 import MessageEdit from './message-edit';
+import MessageActions from './message-actions';
+import MessageAttachment from './message-attachment';
 
 interface MessageProps {
   message: Omit<MessageWithAuthor, 'id'> & {
@@ -38,6 +39,7 @@ const Message: React.FC<MessageProps> = ({ message }) => {
     member.id === message.author.id;
   const hasAccessToActions = canEdit || canDelete;
   const isEdited = message.updatedAt !== message.createdAt;
+  const isAttachment = !!message.fileUrl;
 
   const saveEdit = async (data: UpdateMessageSchema) => {
     if (!message.id || message.pendingMessageId)
@@ -67,13 +69,36 @@ const Message: React.FC<MessageProps> = ({ message }) => {
     }
   };
 
+  const renderMessageContent = () => {
+    if (message.fileUrl) return <MessageAttachment fileUrl={message.fileUrl} />;
+    if (isEditing)
+      return (
+        <MessageEdit
+          onSaveEdit={saveEdit}
+          onCancelEdit={() => setIsEditing(false)}
+          content={message.content}
+          disabled={isLoading}
+        />
+      );
+    return (
+      <p className="break-all">
+        {message.content}{' '}
+        {isEdited && (
+          <ActionTooltip
+            label={formatDate(message.updatedAt)}
+            triggerClassName="cursor-default"
+          >
+            <span className="text-foreground/60 text-[10px] select-none">
+              (edited)
+            </span>
+          </ActionTooltip>
+        )}
+      </p>
+    );
+  };
+
   return (
-    <div
-      className={cn(
-        'group relative flex gap-4 items-center hover:bg-sidebar/20 py-2 px-6',
-        message.pendingMessageId && 'opacity-60'
-      )}
-    >
+    <>
       <ConfirmationModal
         isOpen={deleting}
         onOpenChange={setDeleting}
@@ -82,57 +107,41 @@ const Message: React.FC<MessageProps> = ({ message }) => {
         onConfirm={onDelete}
         loading={isLoading}
       />
-      <Avatar
-        src={message.author.user.imageUrl}
-        name={message.author.user.username}
-        alt="avatar"
-        showStatus={false}
-        parentClassName="w-12 h-12 select-none"
-        firstLetterClassName="text-2xl group-hover:opacity-60"
-      />
-      <div className="w-full space-y-1">
-        <div className="flex items-center gap-2 select-none">
-          <p className="font-semibold">{message.author.user.username}</p>
-          <p className="text-foreground/60 text-xs">
-            {formatDate(message.createdAt)}
-          </p>
-        </div>
-        <div className="w-full space-y-1">
-          {isEditing ? (
-            <MessageEdit
-              onSaveEdit={saveEdit}
-              onCancelEdit={() => setIsEditing(false)}
-              content={message.content}
-              disabled={isLoading}
-            />
-          ) : (
-            <p className="break-all">
-              {message.content}{' '}
-              {isEdited && (
-                <ActionTooltip
-                  label={formatDate(message.updatedAt)}
-                  triggerClassName="cursor-default"
-                >
-                  <span className="text-foreground/60 text-[10px] select-none">
-                    (edited)
-                  </span>
-                </ActionTooltip>
-              )}
-            </p>
-          )}
-        </div>
-      </div>
-      {hasAccessToActions && (
-        <MessageActions
-          showEdit={canEdit}
-          showDelete={canDelete}
-          isEditDisabled={isLoading || isEditing}
-          isDeleteDisabled={isLoading}
-          onEdit={() => setIsEditing(true)}
-          onDelete={() => setDeleting(true)}
+      <div
+        className={cn(
+          'group relative flex gap-4 hover:bg-sidebar/20 py-2 px-6',
+          message.pendingMessageId && 'opacity-60'
+        )}
+      >
+        <Avatar
+          src={message.author.user.imageUrl}
+          name={message.author.user.username}
+          alt="avatar"
+          showStatus={false}
+          parentClassName="w-12 h-12 select-none"
+          firstLetterClassName="text-2xl group-hover:opacity-60"
         />
-      )}
-    </div>
+        <div className={cn('w-full space-y-1', isAttachment && 'space-y-2')}>
+          <div className="flex items-center gap-2 select-none">
+            <p className="font-semibold">{message.author.user.username}</p>
+            <p className="text-foreground/60 text-xs">
+              {formatDate(message.createdAt)}
+            </p>
+          </div>
+          <div className="w-full space-y-1">{renderMessageContent()}</div>
+        </div>
+        {hasAccessToActions && (
+          <MessageActions
+            showEdit={canEdit && !isAttachment}
+            showDelete={canDelete}
+            isEditDisabled={isLoading || isEditing}
+            isDeleteDisabled={isLoading}
+            onEdit={() => setIsEditing(true)}
+            onDelete={() => setDeleting(true)}
+          />
+        )}
+      </div>
+    </>
   );
 };
 
