@@ -21,19 +21,6 @@ const getChannel: typeof channelValidator.checkId = async (req, res) => {
   return ServerResponse.success(res, channel);
 };
 
-const sendMessage: typeof channelValidator.sendMessage = async (req, res) => {
-  if (!req.user) throw Errors.unauthenticated;
-  const channelId = +req.params.id;
-  if (!channelId || isNaN(channelId)) throw Errors.channel.invalidId;
-  const channel = await getChannelById(req.user.id, channelId);
-  if (!channel) throw Errors.channel.invalidId;
-  const member = await getMemberByChannelId(req.user.id, channelId);
-  if (!member) throw Errors.server.notInServer;
-  const message = await createMessage(channelId, member.id, req.body);
-  SocketHandler.emitAuth(`${CHAT_ADD_KEY}:${message.channelId}`, message);
-  return ServerResponse.success(res, message);
-};
-
 const getMessages: typeof channelValidator.getMessages = async (req, res) => {
   if (!req.user) throw Errors.unauthenticated;
   const channelId = +req.params.id;
@@ -55,4 +42,4 @@ const getMessages: typeof channelValidator.getMessages = async (req, res) => {
   });
 };
 
-export default { getChannel, sendMessage, getMessages };
+export default { getChannel, getMessages };

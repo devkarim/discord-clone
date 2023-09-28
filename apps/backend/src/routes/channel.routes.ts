@@ -16,16 +16,6 @@ channelRouter.get(
   channelController.getChannel
 );
 
-// @route     POST /channels/:id/messages
-// @desc      Send a message to a channel
-// @access    Private
-channelRouter.post(
-  '/:id/messages',
-  requireAuth,
-  channelValidator.sendMessage,
-  channelController.sendMessage
-);
-
 // @route     GET /channels/:id/messages
 // @desc      Get channel's messages
 // @access    Private
