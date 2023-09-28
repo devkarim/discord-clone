@@ -11,9 +11,13 @@ import {
 } from '@/config/constants';
 
 import useSocket from './use-socket';
+import usePendingMessages from './use-pending-messages';
 
 const useChatSocket = (chatId?: number) => {
-  const { socket, isConnected } = useSocket();
+  const removePendingMessage = usePendingMessages(
+    (state) => state.removeMessage
+  );
+  const { socket } = useSocket();
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -24,31 +28,35 @@ const useChatSocket = (chatId?: number) => {
     const queryKey = `${CHAT_QUERY_KEY}:${chatId}`;
 
     // Add new message to the top of the list
-    socket.on(addKey, (message: MessageWithAuthor) => {
-      queryClient.setQueryData<
-        UseInfiniteQueryResult<MessagesWithAuthorResponse['data']>['data']
-      >([queryKey], (oldData) => {
-        if (!oldData || !oldData.pages || oldData.pages.length == 0)
-          return {
-            pages: [
-              {
-                messages: [message],
-              },
-            ],
-            pageParams: [undefined],
+    socket.on(
+      addKey,
+      (message: MessageWithAuthor, pendingMessageId: string) => {
+        queryClient.setQueryData<
+          UseInfiniteQueryResult<MessagesWithAuthorResponse['data']>['data']
+        >([queryKey], (oldData) => {
+          removePendingMessage(pendingMessageId);
+          if (!oldData || !oldData.pages || oldData.pages.length == 0)
+            return {
+              pages: [
+                {
+                  messages: [message],
+                },
+              ],
+              pageParams: [undefined],
+            };
+          const newData = [...oldData.pages];
+          newData[0] = {
+            ...newData[0],
+            messages: [message, ...newData[0].messages],
           };
-        const newData = [...oldData.pages];
-        newData[0] = {
-          ...newData[0],
-          messages: [message, ...newData[0].messages],
-        };
 
-        return {
-          ...oldData,
-          pages: newData,
-        };
-      });
-    });
+          return {
+            ...oldData,
+            pages: newData,
+          };
+        });
+      }
+    );
 
     // Update message in the list
     socket.on(updateKey, (message: MessageWithAuthor) => {
@@ -93,7 +101,7 @@ const useChatSocket = (chatId?: number) => {
       socket.off(updateKey);
       socket.off(deleteKey);
     };
-  }, [socket, isConnected, queryClient, chatId]);
+  }, [socket, queryClient, chatId, removePendingMessage]);
 };
 
 export default useChatSocket;
