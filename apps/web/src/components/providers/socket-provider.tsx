@@ -23,12 +23,10 @@ const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 
     newSocket.on('connection', () => {
       console.log('Connected to socket');
-      globalSocket.setIsConnected(true);
     });
 
     newSocket.on('disconnect', () => {
       console.log('Disconnected from socket');
-      globalSocket.setIsConnected(false);
     });
 
     return () => {
