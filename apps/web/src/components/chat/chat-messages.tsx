@@ -52,7 +52,7 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
     if (!element) return;
     const distanceFromBottom =
       element.scrollHeight - element.scrollTop - element.clientHeight;
-    if (distanceFromBottom < 200) {
+    if (distanceFromBottom < 350) {
       bottomDiv.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [currentPageCount, topDiv]);
