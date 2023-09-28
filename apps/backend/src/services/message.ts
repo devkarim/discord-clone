@@ -18,7 +18,14 @@ export const createMessage = (
     include: {
       author: {
         include: {
-          user: true,
+          user: {
+            select: {
+              id: true,
+              username: true,
+              imageUrl: true,
+              name: true,
+            },
+          },
         },
       },
     },
@@ -30,7 +37,14 @@ export const getMessageById = (id: number) =>
     include: {
       author: {
         include: {
-          user: true,
+          user: {
+            select: {
+              id: true,
+              username: true,
+              imageUrl: true,
+              name: true,
+            },
+          },
         },
       },
       channel: {
@@ -57,7 +71,14 @@ export const getChannelMessages = (channelId: number, cursorTo?: number) =>
     include: {
       author: {
         include: {
-          user: true,
+          user: {
+            select: {
+              id: true,
+              username: true,
+              imageUrl: true,
+              name: true,
+            },
+          },
         },
       },
     },
@@ -73,7 +94,14 @@ export const editMessage = (id: number, data: Partial<UpdateMessageSchema>) =>
     include: {
       author: {
         include: {
-          user: true,
+          user: {
+            select: {
+              id: true,
+              username: true,
+              imageUrl: true,
+              name: true,
+            },
+          },
         },
       },
     },

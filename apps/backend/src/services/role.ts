@@ -28,7 +28,14 @@ export const getServerRoles = (userId: number, serverId: number) =>
       permissions: true,
       members: {
         include: {
-          user: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+              imageUrl: true,
+            },
+          },
         },
       },
     },

@@ -24,6 +24,14 @@ export type MemberWithPermissions = Prisma.MemberGetPayload<{
         permissions: true;
       };
     };
+    user: {
+      select: {
+        id: true;
+        name: true;
+        username: true;
+        imageUrl: true;
+      };
+    };
   };
 }>;
 
@@ -49,7 +57,14 @@ export type FullRole = Prisma.RoleGetPayload<{
     permissions: true;
     members: {
       include: {
-        user: true;
+        user: {
+          select: {
+            id: true;
+            name: true;
+            username: true;
+            imageUrl: true;
+          };
+        };
       };
     };
   };
@@ -59,6 +74,7 @@ export type FullMember = Prisma.MemberGetPayload<{
   include: {
     user: {
       select: {
+        id: true;
         name: true;
         username: true;
         imageUrl: true;
@@ -72,7 +88,14 @@ export type MessageWithAuthor = Prisma.MessageGetPayload<{
   include: {
     author: {
       include: {
-        user: true;
+        user: {
+          select: {
+            id: true;
+            name: true;
+            username: true;
+            imageUrl: true;
+          };
+        };
       };
     };
   };

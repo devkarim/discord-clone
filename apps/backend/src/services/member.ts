@@ -50,6 +50,7 @@ export const getServerMembers = (userId: number, serverId: number) =>
     include: {
       user: {
         select: {
+          id: true,
           username: true,
           imageUrl: true,
           name: true,
@@ -127,6 +128,14 @@ export const getMemberByServerUser = (userId: number, serverId: number) =>
       role: {
         include: {
           permissions: true,
+        },
+      },
+      user: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          imageUrl: true,
         },
       },
     },
