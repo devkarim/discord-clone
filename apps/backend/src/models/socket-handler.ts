@@ -25,8 +25,8 @@ class SocketHandler {
     this.authSockets = this.authSockets.filter((s) => s.id != socket.id);
   }
 
-  static emitAuth(e: string, data: any) {
-    return this.authSockets.forEach((s) => s.emit(e, data));
+  static emitAuth(e: string, ...data: any) {
+    return this.authSockets.forEach((s) => s.emit(e, ...data));
   }
 }
 
