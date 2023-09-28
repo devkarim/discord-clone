@@ -6,6 +6,7 @@ import { Session } from 'express-session';
 import session from '../lib/session.js';
 
 import SocketHandler from './socket-handler.js';
+import EventHandlers from './event-handlers.js';
 
 declare module 'http' {
   interface IncomingMessage {
@@ -29,7 +30,9 @@ class AppSocket {
   static start() {
     this.io.on('connection', (socket) => {
       SocketHandler.addSocket(socket);
+      EventHandlers.register(socket);
       socket.on('disconnect', () => {
+        EventHandlers.unregister(socket);
         SocketHandler.removeSocket(socket);
       });
     });
