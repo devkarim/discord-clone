@@ -70,50 +70,53 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chatId, name }) => {
   };
 
   return (
-    <Form {...form}>
+    <>
       <CreateAttachmentModal
         isOpen={isCreateAttachmentOpen}
         onOpenChange={setCreateAttachmentOpen}
-        onClientUploadComplete={(url) =>
-          sendMessage({ content: url, fileUrl: url })
-        }
+        onComplete={(url) => {
+          setCreateAttachmentOpen(false);
+          setTimeout(() => sendMessage({ content: url, fileUrl: url }), 100);
+        }}
       />
-      <form onSubmit={form.handleSubmit(sendMessage)}>
-        <FormField
-          control={form.control}
-          name="content"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <div className="flex gap-3 items-center m-6 bg-foreground/5 py-2 px-4 rounded-xl">
-                  <IconButton
-                    className="text-3xl"
-                    disabled={loading}
-                    onClick={() => setCreateAttachmentOpen(true)}
-                  >
-                    <BiSolidPlusCircle />
-                  </IconButton>
-                  <Input
-                    disabled={loading}
-                    type="text"
-                    autoComplete="off"
-                    className="border-0 text-lg focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent placeholder:font-light placeholder:text-base placeholder:tracking-wider"
-                    placeholder={`Message ${name}`}
-                    {...field}
-                  />
-                  <EmojiPicker
-                    disabled={loading}
-                    onEmojiSelect={(emoji) =>
-                      field.onChange(field.value + emoji.native)
-                    }
-                  />
-                </div>
-              </FormControl>
-            </FormItem>
-          )}
-        />
-      </form>
-    </Form>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(sendMessage)}>
+          <FormField
+            control={form.control}
+            name="content"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex gap-3 items-center m-6 bg-foreground/5 py-2 px-4 rounded-xl">
+                    <IconButton
+                      className="text-3xl"
+                      disabled={loading}
+                      onClick={() => setCreateAttachmentOpen(true)}
+                    >
+                      <BiSolidPlusCircle />
+                    </IconButton>
+                    <Input
+                      disabled={loading}
+                      type="text"
+                      autoComplete="off"
+                      className="border-0 text-lg focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent placeholder:font-light placeholder:text-base placeholder:tracking-wider"
+                      placeholder={`Message ${name}`}
+                      {...field}
+                    />
+                    <EmojiPicker
+                      disabled={loading}
+                      onEmojiSelect={(emoji) =>
+                        field.onChange(field.value + emoji.native)
+                      }
+                    />
+                  </div>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </form>
+      </Form>
+    </>
   );
 };
 
