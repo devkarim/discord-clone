@@ -14,13 +14,15 @@ export const Messages = {
       ownerCannotLeave: "Server owner can't leave the server",
       notInServer: 'You are not in this server',
       alreadyInServer: 'You are already in this server',
-      category: {
-        exists: 'Category with this name already exists',
-        notExists: 'Category with this name does not exist',
-      },
     },
     channel: {
       invalidId: 'Invalid channel id',
+    },
+    category: {
+      invalidId: 'Invalid category id',
+      notEmpty: 'Category has channels in it',
+      exists: 'Category with this name already exists',
+      notExists: 'Category with this name does not exist',
     },
     role: {
       invalidId: 'Invalid role id',

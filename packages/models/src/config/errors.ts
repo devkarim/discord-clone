@@ -20,16 +20,16 @@ export const Errors = {
       Messages.errors.server.alreadyInServer,
       400
     ),
-    category: {
-      exists: Exception.manual(Messages.errors.server.category.exists, 400),
-      notExists: Exception.manual(
-        Messages.errors.server.category.notExists,
-        400
-      ),
-    },
+    category: {},
   },
   channel: {
     invalidId: Exception.manual(Messages.errors.channel.invalidId, 400),
+  },
+  category: {
+    invalidId: Exception.manual(Messages.errors.category.invalidId, 400),
+    exists: Exception.manual(Messages.errors.category.exists, 400),
+    notExists: Exception.manual(Messages.errors.category.notExists, 400),
+    notEmpty: Exception.manual(Messages.errors.category.notEmpty, 400),
   },
   message: {
     invalidId: Exception.manual(Messages.errors.message.invalidId, 400),
