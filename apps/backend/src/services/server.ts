@@ -109,7 +109,11 @@ export const getServerById = (userId: number, id: number) =>
       },
     },
     include: {
-      categories: true,
+      categories: {
+        orderBy: {
+          createdAt: 'asc',
+        },
+      },
       channels: true,
     },
   });
