@@ -43,7 +43,7 @@ const sendMessage =
         });
       const pendingMessageId = nanoid();
       ack?.({ success: true, data: { pendingMessageId } });
-      const channel = await getChannelById(user.id, chatId);
+      const channel = await getChannelById(chatId, user.id);
       if (!channel) throw Errors.channel.invalidId;
       const member = await getMemberByChannelId(user.id, chatId);
       if (!member) throw Errors.server.notInServer;
