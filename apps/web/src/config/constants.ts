@@ -15,4 +15,3 @@ export const CHAT_QUERY_KEY = 'chat:messages';
 
 export const CHAT_ADD_KEY = 'chat:messages:new';
 export const CHAT_UPDATE_KEY = 'chat:messages:update';
-export const CHAT_DELETE_KEY = 'chat:messages:delete';
