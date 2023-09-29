@@ -33,7 +33,7 @@ import {
   SelectContent,
   SelectItem,
 } from '@/components/ui/select';
-import { createChannel } from '@/services/channel';
+import { createChannel, updateChannel } from '@/services/channel';
 import ChannelRadioType from '@/components/channel/channel-radio-type';
 
 interface AddChannelModalProps {}
@@ -41,38 +41,41 @@ interface AddChannelModalProps {}
 const AddChannelModal: React.FC<AddChannelModalProps> = ({}) => {
   const isOpen = useModal((state) => state.isModalOpen('create-channel'));
   const setOpen = useModal((state) => state.setOpen('create-channel'));
+  const currentChannel = useModal((state) => state.data?.channel);
   const defaultCategory = useModal((state) => state.data?.category);
   const [loading, setLoading] = useState(false);
   const { data: server, refetch } = useCurrentServer();
-  const router = useRouter();
   const form = useForm<CreateChannelSchema>({
     resolver: zodResolver(createChannelSchema),
   });
 
+  const isEditChannel = !!currentChannel;
+
   useEffect(() => {
     if (isOpen) {
+      const channelCategoryName = server?.categories.find(
+        ({ id }) => id === currentChannel?.categoryId
+      )?.name;
       form.reset({
-        name: '',
-        type: 'TEXT',
-        categoryName: defaultCategory,
+        name: currentChannel?.name ?? '',
+        type: currentChannel?.type ?? 'TEXT',
+        categoryName: channelCategoryName ?? defaultCategory,
       });
     } else {
       form.reset();
     }
-  }, [form, isOpen, defaultCategory]);
+  }, [form, isOpen, defaultCategory, server, currentChannel]);
 
   const onSubmit = async (data: CreateChannelSchema) => {
     if (!server) return;
     try {
       setLoading(true);
-      await createChannel(server.id, {
-        ...data,
-        categoryId: server.categories.find(
-          ({ name }) => name === data.categoryName
-        )?.id,
-      });
+      if (isEditChannel) {
+        await updateServerChannel(data);
+      } else {
+        await createServerChannel(data);
+      }
       refetch();
-      toast.success('Channel created successfully!');
       setOpen(false);
     } catch (err) {
       Logger.exception(err, 'add-channel-modal');
@@ -82,13 +85,35 @@ const AddChannelModal: React.FC<AddChannelModalProps> = ({}) => {
     }
   };
 
+  const createServerChannel = async (data: CreateChannelSchema) => {
+    if (!server) return;
+    await createChannel(server.id, {
+      ...data,
+      categoryId: server.categories.find(
+        ({ name }) => name === data.categoryName
+      )?.id,
+    });
+    toast.success('Channel created successfully!');
+  };
+
+  const updateServerChannel = async (data: CreateChannelSchema) => {
+    if (!server || !currentChannel) return;
+    await updateChannel(currentChannel.id, {
+      ...data,
+      categoryId: server.categories.find(
+        ({ name }) => name === data.categoryName
+      )?.id,
+    });
+    toast.success('Channel updated successfully!');
+  };
+
   return (
     <Modal
       isOpen={isOpen}
       onOpenChange={setOpen}
       header={
         <AlertDialogTitle className="pt-4 px-4">
-          Create Channel
+          {isEditChannel ? 'Update' : 'Create'} Channel
         </AlertDialogTitle>
       }
       dense
@@ -115,6 +140,7 @@ const AddChannelModal: React.FC<AddChannelModalProps> = ({}) => {
                         subtitle="Send messages, images and whatever!"
                         value="TEXT"
                         onChange={field.onChange}
+                        disabled={loading}
                       >
                         <Hashtag className="text-2xl" />
                       </ChannelRadioType>
@@ -123,6 +149,7 @@ const AddChannelModal: React.FC<AddChannelModalProps> = ({}) => {
                         subtitle="Hang out with your friends on voice!"
                         value="VOICE"
                         onChange={field.onChange}
+                        disabled={loading}
                       >
                         <HiSpeakerWave className="text-2xl" />
                       </ChannelRadioType>
@@ -131,6 +158,7 @@ const AddChannelModal: React.FC<AddChannelModalProps> = ({}) => {
                         subtitle="Hang out with your friends on video!"
                         value="VIDEO"
                         onChange={field.onChange}
+                        disabled={loading}
                       >
                         <FaVideo className="text-2xl" />
                       </ChannelRadioType>
@@ -193,7 +221,7 @@ const AddChannelModal: React.FC<AddChannelModalProps> = ({}) => {
                 Cancel
               </Button>
               <Button type="submit" loading={loading}>
-                Create Channel
+                {isEditChannel ? 'Update' : 'Create'} Channel
               </Button>
             </div>
           </div>
