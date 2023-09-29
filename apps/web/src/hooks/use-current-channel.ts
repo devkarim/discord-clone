@@ -16,6 +16,7 @@ const useCurrentChannel = () => {
       }
       return null;
     },
+    retry: false,
   });
 
   return query;
