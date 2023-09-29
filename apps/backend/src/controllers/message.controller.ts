@@ -9,7 +9,7 @@ import {
   getMessageById,
 } from '../services/message.js';
 import SocketHandler from '../models/socket-handler.js';
-import { CHAT_DELETE_KEY, CHAT_UPDATE_KEY } from '../config/constants.js';
+import { CHAT_UPDATE_KEY } from '../config/constants.js';
 
 const updateMessage: typeof messageValidator.updateMessage = async (
   req,
@@ -50,8 +50,8 @@ const deleteMessage: typeof messageValidator.checkId = async (req, res) => {
   );
   const hasAccess = isAuthor || canDoAction;
   if (!hasAccess) throw Errors.unauthorized;
-  await deleteMessageById(messageId);
-  SocketHandler.emitAuth(`${CHAT_DELETE_KEY}:${message.channelId}`, message.id);
+  const newMessage = await deleteMessageById(messageId);
+  SocketHandler.emitAuth(`${CHAT_UPDATE_KEY}:${message.channelId}`, newMessage);
   return ServerResponse.success(res);
 };
 
