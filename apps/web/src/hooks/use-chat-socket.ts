@@ -5,7 +5,6 @@ import { MessageWithAuthor } from '@/types/db';
 import { MessagesWithAuthorResponse } from '@/services/message';
 import {
   CHAT_ADD_KEY,
-  CHAT_DELETE_KEY,
   CHAT_QUERY_KEY,
   CHAT_UPDATE_KEY,
 } from '@/config/constants';
@@ -24,7 +23,6 @@ const useChatSocket = (chatId?: number) => {
     if (!socket) return;
     const addKey = `${CHAT_ADD_KEY}:${chatId}`;
     const updateKey = `${CHAT_UPDATE_KEY}:${chatId}`;
-    const deleteKey = `${CHAT_DELETE_KEY}:${chatId}`;
     const queryKey = `${CHAT_QUERY_KEY}:${chatId}`;
 
     // Add new message to the top of the list
@@ -78,28 +76,9 @@ const useChatSocket = (chatId?: number) => {
       });
     });
 
-    // Delete message from the list
-    socket.on(deleteKey, (messageId: number) => {
-      queryClient.setQueryData<
-        UseInfiniteQueryResult<MessagesWithAuthorResponse['data']>['data']
-      >([queryKey], (oldData) => {
-        if (!oldData || !oldData.pages || oldData.pages.length == 0) return;
-        const newData = oldData.pages.map((page) => ({
-          ...page,
-          messages: page.messages.filter((m) => m.id !== messageId),
-        }));
-
-        return {
-          ...oldData,
-          pages: newData,
-        };
-      });
-    });
-
     return () => {
       socket.off(addKey);
       socket.off(updateKey);
-      socket.off(deleteKey);
     };
   }, [socket, queryClient, chatId, removePendingMessage]);
 };
