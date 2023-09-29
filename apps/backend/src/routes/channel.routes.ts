@@ -16,6 +16,26 @@ channelRouter.get(
   channelController.getChannel
 );
 
+// @route     PATCH /channels/:id
+// @desc      Edit channel
+// @access    Private
+channelRouter.patch(
+  '/:id',
+  requireAuth,
+  channelValidator.editChannel,
+  channelController.editChannel
+);
+
+// @route     DELETE /channels/:id/messages
+// @desc      Delete channel
+// @access    Private
+channelRouter.delete(
+  '/:id',
+  requireAuth,
+  channelValidator.checkId,
+  channelController.deleteServerChannel
+);
+
 // @route     GET /channels/:id/messages
 // @desc      Get channel's messages
 // @access    Private

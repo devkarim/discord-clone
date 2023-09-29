@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { sendMessageSchema } from 'models';
+import { sendMessageSchema, updateChannelSchema } from 'models';
 
 import validate from './validate.js';
 
@@ -24,4 +24,9 @@ const getMessages = validate({
   }),
 });
 
-export default { checkId, sendMessage, getMessages };
+const editChannel = validate({
+  params: channelParamsSchema,
+  body: updateChannelSchema,
+});
+
+export default { checkId, sendMessage, getMessages, editChannel };
