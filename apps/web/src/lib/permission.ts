@@ -3,9 +3,10 @@ import { PermissionType } from 'database';
 import { MemberWithPermissions } from '@/types/db';
 
 export const canMemberDoAction = (
-  member: MemberWithPermissions,
-  action: PermissionType | PermissionType[]
+  member?: MemberWithPermissions | null,
+  action: PermissionType | PermissionType[] = 'ADMINISTRATOR'
 ) => {
+  if (!member) return false;
   const actions = Array.isArray(action) ? action : [action];
   if (!member.role) return false;
   if (action == 'OWNER')
