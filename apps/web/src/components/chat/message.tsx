@@ -37,7 +37,7 @@ const Message: React.FC<MessageProps> = ({ message }) => {
   const canDelete =
     canMemberDoAction(member, 'DELETE_MESSAGES') ||
     member.id === message.author.id;
-  const hasAccessToActions = canEdit || canDelete;
+  const hasAccessToActions = !message.deleted && (canEdit || canDelete);
   const isEdited = message.updatedAt !== message.createdAt;
   const isAttachment = !!message.fileUrl;
 
@@ -61,7 +61,7 @@ const Message: React.FC<MessageProps> = ({ message }) => {
     try {
       setLoading(true);
       await deleteMessage(message.id);
-      setIsEditing(false);
+      setDeleting(false);
     } catch (err) {
       handleError(err);
     } finally {
@@ -70,6 +70,12 @@ const Message: React.FC<MessageProps> = ({ message }) => {
   };
 
   const renderMessageContent = () => {
+    if (message.deleted)
+      return (
+        <p className="italic text-sm text-foreground/60 select-none">
+          This message was deleted.
+        </p>
+      );
     if (message.fileUrl) return <MessageAttachment fileUrl={message.fileUrl} />;
     if (isEditing)
       return (
