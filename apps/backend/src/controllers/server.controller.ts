@@ -109,8 +109,8 @@ const createChannel: typeof serverValidator.createChannel = async (
   if (!hasAccess) throw Errors.unauthorized;
   if (req.body.categoryId) {
     const category = await getCategoryById(req.body.categoryId);
-    if (!category) throw Errors.server.category.notExists;
-    if (category.serverId !== serverId) throw Errors.server.category.notExists;
+    if (!category) throw Errors.category.notExists;
+    if (category.serverId !== serverId) throw Errors.category.notExists;
   }
   const channel = await addChannelToServer(req.user.id, serverId, req.body);
   return ServerResponse.success(res, channel);
@@ -130,7 +130,7 @@ const createCategory: typeof serverValidator.createCategory = async (
   );
   if (!hasAccess) throw Errors.unauthorized;
   const existingCategory = await isCategoryInServer(req.body.name, serverId);
-  if (existingCategory) throw Errors.server.category.exists;
+  if (existingCategory) throw Errors.category.exists;
   const category = await addCategoryToServer(serverId, req.body);
   return ServerResponse.success(res, category);
 };
