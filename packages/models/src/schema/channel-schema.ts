@@ -4,7 +4,7 @@ import { ChannelType } from 'database';
 
 import { Messages, Limits } from '../config';
 
-export const createChannelSchema = z.object({
+export const updateChannelSchema = z.object({
   name: z
     .string({ required_error: Messages.required.channel.name })
     .min(Limits.channel.name.min, {
@@ -20,5 +20,9 @@ export const createChannelSchema = z.object({
   categoryId: z.number().optional(),
   categoryName: z.string().optional(),
 });
+
+export type UpdateChannelSchema = z.infer<typeof updateChannelSchema>;
+
+export const createChannelSchema = updateChannelSchema.extend({});
 
 export type CreateChannelSchema = z.infer<typeof createChannelSchema>;
