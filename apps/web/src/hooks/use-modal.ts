@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
+import { Category, Channel } from 'database';
+
 type ModalType =
   | 'add-server'
   | 'invite'
@@ -11,6 +13,8 @@ type ModalType =
 
 interface ModalData {
   category?: string;
+  channel?: Channel;
+  currentCategory?: Category;
 }
 
 interface ModalState {
