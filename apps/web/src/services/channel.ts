@@ -1,5 +1,10 @@
 import { Channel } from 'database';
-import { BaseResponse, CreateChannelSchema } from 'models';
+import {
+  BaseResponse,
+  BaseResponseNoData,
+  CreateChannelSchema,
+  UpdateChannelSchema,
+} from 'models';
 
 import { FullChannel } from '@/types/db';
 
@@ -17,3 +22,13 @@ export const getChannel = (channelId: number) =>
   client
     .get<FullChannelResponse>(`/channels/${channelId}`)
     .then((res) => res.data.data);
+
+export const updateChannel = (channelId: number, data: UpdateChannelSchema) =>
+  client
+    .patch<ChannelResponse>(`/channels/${channelId}`, data)
+    .then((res) => res.data.data);
+
+export const deleteChannel = (channelId: number) =>
+  client
+    .delete<BaseResponseNoData>(`/channels/${channelId}`)
+    .then((res) => res.data);
