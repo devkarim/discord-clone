@@ -3,11 +3,9 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Logger } from 'utils';
-import { CreateCategorySchema, Exception, createCategorySchema } from 'models';
+import { CreateCategorySchema, createCategorySchema } from 'models';
 
 import useModal from '@/hooks/use-modal';
 import Modal from '@/components/ui/modal';
@@ -21,17 +19,18 @@ import {
   FormControl,
 } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import { createCategory } from '@/services/category';
+import { handleError } from '@/lib/utils';
 import useCurrentServer from '@/hooks/use-current-server';
+import { createCategory, updateCategory } from '@/services/category';
 
 interface AddCategoryModalProps {}
 
 const AddCategoryModal: React.FC<AddCategoryModalProps> = ({}) => {
   const isOpen = useModal((state) => state.isModalOpen('create-category'));
   const setOpen = useModal((state) => state.setOpen('create-category'));
+  const currentCategory = useModal((state) => state.data?.currentCategory);
   const [loading, setLoading] = useState(false);
   const { data: server, refetch } = useCurrentServer();
-  const router = useRouter();
   const form = useForm<CreateCategorySchema>({
     resolver: zodResolver(createCategorySchema),
     defaultValues: {
@@ -39,26 +38,44 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({}) => {
     },
   });
 
+  const isEditCategory = !!currentCategory;
+
   useEffect(() => {
-    if (!isOpen) {
-      form.reset();
+    if (isOpen) {
+      form.reset({
+        name: currentCategory?.name ?? '',
+      });
     }
-  }, [form, isOpen]);
+  }, [form, currentCategory, isOpen]);
 
   const onSubmit = async (data: CreateCategorySchema) => {
     if (!server) return;
     try {
       setLoading(true);
-      await createCategory(server.id, data);
+      if (currentCategory) {
+        await updateServerCategory(data);
+      } else {
+        await createServerCategory(data);
+      }
       refetch();
-      toast.success('Category created successfully!');
       setOpen(false);
     } catch (err) {
-      Logger.exception(err, 'add-category-modal');
-      toast.error(Exception.parseError(err));
+      handleError(err);
     } finally {
       setLoading(false);
     }
+  };
+
+  const updateServerCategory = async (data: CreateCategorySchema) => {
+    if (!server || !currentCategory) return;
+    await updateCategory(currentCategory.id, data);
+    toast.success('Category updated successfully!');
+  };
+
+  const createServerCategory = async (data: CreateCategorySchema) => {
+    if (!server) return;
+    await createCategory(server.id, data);
+    toast.success('Category created successfully!');
   };
 
   return (
@@ -67,7 +84,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({}) => {
       onOpenChange={setOpen}
       header={
         <AlertDialogTitle className="pt-4 px-4">
-          Create Category
+          {isEditCategory ? 'Update' : 'Create'} Category
         </AlertDialogTitle>
       }
       dense
@@ -100,7 +117,7 @@ const AddCategoryModal: React.FC<AddCategoryModalProps> = ({}) => {
                 Cancel
               </Button>
               <Button type="submit" loading={loading}>
-                Create Category
+                {isEditCategory ? 'Update' : 'Create'} Category
               </Button>
             </div>
           </div>
