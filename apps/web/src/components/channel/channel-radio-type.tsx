@@ -8,6 +8,7 @@ interface ChannelRadioTypeProps {
   subtitle: string;
   value: string;
   onChange: (value: string) => void;
+  disabled?: boolean;
   children?: React.ReactNode;
 }
 
@@ -16,6 +17,7 @@ const ChannelRadioType: React.FC<ChannelRadioTypeProps> = ({
   subtitle,
   value,
   onChange,
+  disabled,
   children,
 }) => {
   return (
@@ -23,6 +25,7 @@ const ChannelRadioType: React.FC<ChannelRadioTypeProps> = ({
       <div
         className="absolute left-0 w-full h-full"
         onClick={() => {
+          if (disabled) return;
           onChange(value);
         }}
       />
@@ -37,6 +40,7 @@ const ChannelRadioType: React.FC<ChannelRadioTypeProps> = ({
         <RadioGroupItem
           className="w-5 h-5 text-foreground/70 border-foreground/70"
           value={value}
+          disabled={disabled}
         />
       </FormControl>
     </FormItem>
