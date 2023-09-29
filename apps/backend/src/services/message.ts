@@ -108,6 +108,21 @@ export const editMessage = (id: number, data: Partial<UpdateMessageSchema>) =>
   });
 
 export const deleteMessageById = (id: number) =>
-  prisma.message.delete({
+  prisma.message.update({
     where: { id },
+    data: { deleted: true, content: '', fileUrl: undefined },
+    include: {
+      author: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              imageUrl: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
   });
