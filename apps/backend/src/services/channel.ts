@@ -1,4 +1,4 @@
-import { CreateChannelSchema } from 'models';
+import { CreateChannelSchema, UpdateChannelSchema } from 'models';
 
 import prisma from '../lib/prisma.js';
 
@@ -31,7 +31,7 @@ export const addChannelToServer = (
     return newChannel;
   });
 
-export const getChannelById = (userId: number, channelId: number) =>
+export const getChannelById = (channelId: number, userId: number) =>
   prisma.channel.findUnique({
     where: {
       id: channelId,
@@ -48,3 +48,17 @@ export const getChannelById = (userId: number, channelId: number) =>
       owner: true,
     },
   });
+
+export const updateChannel = (
+  id: number,
+  { categoryName, ...data }: UpdateChannelSchema
+) =>
+  prisma.channel.update({
+    where: {
+      id,
+    },
+    data,
+  });
+
+export const deleteChannel = (id: number) =>
+  prisma.channel.delete({ where: { id } });
