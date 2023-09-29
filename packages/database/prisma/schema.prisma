@@ -102,6 +102,9 @@ model Category {
 
   channels Channel[]
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@unique([serverId, name])
 }
 
