@@ -29,7 +29,7 @@ const SettingsContainer: React.FC<SettingsContainerProps> = ({
           <TabsList className="bg-sidebar/40 flex flex-col justify-start items-end px-4 h-full space-y-2 overflow-y-auto scrollbar-thumb-sidebar scrollbar scrollbar-thumb-rounded-2xl scrollbar-w-1">
             <div className="w-52 text-foreground/70 space-y-1 py-16">
               {title && (
-                <h1 className="font-medium ml-3 text-sm select-none">
+                <h1 className="font-medium ml-3 text-sm select-none uppercase">
                   {title}
                 </h1>
               )}
