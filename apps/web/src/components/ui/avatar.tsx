@@ -1,5 +1,7 @@
 import Image, { ImageProps } from 'next/image';
 
+import { Status } from 'database';
+
 import { cn } from '@/lib/utils';
 
 import FirstLetter from './first-letter';
@@ -11,7 +13,7 @@ interface AvatarProps extends Omit<ImageProps, 'src'> {
   parentClassName?: string;
   firstLetterClassName?: string;
   indicatorClassName?: string;
-  status?: 'online' | 'invisible';
+  status?: Status;
   showStatus?: boolean;
   isChannel?: boolean;
   children?: React.ReactNode;
@@ -24,7 +26,7 @@ const Avatar: React.FC<AvatarProps> = ({
   parentClassName,
   firstLetterClassName,
   indicatorClassName,
-  status = 'invisible',
+  status = 'OFFLINE',
   isChannel = false,
   showStatus = true,
   children,
@@ -58,9 +60,9 @@ const Avatar: React.FC<AvatarProps> = ({
           className={cn(
             'absolute right-0 bottom-0 ring-4 ring-sidebar',
             isChannel && 'ring-channels',
-            status == 'online' && 'bg-green-500',
-            status == 'invisible' && 'bg-sidebar border-2 border-foreground/50',
-            status == 'invisible' && isChannel && 'bg-channels',
+            status == 'ONLINE' && 'bg-green-500',
+            status == 'OFFLINE' && 'bg-sidebar border-2 border-foreground/50',
+            status == 'OFFLINE' && isChannel && 'bg-channels',
             indicatorClassName
           )}
         />
