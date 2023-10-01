@@ -1,4 +1,4 @@
-import { User } from 'database';
+import { Status, User } from 'database';
 import { RegisterSchema } from 'models';
 
 import prisma from '../lib/prisma.js';
@@ -28,6 +28,9 @@ export const isEmailTaken = async (email: string) =>
 export const isUsernameTaken = async (username: string) =>
   !!(await getFullUserByUsername(username));
 
+export const setUserStatus = async (id: number, status: Status) =>
+  prisma.user.update({ where: { id }, data: { status } });
+
 export const parseSession = (user: User): Express.User => {
   return {
     id: user.id,
@@ -35,5 +38,6 @@ export const parseSession = (user: User): Express.User => {
     name: user.name,
     username: user.username,
     imageUrl: user.imageUrl,
+    status: user.status,
   };
 };
