@@ -16,11 +16,11 @@ import IconButton from './icon-button';
 interface ClientControlProps {}
 
 const ClientControl: React.FC<ClientControlProps> = ({}) => {
-  const { data } = useUser();
+  const { data: user } = useUser();
   const showModal = useModal((state) => state.show);
   const control = useControl();
 
-  if (!data) return null;
+  if (!user) return null;
 
   const onMute = () => {
     control.toggleMute();
@@ -35,13 +35,14 @@ const ClientControl: React.FC<ClientControlProps> = ({}) => {
       <div className="flex justify-between items-center">
         <div className="flex gap-3">
           <Avatar
-            alt={data.username}
-            name={data.username}
-            src={data.imageUrl}
+            alt={user.username}
+            name={user.username}
+            src={user.imageUrl}
+            status={user.status}
             parentClassName="bg-background overflow-visible"
           />
           <div>
-            <p className="text-sm font-semibold opacity-90">{data.username}</p>
+            <p className="text-sm font-semibold opacity-90">{user.username}</p>
             <p className="text-xs opacity-60">Online</p>
           </div>
         </div>

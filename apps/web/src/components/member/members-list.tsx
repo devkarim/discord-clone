@@ -10,7 +10,12 @@ const MembersList: React.FC<MembersListProps> = ({ members }) => {
     <div className="space-y-4">
       {members.map((member) => (
         <div key={member.id} className="flex items-center space-x-2">
-          <Avatar alt="member-image" name={member.user.username} isChannel />
+          <Avatar
+            alt="member-image"
+            name={member.user.username}
+            status={member.user.status}
+            isChannel
+          />
           <p className="text-foreground/60">{member.user.username}</p>
         </div>
       ))}
