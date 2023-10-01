@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import useCurrentServer from '@/hooks/use-current-server';
+import useStatus from '@/hooks/use-status';
 
 interface ServerProviderProps {
   children?: React.ReactNode;
@@ -11,7 +12,9 @@ interface ServerProviderProps {
 
 const ServerProvider: React.FC<ServerProviderProps> = ({ children }) => {
   const router = useRouter();
+  const { serverId } = useParams();
   const { isLoading, data } = useCurrentServer();
+  useStatus(typeof serverId === 'string' ? serverId : undefined);
 
   useEffect(() => {
     if (isLoading) return;
