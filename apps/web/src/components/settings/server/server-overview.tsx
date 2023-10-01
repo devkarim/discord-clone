@@ -26,11 +26,6 @@ const ServerOverview: React.FC<ServerOverviewProps> = ({}) => {
   const [saveChangesOpen, setSaveChangesOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
 
-  useEffect(() => {
-    updateSaveChanges();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, isPublic]);
-
   if (!server) return null;
 
   const saveChanges = async () => {
@@ -51,6 +46,7 @@ const ServerOverview: React.FC<ServerOverviewProps> = ({}) => {
 
   const onNameChange = (value: string) => {
     setName(value);
+    updateSaveChanges(value, imageUrl);
   };
 
   const onReset = () => {
@@ -61,7 +57,11 @@ const ServerOverview: React.FC<ServerOverviewProps> = ({}) => {
     setLoading(false);
   };
 
-  const updateSaveChanges = () => {
+  const updateSaveChanges = (
+    name?: string,
+    imageUrl?: string,
+    isPublic?: boolean
+  ) => {
     if (imageUrl && imageUrl != server.imageUrl)
       return setSaveChangesOpen(true);
     if (name && name != server.name) return setSaveChangesOpen(true);
@@ -98,7 +98,10 @@ const ServerOverview: React.FC<ServerOverviewProps> = ({}) => {
         </div>
         <CheckboxCard
           checked={isPublic ?? server.isPublic}
-          onCheckedChange={(checked) => setIsPublic(checked)}
+          onCheckedChange={(checked) => {
+            setIsPublic(checked);
+            updateSaveChanges(name, imageUrl, checked);
+          }}
           title="Public"
           description="By enabling this option, this server will be public to everyone in 'Explore Servers' page."
         />
