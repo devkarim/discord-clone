@@ -5,5 +5,6 @@ declare namespace Express {
     name: string | null;
     email: string;
     imageUrl: string | null;
+    status: 'ONLINE' | 'OFFLINE' | 'IDLE' | 'DND';
   }
 }
