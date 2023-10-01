@@ -11,6 +11,13 @@ datasource db {
   relationMode = "prisma"
 }
 
+enum Status {
+  ONLINE
+  OFFLINE
+  IDLE
+  DND
+}
+
 model User {
   id       Int     @id @default(autoincrement())
   name     String?
@@ -18,6 +25,7 @@ model User {
   email    String  @unique @db.VarChar(320)
   password String  @db.Text
   imageUrl String? @db.Text
+  status   Status  @default(OFFLINE)
 
   servers  Server[]
   members  Member[]
