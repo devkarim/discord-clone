@@ -1,12 +1,14 @@
 'use client';
 
-import useUser from '@/hooks/use-user';
-import useControl from '@/hooks/use-control';
 import { FaGear } from '@react-icons/all-files/fa6/FaGear';
 import { MdHeadset } from '@react-icons/all-files/md/MdHeadset';
 import { MdHeadsetOff } from '@react-icons/all-files/md/MdHeadsetOff';
 import { BiSolidMicrophone } from '@react-icons/all-files/bi/BiSolidMicrophone';
 import { BiSolidMicrophoneOff } from '@react-icons/all-files/bi/BiSolidMicrophoneOff';
+
+import useUser from '@/hooks/use-user';
+import useModal from '@/hooks/use-modal';
+import useControl from '@/hooks/use-control';
 
 import Avatar from './avatar';
 import IconButton from './icon-button';
@@ -15,6 +17,7 @@ interface ClientControlProps {}
 
 const ClientControl: React.FC<ClientControlProps> = ({}) => {
   const { data } = useUser();
+  const showModal = useModal((state) => state.show);
   const control = useControl();
 
   if (!data) return null;
@@ -26,8 +29,6 @@ const ClientControl: React.FC<ClientControlProps> = ({}) => {
   const onDeafen = () => {
     control.toggleDefean();
   };
-
-  const onSettings = () => {};
 
   return (
     <div className="basis-0 w-full p-2 bg-sidebar/80">
@@ -73,7 +74,7 @@ const ClientControl: React.FC<ClientControlProps> = ({}) => {
           </IconButton>
           <IconButton
             className="opacity-60 text-lg"
-            onClick={onSettings}
+            onClick={() => showModal('user-settings')}
             tooltip={'User Settings'}
             side="top"
             bg
