@@ -34,6 +34,7 @@ export const getServerRoles = (userId: number, serverId: number) =>
               name: true,
               username: true,
               imageUrl: true,
+              status: true,
             },
           },
         },
