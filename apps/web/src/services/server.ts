@@ -21,7 +21,7 @@ type ServerCodeResponse = BaseResponse<{ server: Server; isInServer: boolean }>;
 type ServerWithChannelsResponse = BaseResponse<ServerWithChannels>;
 type ServersResponse = BaseResponse<Server[]>;
 type ServersWithMembersCountResponse = BaseResponse<ServerWithMembersCount[]>;
-type MembersResponse = BaseResponse<FullMember[]>;
+export type MembersResponse = BaseResponse<FullMember[]>;
 type RolesResponse = BaseResponse<FullRole[]>;
 type RoleResponse = BaseResponse<Role>;
 
