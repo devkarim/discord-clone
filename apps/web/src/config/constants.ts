@@ -12,6 +12,9 @@ export const API_URL = isDevelopment
   : 'https://api.discord.karimwael.com';
 
 export const CHAT_QUERY_KEY = 'chat:messages';
+export const MEMBERS_QUERY_KEY = 'members:roles';
+export const USER_QUERY_KEY = 'user';
 
 export const CHAT_ADD_KEY = 'chat:messages:new';
 export const CHAT_UPDATE_KEY = 'chat:messages:update';
+export const STATUS_CHANGE_KEY = 'status:change';

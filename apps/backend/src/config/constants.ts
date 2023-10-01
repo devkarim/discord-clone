@@ -18,3 +18,4 @@ export const APP_URL = isDevelopment
 
 export const CHAT_ADD_KEY = 'chat:messages:new';
 export const CHAT_UPDATE_KEY = 'chat:messages:update';
+export const STATUS_CHANGE_KEY = 'status:change';
