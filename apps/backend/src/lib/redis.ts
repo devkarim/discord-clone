@@ -9,7 +9,7 @@ const redisClient = createClient({
 });
 
 redisClient.connect().catch((err) => {
-  console.error(err);
+  console.error('Redis Client Error', err);
   process.exit();
 });
 
