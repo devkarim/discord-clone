@@ -14,6 +14,7 @@ import errorLogger from './middlewares/error/error-logger.js';
 import errorSender from './middlewares/error/error-sender.js';
 import errorHandler from './middlewares/error/error-handler.js';
 import { API_URL, APP_URL, isProduction } from './config/constants.js';
+import prisma from './lib/prisma.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -41,4 +42,5 @@ app.use(errorSender);
 // Listen
 server.listen(env.PORT, () => {
   console.log(`Listening on ${API_URL}...`);
+  prisma.user.updateMany({ data: { status: 'OFFLINE' } });
 });
