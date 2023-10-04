@@ -52,6 +52,10 @@ export const Messages = {
       min: `Username must be at least ${Limits.username.min} characters`,
       max: `Username must be at most ${Limits.username.max} characters`,
     },
+    name: {
+      min: `Name must be at least ${Limits.name.min} characters`,
+      max: `Name must be at most ${Limits.name.max} characters`,
+    },
     server: {
       inviteCode: 'Invite code must be exactly 6 characters',
       name: {

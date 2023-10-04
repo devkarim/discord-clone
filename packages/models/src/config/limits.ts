@@ -6,6 +6,10 @@ export const Limits = {
     min: 3,
     max: 36,
   },
+  name: {
+    min: 3,
+    max: 36,
+  },
   server: {
     inviteCode: {
       min: 6,
