@@ -39,8 +39,23 @@ app.use(errorHandler);
 app.use(errorLogger);
 app.use(errorSender);
 
-// Listen
-server.listen(env.PORT, () => {
-  console.log(`Listening on ${API_URL}...`);
-  prisma.user.updateMany({ data: { status: 'OFFLINE' } });
-});
+const updateOfflineUsers = () =>
+  prisma.user.updateMany({
+    where: {
+      status: {
+        not: 'OFFLINE',
+      },
+    },
+    data: { status: 'OFFLINE' },
+  });
+
+const main = async () => {
+  // Update all users status to be OFFLINE
+  await updateOfflineUsers();
+  // Start server
+  server.listen(env.PORT, () => {
+    console.log(`Listening on ${API_URL}...`);
+  });
+};
+
+main().catch((err) => console.error(err));
