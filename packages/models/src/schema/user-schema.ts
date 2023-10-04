@@ -11,7 +11,8 @@ export const updateUserSchema = z.object({
     .string()
     .min(Limits.name.min, Messages.limits.name.min)
     .max(Limits.name.max, Messages.limits.name.max)
-    .optional(),
+    .optional()
+    .or(z.literal('')),
 });
 
 export type UpdateUserSchema = z.infer<typeof updateUserSchema>;
