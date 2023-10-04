@@ -1,5 +1,5 @@
 import { Status, User } from 'database';
-import { RegisterSchema } from 'models';
+import { RegisterSchema, UpdateUserSchema } from 'models';
 
 import prisma from '../lib/prisma.js';
 import { hash } from '../lib/hash.js';
@@ -30,6 +30,9 @@ export const isUsernameTaken = async (username: string) =>
 
 export const setUserStatus = async (id: number, status: Status) =>
   prisma.user.update({ where: { id }, data: { status } });
+
+export const updateUser = async (id: number, data: Partial<UpdateUserSchema>) =>
+  prisma.user.update({ where: { id }, data });
 
 export const parseSession = (user: User): Express.User => {
   return {
