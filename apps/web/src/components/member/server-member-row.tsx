@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 import { FaEllipsis } from '@react-icons/all-files/fa6/FaEllipsis';
 
 import { Logger } from 'utils';
-import { Role } from 'database';
 import { Exception } from 'models';
 
 import { FullMember } from '@/types/db';
@@ -103,9 +102,14 @@ const ServerMemberRow: React.FC<ServerMemberRowProps> = ({ member }) => {
 
   return (
     <TableRow>
-      <TableCell className="text-lg">{member.user.username}</TableCell>
+      <TableCell className="text-lg font-medium">
+        {member.user.username}
+      </TableCell>
       <TableCell className="text-base">
-        <div className="flex items-center gap-2">
+        <div
+          className="flex items-center gap-2 font-medium"
+          style={{ color: member.role?.color }}
+        >
           {member.role?.name || 'Guest'}
         </div>
       </TableCell>
@@ -137,7 +141,12 @@ const ServerMemberRow: React.FC<ServerMemberRowProps> = ({ member }) => {
                         key={role.id}
                         value={role.id.toString()}
                       >
-                        <span>{role.name}</span>
+                        <p
+                          className="font-medium"
+                          style={{ color: role.color }}
+                        >
+                          {role.name}
+                        </p>
                       </DropdownMenuRadioItem>
                     ))}
                   </DropdownMenuRadioGroup>

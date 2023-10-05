@@ -41,6 +41,8 @@ const Message: React.FC<MessageProps> = ({ message }) => {
   const isEdited = message.updatedAt !== message.createdAt;
   const isAttachment = !!message.fileUrl;
 
+  const user = message.author.user;
+
   const saveEdit = async (data: UpdateMessageSchema) => {
     if (!message.id || message.pendingMessageId)
       return toast.error('This message is pending, please wait...');
@@ -120,8 +122,8 @@ const Message: React.FC<MessageProps> = ({ message }) => {
         )}
       >
         <Avatar
-          src={message.author.user.imageUrl}
-          name={message.author.user.username}
+          src={user.imageUrl}
+          name={user.username}
           alt="avatar"
           showStatus={false}
           parentClassName="w-12 h-12 select-none"
@@ -129,7 +131,12 @@ const Message: React.FC<MessageProps> = ({ message }) => {
         />
         <div className={cn('w-full space-y-1', isAttachment && 'space-y-2')}>
           <div className="flex items-center gap-2 select-none">
-            <p className="font-semibold">{message.author.user.username}</p>
+            <p
+              className="font-semibold"
+              style={{ color: message.author.role?.color }}
+            >
+              {user.name || user.username}
+            </p>
             <p className="text-foreground/60 text-xs">
               {formatDate(message.createdAt)}
             </p>

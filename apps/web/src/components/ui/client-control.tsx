@@ -39,10 +39,12 @@ const ClientControl: React.FC<ClientControlProps> = ({}) => {
             name={user.username}
             src={user.imageUrl}
             status={user.status}
-            parentClassName="bg-background overflow-visible"
+            parentClassName="bg-background"
           />
           <div>
-            <p className="text-sm font-semibold opacity-90">{user.username}</p>
+            <p className="text-sm font-semibold opacity-90">
+              {user.name || user.username}
+            </p>
             <p className="text-xs opacity-60">Online</p>
           </div>
         </div>

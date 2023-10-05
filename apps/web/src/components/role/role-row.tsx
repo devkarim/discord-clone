@@ -59,7 +59,7 @@ const RoleRow: React.FC<RoleRowProps> = ({ role }) => {
               color={role.color || DEFAULT_ROLE_COLOR}
             />
           )}
-          {role.name}
+          <p>{role.name}</p>
         </div>
       </TableCell>
       <TableCell className="text-foreground/60 text-lg">

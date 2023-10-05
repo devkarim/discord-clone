@@ -1,7 +1,7 @@
 'use client';
 
+import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { useEffect, useState } from 'react';
 
 import { Logger } from 'utils';
 import { Exception } from 'models';
@@ -37,7 +37,7 @@ const ServerOverview: React.FC<ServerOverviewProps> = ({}) => {
       refetchServers();
       toast.success('Server updated successfully');
     } catch (err) {
-      Logger.exception(err, 'register-form');
+      Logger.exception(err, 'server-overview');
       toast.error(Exception.parseError(err));
     } finally {
       setLoading(false);
