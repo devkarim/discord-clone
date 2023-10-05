@@ -73,6 +73,12 @@ export const getChannelMessages = (channelId: number, cursorTo?: number) =>
     include: {
       author: {
         include: {
+          role: {
+            select: {
+              color: true,
+              name: true,
+            },
+          },
           user: {
             select: {
               id: true,

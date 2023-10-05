@@ -91,6 +91,12 @@ export type MessageWithAuthor = Prisma.MessageGetPayload<{
   include: {
     author: {
       include: {
+        role: {
+          select: {
+            color: true;
+            name: true;
+          };
+        };
         user: {
           select: {
             id: true;
