@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { MessageWithAuthor } from '@/types/db';
+import { PendingMessage } from '@/hooks/use-pending-messages';
 
 import ChatWelcome from './chat-welcome';
-import MessagesList from './messages-list';
-import { PendingMessage } from '@/hooks/use-pending-messages';
+import ChannelMessagesList from './channel-messages-list';
 
 interface ChatMessagesProps {
   name: string;
@@ -84,7 +84,12 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
       )}
       <div className="space-y-6">
         {!hasNextPage && <ChatWelcome name={name} isChannel={isChannel} />}
-        <MessagesList messages={messages} pendingMessages={pendingMessages} />
+        {isChannel && (
+          <ChannelMessagesList
+            messages={messages}
+            pendingMessages={pendingMessages}
+          />
+        )}
       </div>
       <div ref={bottomDiv} />
     </div>
