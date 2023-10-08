@@ -184,6 +184,50 @@ export const updateServer = async (
     data,
   });
 
+export const isUserBanned = async (userId: number, id: number) =>
+  prisma.server.findFirst({
+    where: {
+      id,
+      banned: {
+        some: {
+          id: userId,
+        },
+      },
+    },
+  });
+
+export const getBannedUsers = async (id: number) =>
+  prisma.user.findMany({
+    where: {
+      banned: {
+        some: {
+          id,
+        },
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      imageUrl: true,
+    },
+  });
+
+export const banUser = async (userId: number, id: number) =>
+  prisma.server.update({
+    where: { id },
+    data: {
+      banned: { connect: { id: userId } },
+      members: { deleteMany: { userId } },
+    },
+  });
+
+export const unbanUser = async (userId: number, id: number) =>
+  prisma.server.update({
+    where: { id },
+    data: { banned: { disconnect: { id: userId } } },
+  });
+
 export const getFreeCode = async () => {
   let code = '';
   while (!code) {
