@@ -5,6 +5,7 @@ import {
   isUserInServer,
   isUserInServerCode,
   getServerByCodeAndNotUser,
+  isUserBanned,
 } from '../services/server.js';
 import ServerResponse from '../models/response.js';
 import { addMemberToServer } from '../services/member.js';
@@ -34,6 +35,8 @@ const joinServer: typeof serverValidator.checkId = async (req, res) => {
     inviteCode
   );
   if (!checkServerCode) throw Errors.server.invalidCode;
+  const isBanned = await isUserBanned(req.user.id, checkServerCode.id);
+  if (!!isBanned) throw Errors.server.banned;
   const server = await addMemberToServer(req.user.id, inviteCode);
   return ServerResponse.success(res, server);
 };
