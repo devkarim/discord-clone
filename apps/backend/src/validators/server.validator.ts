@@ -54,6 +54,12 @@ const checkMemberId = validate({
   }),
 });
 
+const checkUserId = validate({
+  params: serverParamsSchema.extend({
+    userId: z.string(),
+  }),
+});
+
 const changeMemberRole = validate({
   params: serverParamsSchema.extend({
     memberId: z.string(),
@@ -72,5 +78,6 @@ export default {
   addRole,
   deleteRole,
   checkMemberId,
+  checkUserId,
   changeMemberRole,
 };

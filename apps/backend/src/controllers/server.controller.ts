@@ -11,6 +11,9 @@ import {
   isUserOwner,
   deleteOwnerServer,
   fetchPublicServers,
+  banUser,
+  unbanUser,
+  getBannedUsers,
 } from '../services/server.js';
 import {
   removeMemberFromServer,
@@ -254,6 +257,16 @@ const kickMember: typeof serverValidator.checkMemberId = async (req, res) => {
   return ServerResponse.success(res);
 };
 
+const getBans: typeof serverValidator.checkId = async (req, res) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const hasAccess = await canMemberDoAction(req.user.id, serverId, 'BAN_USERS');
+  if (!hasAccess) throw Errors.unauthorized;
+  const bans = await getBannedUsers(serverId);
+  return ServerResponse.success(res, bans);
+};
+
 const banMember: typeof serverValidator.checkMemberId = async (req, res) => {
   if (!req.user) throw Errors.unauthenticated;
   const serverId = +req.params.id;
@@ -273,6 +286,22 @@ const banMember: typeof serverValidator.checkMemberId = async (req, res) => {
     member.role?.permissions.some((p) => p.type == 'ADMINISTRATOR')
   )
     throw Errors.unauthorized;
+  await banUser(member.userId, serverId);
+  return ServerResponse.success(res);
+};
+
+const unban: typeof serverValidator.checkUserId = async (req, res) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const serverId = +req.params.id;
+  if (!serverId || isNaN(serverId)) throw Errors.server.invalidId;
+  const userId = +req.params.userId;
+  if (!userId || isNaN(userId)) throw Errors.member.invalidId;
+  const hasAccess = await canMemberDoAction(req.user.id, serverId, 'BAN_USERS');
+  if (!hasAccess) throw Errors.unauthorized;
+  const member = await getMemberByServerUser(userId, serverId);
+  if (member) throw Errors.member.alreadyInServer;
+  await unbanUser(userId, serverId);
+  return ServerResponse.success(res);
 };
 
 const editServer: typeof serverValidator.updateServer = async (req, res) => {
@@ -317,5 +346,7 @@ export default {
   deleteServer,
   changeMemberRole,
   kickMember,
+  getBans,
   banMember,
+  unban,
 };

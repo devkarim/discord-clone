@@ -126,14 +126,34 @@ serverRouter.delete(
   serverController.kickMember
 );
 
-// @route     DELETE /servers/:id/members/:memberId/ban
+// @route     GET /servers/:id/bans
+// @desc      Fetch bans for a server
+// @access    Private
+serverRouter.get(
+  '/:id/bans',
+  requireAuth,
+  serverValidator.checkId,
+  serverController.getBans
+);
+
+// @route     POST /servers/:id/members/:memberId/ban
 // @desc      Ban member from server
 // @access    Private
-serverRouter.delete(
+serverRouter.post(
   '/:id/members/:memberId/ban',
   requireAuth,
   serverValidator.checkMemberId,
   serverController.banMember
+);
+
+// @route     DELETE /servers/:id/members/:userId/ban
+// @desc      Unban member from server
+// @access    Private
+serverRouter.delete(
+  '/:id/members/:userId/ban',
+  requireAuth,
+  serverValidator.checkUserId,
+  serverController.unban
 );
 
 // @route     PATCH /servers/:id
