@@ -14,6 +14,7 @@ export const Messages = {
       ownerCannotLeave: "Server owner can't leave the server",
       notInServer: 'You are not in this server',
       alreadyInServer: 'You are already in this server',
+      banned: 'You are banned from this server',
     },
     channel: {
       invalidId: 'Invalid channel id',
@@ -36,6 +37,7 @@ export const Messages = {
     member: {
       invalidId: 'Invalid member id',
       notInServer: 'Member is not in this server',
+      alreadyInServer: 'Member is already in this server',
       kickSelf: "Can't kick yourself",
       banSelf: "Can't ban yourself",
     },

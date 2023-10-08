@@ -20,7 +20,7 @@ export const Errors = {
       Messages.errors.server.alreadyInServer,
       400
     ),
-    category: {},
+    banned: Exception.manual(Messages.errors.server.banned, 400),
   },
   channel: {
     invalidId: Exception.manual(Messages.errors.channel.invalidId, 400),
@@ -46,6 +46,10 @@ export const Errors = {
   member: {
     invalidId: Exception.manual(Messages.errors.member.invalidId, 400),
     notInServer: Exception.manual(Messages.errors.member.notInServer, 400),
+    alreadyInServer: Exception.manual(
+      Messages.errors.member.alreadyInServer,
+      400
+    ),
     kickSelf: Exception.manual(Messages.errors.member.kickSelf, 400),
     banSelf: Exception.manual(Messages.errors.member.banSelf, 400),
   },
