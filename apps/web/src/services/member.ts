@@ -34,5 +34,10 @@ export const kickServerMember = (serverId: number, memberId: number) =>
 
 export const banServerMember = (serverId: number, memberId: number) =>
   client
-    .delete<BaseResponseNoData>(`/servers/${serverId}/members/${memberId}/ban`)
+    .post<BaseResponseNoData>(`/servers/${serverId}/members/${memberId}/ban`)
+    .then((res) => res.data);
+
+export const unbanServerMember = (serverId: number, userId: number) =>
+  client
+    .delete<BaseResponseNoData>(`/servers/${serverId}/members/${userId}/ban`)
     .then((res) => res.data);
