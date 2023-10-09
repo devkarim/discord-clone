@@ -7,6 +7,7 @@ import ServerRoles from '@/components/settings/server/server-roles';
 import ServerMembers from '@/components/settings/server/server-members';
 import SettingsContainer from '@/components/settings/settings-container';
 import ServerOverview from '@/components/settings/server/server-overview';
+import ServerBannedList from '@/components/settings/server/server-banned-list';
 
 interface ServerSettingsModalProps {}
 
@@ -29,6 +30,11 @@ const ServerSettingsModal: React.FC<ServerSettingsModalProps> = ({}) => {
       name: 'Members',
       title: 'Members',
       content: <ServerMembers />,
+    },
+    {
+      name: 'Banned',
+      title: 'Banned List',
+      content: <ServerBannedList />,
     },
   ];
 
