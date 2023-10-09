@@ -12,6 +12,7 @@ import {
   FullMember,
   FullRole,
   ServerWithMembersCount,
+  UserWithoutStatus,
 } from '@/types/db';
 
 import client from './client';
@@ -24,6 +25,7 @@ type ServersWithMembersCountResponse = BaseResponse<ServerWithMembersCount[]>;
 export type MembersResponse = BaseResponse<FullMember[]>;
 type RolesResponse = BaseResponse<FullRole[]>;
 type RoleResponse = BaseResponse<Role>;
+type UsersWithoutStatusResponse = BaseResponse<UserWithoutStatus[]>;
 
 export const createServer = (data: CreateServerSchema) =>
   client
@@ -60,6 +62,11 @@ export const addServerRole = (serverId: number, data: CreateRoleSchema) =>
 
 export const deleteServerRole = (serverId: number, roleId: number) =>
   client.delete<BaseResponseNoData>(`/servers/${serverId}/roles/${roleId}`);
+
+export const getServerBans = (serverId: number) =>
+  client
+    .get<UsersWithoutStatusResponse>(`/servers/${serverId}/bans`)
+    .then((res) => res.data.data);
 
 export const getServerMembers = (serverId: number) =>
   client

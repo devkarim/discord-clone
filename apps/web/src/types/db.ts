@@ -110,3 +110,12 @@ export type MessageWithAuthor = Prisma.MessageGetPayload<{
     };
   };
 }>;
+
+export type UserWithoutStatus = Prisma.UserGetPayload<{
+  select: {
+    id: true;
+    name: true;
+    username: true;
+    imageUrl: true;
+  };
+}>;
