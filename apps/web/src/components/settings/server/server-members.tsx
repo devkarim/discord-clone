@@ -5,12 +5,12 @@ import ServerMembersList from '@/components/member/server-members-list';
 interface ServerMembersProps {}
 
 const ServerMembers: React.FC<ServerMembersProps> = ({}) => {
-  const { data: members } = useCurrentMembers();
+  const { isLoading, data: members } = useCurrentMembers();
 
-  if (!members)
+  if (isLoading)
     return (
       <div>
-        <Skeleton className="w-full h-64" />
+        <Skeleton className="w-full my-6 h-64" />
       </div>
     );
 
@@ -19,7 +19,11 @@ const ServerMembers: React.FC<ServerMembersProps> = ({}) => {
       <p className="text-foreground/60 text-sm pt-2">
         Manage your server members here.
       </p>
-      <ServerMembersList members={members} />
+      {members && members.length !== 0 ? (
+        <ServerMembersList members={members} />
+      ) : (
+        <p className="text-center text-foreground/60">No members found.</p>
+      )}
     </div>
   );
 };
