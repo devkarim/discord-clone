@@ -14,6 +14,7 @@ export const API_URL = isDevelopment
 export const CHAT_QUERY_KEY = 'chat:messages';
 export const MEMBERS_QUERY_KEY = 'members:roles';
 export const USER_QUERY_KEY = 'user';
+export const BAN_QUERY_KEY = 'bans';
 
 export const CHAT_ADD_KEY = 'chat:messages:new';
 export const CHAT_UPDATE_KEY = 'chat:messages:update';
