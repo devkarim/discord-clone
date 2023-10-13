@@ -27,11 +27,12 @@ model User {
   imageUrl String? @db.Text
   status   Status  @default(OFFLINE)
 
-  servers       Server[]       @relation("owner")
-  banned        Server[]       @relation("banned")
-  members       Member[]
-  channels      Channel[]
-  conversations Conversation[]
+  servers        Server[]        @relation("owner")
+  banned         Server[]        @relation("banned")
+  members        Member[]
+  channels       Channel[]
+  conversations  Conversation[]
+  directMessages DirectMessage[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -125,13 +126,32 @@ model Message {
 
   fileUrl String? @db.Text
 
-  authorId Int
   author   Member @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId Int
 
-  channel        Channel?      @relation(fields: [channelId], references: [id], onDelete: Cascade)
-  channelId      Int?
-  conversation   Conversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  conversationId Int?
+  channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  channelId Int
+
+  deleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([channelId])
+  @@index([authorId])
+}
+
+model DirectMessage {
+  id      Int    @id @default(autoincrement())
+  content String @db.Text
+
+  fileUrl String? @db.Text
+
+  author   User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId Int
+
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId Int
 
   deleted Boolean @default(false)
 
@@ -139,7 +159,6 @@ model Message {
   updatedAt DateTime @updatedAt
 
   @@index([conversationId])
-  @@index([channelId])
   @@index([authorId])
 }
 
@@ -195,7 +214,7 @@ model Conversation {
   isGroup Boolean @default(false)
 
   users    User[]
-  messages Message[]
+  messages DirectMessage[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
