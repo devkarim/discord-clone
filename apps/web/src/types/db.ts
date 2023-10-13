@@ -119,3 +119,31 @@ export type UserWithoutStatus = Prisma.UserGetPayload<{
     imageUrl: true;
   };
 }>;
+
+export type ConversationWithUsers = Prisma.ConversationGetPayload<{
+  include: {
+    users: {
+      select: {
+        id: true;
+        username: true;
+        imageUrl: true;
+        name: true;
+        status: true;
+      };
+    };
+  };
+}>;
+
+export type FullDirectMessage = Prisma.DirectMessageGetPayload<{
+  include: {
+    author: {
+      select: {
+        id: true;
+        name: true;
+        username: true;
+        imageUrl: true;
+        status: true;
+      };
+    };
+  };
+}>;
