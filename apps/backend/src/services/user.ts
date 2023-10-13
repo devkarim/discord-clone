@@ -13,6 +13,18 @@ export const createUser = async (data: RegisterSchema) => {
   });
 };
 
+export const getUserById = async (id: number) =>
+  prisma.user.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      username: true,
+      imageUrl: true,
+      name: true,
+      status: true,
+    },
+  });
+
 export const getFullUserByEmail = async (email: string) =>
   prisma.user.findUnique({ where: { email } });
 
