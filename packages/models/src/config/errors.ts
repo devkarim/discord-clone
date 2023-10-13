@@ -1,9 +1,16 @@
-import { Exception } from '../types/error';
 import { Messages } from './messages';
+import { Exception } from '../types/error';
 
 export const Errors = {
   invalidCredentials: Exception.manual(Messages.errors.invalidCredentials, 400),
   emailTaken: Exception.manual(Messages.errors.emailTaken, 400),
+  user: {
+    invalidId: Exception.manual(Messages.errors.user.invalidId, 400),
+  },
+  conversation: {
+    notFound: Exception.manual(Messages.errors.conversation.notFound, 400),
+    invalidId: Exception.manual(Messages.errors.conversation.invalidId, 400),
+  },
   server: {
     inviteCodeTaken: Exception.manual(
       Messages.errors.server.inviteCodeTaken,

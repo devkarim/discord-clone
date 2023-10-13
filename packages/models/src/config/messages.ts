@@ -7,6 +7,13 @@ export const Messages = {
     usernameTaken: 'Username is already taken',
     unauthenticated: 'You need to be authenticated to do that',
     unauthorized: 'You need to be authorized to do that',
+    conversation: {
+      notFound: 'Conversation not found',
+      invalidId: 'Invalid conversation id',
+    },
+    user: {
+      invalidId: 'Invalid user id',
+    },
     server: {
       inviteCodeTaken: 'Invite code is already taken',
       invalidId: 'Invalid server id',
