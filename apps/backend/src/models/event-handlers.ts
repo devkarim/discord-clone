@@ -7,6 +7,10 @@ import { Status } from 'database';
 class EventHandlers {
   static register(socket: Socket) {
     socket.on('message', messageHandler.sendMessage(socket));
+    socket.on(
+      'message:conversation',
+      messageHandler.sendConversationMessage(socket)
+    );
     statusHandler.setStatus(socket, Status.ONLINE);
   }
 
