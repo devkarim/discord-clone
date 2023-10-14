@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/button';
 import { AlertDialogTitle } from '@/components/ui/alert-dialog';
 
 interface ConfirmationModalProps extends React.ComponentProps<typeof Modal> {
-  onConfirm: () => {};
-  onCancel?: () => {};
+  onConfirm: () => void;
+  onCancel?: () => void;
   disabled?: boolean;
   loading?: boolean;
 }
