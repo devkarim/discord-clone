@@ -25,6 +25,23 @@ export const getUserById = async (id: number) =>
     },
   });
 
+export const getUserMutuals = async (id: number) =>
+  prisma.user.findMany({
+    where: {
+      AND: [
+        { servers: { every: { members: { some: { userId: id } } } } },
+        { id: { not: id } },
+      ],
+    },
+    select: {
+      id: true,
+      username: true,
+      imageUrl: true,
+      name: true,
+      status: true,
+    },
+  });
+
 export const getFullUserByEmail = async (email: string) =>
   prisma.user.findUnique({ where: { email } });
 
