@@ -6,7 +6,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { CHAT_QUERY_KEY } from '@/config/constants';
 import { getChannelMessages } from '@/services/message';
 
-const useCurrentMessages = () => {
+const useCurrentChannelMessages = () => {
   const { channelId } = useParams();
 
   const query = useInfiniteQuery({
@@ -23,4 +23,4 @@ const useCurrentMessages = () => {
   return query;
 };
 
-export default useCurrentMessages;
+export default useCurrentChannelMessages;
