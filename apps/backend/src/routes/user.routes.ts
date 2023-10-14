@@ -6,7 +6,7 @@ import userController from '../controllers/user.controller.js';
 
 const userRouter = express.Router();
 
-// @route     PATCH /user/
+// @route     PATCH /user
 // @desc      Update user's data
 // @access    Private
 userRouter.patch(
@@ -15,5 +15,10 @@ userRouter.patch(
   userValidator.updateServerUser,
   userController.updateServerUser
 );
+
+// @route     GET /user/mutuals
+// @desc      Fetch user's mutuals
+// @access    Private
+userRouter.get('/mutuals', requireAuth, userController.getMutuals);
 
 export default userRouter;

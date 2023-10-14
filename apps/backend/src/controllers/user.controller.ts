@@ -1,6 +1,12 @@
+import { Request, Response } from 'express';
+
 import { Errors } from 'models';
 
-import { isUsernameTaken, updateUser } from '../services/user.js';
+import {
+  getUserMutuals,
+  isUsernameTaken,
+  updateUser,
+} from '../services/user.js';
 import ServerResponse from '../models/response.js';
 import userValidator from '../validators/user.validator.js';
 
@@ -18,4 +24,10 @@ const updateServerUser: typeof userValidator.updateServerUser = async (
   return ServerResponse.success(res, user);
 };
 
-export default { updateServerUser };
+const getMutuals = async (req: Request, res: Response) => {
+  if (!req.user) throw Errors.unauthenticated;
+  const mutuals = await getUserMutuals(req.user.id);
+  return ServerResponse.success(res, mutuals);
+};
+
+export default { updateServerUser, getMutuals };
