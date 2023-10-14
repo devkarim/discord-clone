@@ -1,5 +1,15 @@
 import { Prisma } from 'database';
 
+export type FullUser = Prisma.UserGetPayload<{
+  select: {
+    id: true;
+    name: true;
+    username: true;
+    imageUrl: true;
+    status: true;
+  };
+}>;
+
 export type ServerWithChannels = Prisma.ServerGetPayload<{
   include: {
     channels: true;
