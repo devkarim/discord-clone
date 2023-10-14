@@ -137,3 +137,56 @@ export const deleteMessageById = (id: number) =>
       },
     },
   });
+
+export const getMessagesByConversationId = (id: number, cursorTo?: number) =>
+  prisma.directMessage.findMany({
+    where: {
+      conversationId: id,
+    },
+    take: MESSAGES_BATCH,
+    skip: cursorTo != undefined ? 1 : 0,
+    cursor:
+      cursorTo != undefined
+        ? {
+            id: cursorTo,
+          }
+        : undefined,
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          imageUrl: true,
+          status: true,
+        },
+      },
+    },
+  });
+
+export const createDirectMessage = (
+  conversationId: number,
+  authorId: number,
+  data: SendMessageSchema
+) =>
+  prisma.directMessage.create({
+    data: {
+      ...data,
+      conversationId,
+      authorId,
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          imageUrl: true,
+          status: true,
+        },
+      },
+    },
+  });
