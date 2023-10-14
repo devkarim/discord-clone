@@ -1,13 +1,10 @@
 import { useState } from 'react';
-import { toast } from 'react-toastify';
 
 import { UpdateMessageSchema } from 'models';
 
 import Avatar from '@/components/ui/avatar';
 import { cn, formatDate, handleError } from '@/lib/utils';
-import useCurrentMember from '@/hooks/use-current-member';
 import ActionTooltip from '@/components/ui/action-tooltip';
-import { deleteMessage, updateMessage } from '@/services/message';
 import ConfirmationModal from '@/components/modals/confirmation-modal';
 
 import MessageEdit from './message-edit';
@@ -27,6 +24,8 @@ interface MessageProps {
   updatedAt: Date;
   canEdit?: boolean;
   canDelete?: boolean;
+  onSaveEdit: (data: UpdateMessageSchema) => Promise<any>;
+  onDelete: () => Promise<any>;
 }
 
 const Message: React.FC<MessageProps> = ({
@@ -42,38 +41,31 @@ const Message: React.FC<MessageProps> = ({
   fileUrl,
   updatedAt,
   createdAt,
+  onSaveEdit,
+  onDelete,
 }) => {
   const [isLoading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const { data: member } = useCurrentMember();
-
-  if (!member) return null;
 
   const hasAccessToActions = !deleted && (canEdit || canDelete);
   const isEdited = updatedAt !== createdAt;
   const isAttachment = !!fileUrl;
 
   const saveEdit = async (data: UpdateMessageSchema) => {
-    if (!id || pendingMessageId)
-      return toast.error('This message is pending, please wait...');
     try {
       setLoading(true);
-      await updateMessage(id, data);
+      await onSaveEdit(data);
       setIsEditing(false);
     } catch (err) {
       handleError(err);
-    } finally {
-      setLoading(false);
     }
   };
 
-  const onDelete = async () => {
-    if (!id || pendingMessageId)
-      return toast.error('This message is pending, please wait...');
+  const onConfirmDeleteMessage = async () => {
     try {
       setLoading(true);
-      await deleteMessage(id);
+      await onDelete();
       setDeleting(false);
     } catch (err) {
       handleError(err);
@@ -123,7 +115,7 @@ const Message: React.FC<MessageProps> = ({
         onOpenChange={setDeleting}
         title="Are you sure you want to delete this message?"
         subtitle="By deleting this message, you will not be able to recover it."
-        onConfirm={onDelete}
+        onConfirm={onConfirmDeleteMessage}
         loading={isLoading}
       />
       <div
