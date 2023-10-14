@@ -8,9 +8,10 @@ import SidebarCard from '@/components/sidebar/sidebar-card';
 
 interface DMCardProps {
   username: string;
-  imageUrl?: string;
+  imageUrl?: string | null;
   active?: boolean;
   status?: Status;
+  onClick?: () => void;
 }
 
 const DMCard: React.FC<DMCardProps> = ({
@@ -18,9 +19,10 @@ const DMCard: React.FC<DMCardProps> = ({
   imageUrl,
   active,
   status,
+  onClick,
 }) => {
   return (
-    <SidebarCard active={active}>
+    <SidebarCard active={active} onClick={onClick}>
       <Avatar
         src={imageUrl}
         name={username}
