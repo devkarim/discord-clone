@@ -2,12 +2,14 @@ import { Errors } from 'models';
 
 import { getUserById } from '../services/user.js';
 import ServerResponse from '../models/response.js';
-import { MESSAGES_BATCH } from '../services/message.js';
+import {
+  MESSAGES_BATCH,
+  getMessagesByConversationId,
+} from '../services/message.js';
 import conversationValidator from '../validators/conversation.validator.js';
 import {
   getConversationById,
-  getConversationByPairOfUsers,
-  getMessagesByConversationId,
+  getOrCreatePairConversation,
 } from '../services/conversation.js';
 
 const getConversationByPair: typeof conversationValidator.checkId = async (
@@ -20,8 +22,8 @@ const getConversationByPair: typeof conversationValidator.checkId = async (
   if (req.user.id === userId) throw Errors.conversation.notFound;
   const user = await getUserById(userId);
   if (!user) throw Errors.user.invalidId;
-  const conversation = await getConversationByPairOfUsers(req.user.id, userId);
-  return ServerResponse.success(res, conversation);
+  const conversation = await getOrCreatePairConversation(req.user.id, userId);
+  return ServerResponse.success(res, { conversation, user });
 };
 
 const getConversationMessages: typeof conversationValidator.getConversationMessages =
@@ -33,9 +35,9 @@ const getConversationMessages: typeof conversationValidator.getConversationMessa
     const cursor = +(req.query.cursor ?? -1);
     if (!cursor || isNaN(cursor)) throw Errors.invalidCursor;
     const conversation = await getConversationById(conversationId);
-    if (!conversation) throw Errors.conversation.invalidId;
+    if (!conversation) return ServerResponse.success(res, { messages: [] });
     const messages = await getMessagesByConversationId(
-      conversationId,
+      conversation.id,
       cursor == -1 ? undefined : cursor
     );
     return ServerResponse.success(res, {
