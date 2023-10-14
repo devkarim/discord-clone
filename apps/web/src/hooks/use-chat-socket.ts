@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { UseInfiniteQueryResult, useQueryClient } from '@tanstack/react-query';
 
-import { MessageWithAuthor } from '@/types/db';
-import { MessagesWithAuthorResponse } from '@/services/message';
+import { BaseResponse } from 'models';
+
 import {
   CHAT_ADD_KEY,
   CHAT_QUERY_KEY,
   CHAT_UPDATE_KEY,
 } from '@/config/constants';
+import { FullDirectMessage, MessageWithAuthor } from '@/types/db';
 
 import useSocket from './use-socket';
 import usePendingMessages from './use-pending-messages';
@@ -28,9 +29,17 @@ const useChatSocket = (chatId?: number) => {
     // Add new message to the top of the list
     socket.on(
       addKey,
-      (message: MessageWithAuthor, pendingMessageId: string) => {
+      (
+        message: MessageWithAuthor | FullDirectMessage,
+        pendingMessageId: string
+      ) => {
         queryClient.setQueryData<
-          UseInfiniteQueryResult<MessagesWithAuthorResponse['data']>['data']
+          UseInfiniteQueryResult<
+            BaseResponse<{
+              messages: (typeof message)[];
+              cursor?: number;
+            }>['data']
+          >['data']
         >([queryKey], (oldData) => {
           removePendingMessage(pendingMessageId);
           if (!oldData || !oldData.pages || oldData.pages.length == 0)
@@ -57,9 +66,14 @@ const useChatSocket = (chatId?: number) => {
     );
 
     // Update message in the list
-    socket.on(updateKey, (message: MessageWithAuthor) => {
+    socket.on(updateKey, (message: MessageWithAuthor | FullDirectMessage) => {
       queryClient.setQueryData<
-        UseInfiniteQueryResult<MessagesWithAuthorResponse['data']>['data']
+        UseInfiniteQueryResult<
+          BaseResponse<{
+            messages: (typeof message)[];
+            cursor?: number;
+          }>['data']
+        >['data']
       >([queryKey], (oldData) => {
         if (!oldData || !oldData.pages || oldData.pages.length == 0) return;
         const newData = oldData.pages.map((page) => ({
