@@ -1,33 +1,25 @@
 'use client';
 
 import { useState } from 'react';
-import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BiSolidPlusCircle } from '@react-icons/all-files/bi/BiSolidPlusCircle';
 
-import { SendMessageSchema, SocketResponse, sendMessageSchema } from 'models';
+import { SendMessageSchema, sendMessageSchema } from 'models';
 
-import { handleError } from '@/lib/utils';
-import useSocket from '@/hooks/use-socket';
 import { Input } from '@/components/ui/input';
 import IconButton from '@/components/ui/icon-button';
-import usePendingMessages from '@/hooks/use-pending-messages';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import CreateAttachmentModal from '@/components/modals/create-attachment-modal';
 
 import EmojiPicker from './emoji-picker';
-import useCurrentMember from '@/hooks/use-current-member';
 
 interface ChatBoxProps {
-  chatId: number;
   name: string;
+  sendMessage: (values: SendMessageSchema) => void;
 }
 
-const ChatBox: React.FC<ChatBoxProps> = ({ chatId, name }) => {
-  const socket = useSocket((state) => state.socket);
-  const { data: member } = useCurrentMember();
-  const addPendingMessage = usePendingMessages((state) => state.addMessage);
+const ChatBox: React.FC<ChatBoxProps> = ({ sendMessage, name }) => {
   const [isCreateAttachmentOpen, setCreateAttachmentOpen] = useState(false);
   const form = useForm<SendMessageSchema>({
     resolver: zodResolver(sendMessageSchema),
@@ -37,37 +29,6 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chatId, name }) => {
   });
 
   const loading = form.formState.isSubmitting;
-
-  const sendMessage = async (values: SendMessageSchema) => {
-    if (!socket || !socket.active)
-      return toast.error('Socket is not connected');
-    if (!member) return toast.error('You are not a member of this chat');
-    try {
-      const response: SocketResponse<{ pendingMessageId: string }> =
-        await socket.timeout(3000).emitWithAck('message', chatId, values);
-      if (!response.success) {
-        return toast.error(response.message);
-      }
-      const createdAt = new Date();
-      const { pendingMessageId } = response.data;
-      addPendingMessage({
-        pendingMessageId,
-        authorId: member.id,
-        author: {
-          ...member,
-        },
-        channelId: chatId,
-        createdAt,
-        updatedAt: createdAt,
-        deleted: false,
-        content: values.content,
-        fileUrl: values.fileUrl ?? null,
-      });
-      form.reset();
-    } catch (err) {
-      handleError(err);
-    }
-  };
 
   return (
     <>
@@ -80,7 +41,12 @@ const ChatBox: React.FC<ChatBoxProps> = ({ chatId, name }) => {
         }}
       />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(sendMessage)}>
+        <form
+          onSubmit={(e) => {
+            form.handleSubmit(sendMessage)(e);
+            form.reset();
+          }}
+        >
           <FormField
             control={form.control}
             name="content"
