@@ -2,32 +2,30 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { MessageWithAuthor } from '@/types/db';
-import { PendingMessage } from '@/hooks/use-pending-messages';
-
 import ChatWelcome from './chat-welcome';
-import ChannelMessagesList from './channel-messages-list';
 
 interface ChatMessagesProps {
   name: string;
+  username?: string;
+  imageUrl?: string | null;
   isChannel?: boolean;
-  messages: MessageWithAuthor[];
-  pendingMessages: PendingMessage[];
   hasNextPage?: boolean;
   isFetchingNextPage: boolean;
   fetchNextPage: () => void;
   currentPageCount?: number;
+  children?: React.ReactNode;
 }
 
 const ChatMessages: React.FC<ChatMessagesProps> = ({
   name,
+  username,
+  imageUrl,
   isChannel,
-  messages,
-  pendingMessages,
   hasNextPage,
   isFetchingNextPage,
   fetchNextPage,
   currentPageCount,
+  children,
 }) => {
   const topDiv = useRef<React.ElementRef<'div'>>(null);
   const bottomDiv = useRef<React.ElementRef<'div'>>(null);
@@ -83,13 +81,15 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({
         </div>
       )}
       <div className="space-y-6">
-        {!hasNextPage && <ChatWelcome name={name} isChannel={isChannel} />}
-        {isChannel && (
-          <ChannelMessagesList
-            messages={messages}
-            pendingMessages={pendingMessages}
+        {!hasNextPage && (
+          <ChatWelcome
+            name={name}
+            username={username}
+            imageUrl={imageUrl}
+            isChannel={isChannel}
           />
         )}
+        {children}
       </div>
       <div ref={bottomDiv} />
     </div>
