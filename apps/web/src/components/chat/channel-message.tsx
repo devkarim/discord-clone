@@ -1,6 +1,12 @@
+import { toast } from 'react-toastify';
+
+import { UpdateMessageSchema } from 'models';
+
+import { handleError } from '@/lib/utils';
 import { MessageWithAuthor } from '@/types/db';
 import { canMemberDoAction } from '@/lib/permission';
 import useCurrentMember from '@/hooks/use-current-member';
+import { updateMessage, deleteMessage } from '@/services/message';
 
 import Message from './message';
 
@@ -23,6 +29,26 @@ const ChannelMessage: React.FC<ChannelMessageProps> = ({ message }) => {
     canMemberDoAction(member, 'DELETE_MESSAGES') ||
     member.id === message.author.id;
 
+  const saveEdit = async (data: UpdateMessageSchema) => {
+    if (!message.id || message.pendingMessageId)
+      return toast.error('This message is pending, please wait...');
+    try {
+      await updateMessage(message.id, data);
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
+  const onDelete = async () => {
+    if (!message.id || message.pendingMessageId)
+      return toast.error('This message is pending, please wait...');
+    try {
+      await deleteMessage(message.id);
+    } catch (err) {
+      handleError(err);
+    }
+  };
+
   return (
     <Message
       id={message.id}
@@ -36,6 +62,8 @@ const ChannelMessage: React.FC<ChannelMessageProps> = ({ message }) => {
       deleted={message.deleted}
       createdAt={message.createdAt}
       updatedAt={message.updatedAt}
+      onSaveEdit={saveEdit}
+      onDelete={onDelete}
     />
   );
 };
