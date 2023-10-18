@@ -121,7 +121,7 @@ model Category {
 }
 
 model Message {
-  id      Int    @id @default(autoincrement())
+  id      String @id @default(uuid())
   content String @db.Text
 
   fileUrl String? @db.Text
@@ -142,7 +142,7 @@ model Message {
 }
 
 model DirectMessage {
-  id      Int    @id @default(autoincrement())
+  id      String @id @default(uuid())
   content String @db.Text
 
   fileUrl String? @db.Text
