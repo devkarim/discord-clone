@@ -68,6 +68,9 @@ importers:
       utils:
         specifier: workspace:*
         version: link:../../packages/utils
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
       zod:
         specifier: ^3.22.2
         version: 3.22.2
@@ -96,6 +99,9 @@ importers:
       '@types/passport-local':
         specifier: ^1.0.35
         version: 1.0.35
+      '@types/uuid':
+        specifier: ^9.0.6
+        version: 9.0.6
       nodemon:
         specifier: ^3.0.1
         version: 3.0.1
@@ -1858,6 +1864,10 @@ packages:
       '@types/http-errors': 2.0.1
       '@types/mime': 3.0.1
       '@types/node': 20.5.6
+    dev: true
+
+  /@types/uuid@9.0.6:
+    resolution: {integrity: sha512-BT2Krtx4xaO6iwzwMFUYvWBWkV2pr37zD68Vmp1CDV196MzczBRxuEpD6Pr395HAgebC/co7hOphs53r8V7jew==}
     dev: true
 
   /@typescript-eslint/parser@6.5.0(eslint@8.48.0)(typescript@5.2.2):
@@ -5316,6 +5326,11 @@ packages:
   /utils-merge@1.0.1:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
+    dev: false
+
+  /uuid@9.0.1:
+    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
+    hasBin: true
     dev: false
 
   /v8-compile-cache-lib@3.0.1:
