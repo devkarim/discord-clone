@@ -23,14 +23,10 @@ const getMessages: typeof channelValidator.getMessages = async (req, res) => {
   if (!req.user) throw Errors.unauthenticated;
   const channelId = +req.params.id;
   if (!channelId || isNaN(channelId)) throw Errors.channel.invalidId;
-  const cursor = +(req.query.cursor ?? -1);
-  if (!cursor || isNaN(cursor)) throw Errors.invalidCursor;
   const channel = await getChannelById(channelId, req.user.id);
   if (!channel) throw Errors.channel.invalidId;
-  const messages = await getChannelMessages(
-    channelId,
-    cursor == -1 ? undefined : cursor
-  );
+  const cursor = req.query.cursor;
+  const messages = await getChannelMessages(channelId, cursor);
   return ServerResponse.success(res, {
     messages,
     cursor:

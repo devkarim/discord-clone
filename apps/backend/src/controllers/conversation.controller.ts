@@ -32,14 +32,10 @@ const getConversationMessages: typeof conversationValidator.getConversationMessa
     const conversationId = +req.params.id;
     if (!conversationId || isNaN(conversationId))
       throw Errors.conversation.invalidId;
-    const cursor = +(req.query.cursor ?? -1);
-    if (!cursor || isNaN(cursor)) throw Errors.invalidCursor;
+    const cursor = req.query.cursor;
     const conversation = await getConversationById(conversationId);
     if (!conversation) return ServerResponse.success(res, { messages: [] });
-    const messages = await getMessagesByConversationId(
-      conversation.id,
-      cursor == -1 ? undefined : cursor
-    );
+    const messages = await getMessagesByConversationId(conversation.id, cursor);
     return ServerResponse.success(res, {
       messages,
       cursor:
