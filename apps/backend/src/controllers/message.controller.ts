@@ -16,8 +16,7 @@ const updateMessage: typeof messageValidator.updateMessage = async (
   res
 ) => {
   if (!req.user) throw Errors.unauthenticated;
-  const messageId = +req.params.id;
-  if (!messageId || isNaN(messageId)) throw Errors.message.invalidId;
+  const messageId = req.params.id;
   const message = await getMessageById(messageId);
   if (!message) throw Errors.message.invalidId;
   const isAuthor = message.author.user.id === req.user.id;
@@ -38,8 +37,7 @@ const updateMessage: typeof messageValidator.updateMessage = async (
 
 const deleteMessage: typeof messageValidator.checkId = async (req, res) => {
   if (!req.user) throw Errors.unauthenticated;
-  const messageId = +req.params.id;
-  if (!messageId || isNaN(messageId)) throw Errors.message.invalidId;
+  const messageId = req.params.id;
   const message = await getMessageById(messageId);
   if (!message) throw Errors.message.invalidId;
   const isAuthor = message.author.user.id === req.user.id;
