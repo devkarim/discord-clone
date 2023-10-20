@@ -27,6 +27,15 @@ export const getMemberByChannelId = (id: number, channelId: number) =>
       },
     },
     include: {
+      user: {
+        select: {
+          id: true,
+          username: true,
+          imageUrl: true,
+          name: true,
+          status: true,
+        },
+      },
       role: {
         include: {
           permissions: true,
