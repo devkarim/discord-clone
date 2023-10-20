@@ -1,8 +1,34 @@
+import { DirectMessage, Message } from 'database';
 import { SendMessageSchema, UpdateMessageSchema } from 'models';
 
 import prisma from '../lib/prisma.js';
 
 export const MESSAGES_BATCH = 15;
+
+export const createCustomMessage = (message: Message) =>
+  prisma.message.create({
+    data: { ...message, status: 'DELIVERED' },
+    include: {
+      author: {
+        include: {
+          role: {
+            include: {
+              permissions: true,
+            },
+          },
+          user: {
+            select: {
+              id: true,
+              username: true,
+              imageUrl: true,
+              name: true,
+              status: true,
+            },
+          },
+        },
+      },
+    },
+  });
 
 export const createMessage = (
   channelId: number,
@@ -32,7 +58,7 @@ export const createMessage = (
     },
   });
 
-export const getMessageById = (id: number) =>
+export const getMessageById = (id: string) =>
   prisma.message.findUnique({
     where: { id },
     include: {
@@ -57,7 +83,7 @@ export const getMessageById = (id: number) =>
     },
   });
 
-export const getChannelMessages = (channelId: number, cursorTo?: number) =>
+export const getChannelMessages = (channelId: number, cursorTo?: string) =>
   prisma.message.findMany({
     take: MESSAGES_BATCH,
     skip: cursorTo != undefined ? 1 : 0,
@@ -96,7 +122,7 @@ export const getChannelMessages = (channelId: number, cursorTo?: number) =>
     },
   });
 
-export const editMessage = (id: number, data: Partial<UpdateMessageSchema>) =>
+export const editMessage = (id: string, data: Partial<UpdateMessageSchema>) =>
   prisma.message.update({
     where: { id },
     data,
@@ -117,10 +143,10 @@ export const editMessage = (id: number, data: Partial<UpdateMessageSchema>) =>
     },
   });
 
-export const deleteMessageById = (id: number) =>
+export const deleteMessageById = (id: string) =>
   prisma.message.update({
     where: { id },
-    data: { deleted: true, content: '', fileUrl: undefined },
+    data: { status: 'DELETED', content: '', fileUrl: undefined },
     include: {
       author: {
         include: {
@@ -138,7 +164,7 @@ export const deleteMessageById = (id: number) =>
     },
   });
 
-export const getMessagesByConversationId = (id: number, cursorTo?: number) =>
+export const getMessagesByConversationId = (id: number, cursorTo?: string) =>
   prisma.directMessage.findMany({
     where: {
       conversationId: id,
@@ -154,6 +180,22 @@ export const getMessagesByConversationId = (id: number, cursorTo?: number) =>
     orderBy: {
       createdAt: 'desc',
     },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          imageUrl: true,
+          status: true,
+        },
+      },
+    },
+  });
+
+export const createCustomDirectMessage = (message: DirectMessage) =>
+  prisma.directMessage.create({
+    data: { ...message, status: 'DELIVERED' },
     include: {
       author: {
         select: {
