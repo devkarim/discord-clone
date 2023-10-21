@@ -45,7 +45,9 @@ const ClientControl: React.FC<ClientControlProps> = ({}) => {
             <p className="text-sm font-semibold opacity-90">
               {user.name || user.username}
             </p>
-            <p className="text-xs opacity-60">Online</p>
+            <p className="text-xs opacity-60">
+              {user.status == 'ONLINE' ? 'Online' : 'Offline'}
+            </p>
           </div>
         </div>
         <div className="flex items-center text-[1.4rem]">
