@@ -4,7 +4,6 @@ import { Loader2 } from 'lucide-react';
 
 import useChatSocket from '@/hooks/use-chat-socket';
 import useCurrentChannel from '@/hooks/use-current-channel';
-import usePendingMessages from '@/hooks/use-pending-messages';
 import useCurrentChannelMessages from '@/hooks/use-current-channel-messages';
 
 import ChatMessages from './chat-messages';
@@ -21,9 +20,6 @@ const ChannelChatMessages: React.FC<ChannelChatMessagesProps> = ({}) => {
     isFetchingNextPage,
     fetchNextPage,
   } = useCurrentChannelMessages();
-  const pendingMessages = usePendingMessages((state) =>
-    state.getMessagesByChannel(channel?.id)
-  );
 
   useChatSocket(channel?.id);
 
@@ -49,7 +45,7 @@ const ChannelChatMessages: React.FC<ChannelChatMessagesProps> = ({}) => {
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       fetchNextPage={fetchNextPage}
-      currentPageCount={data.pages[0].messages.length + pendingMessages.length}
+      currentPageCount={data.pages[0].messages.length}
     >
       <ChannelMessagesList
         messages={data.pages.flatMap((page) => page.messages)}

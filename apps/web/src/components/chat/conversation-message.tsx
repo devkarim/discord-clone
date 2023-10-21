@@ -6,10 +6,7 @@ import { FullDirectMessage } from '@/types/db';
 import Message from './message';
 
 interface ConversationMessageProps {
-  message: Omit<FullDirectMessage, 'id'> & {
-    id?: number;
-    pendingMessageId?: string;
-  };
+  message: FullDirectMessage;
 }
 
 const ConversationMessage: React.FC<ConversationMessageProps> = ({
@@ -19,8 +16,8 @@ const ConversationMessage: React.FC<ConversationMessageProps> = ({
 
   if (!user) return null;
 
-  const canEdit = user.id == message.author.id;
-  const canDelete = user.id == message.author.id;
+  const canEdit = user.id == message.authorId;
+  const canDelete = user.id == message.authorId;
 
   const onSaveEdit = async (data: UpdateMessageSchema) => {};
 
@@ -29,13 +26,13 @@ const ConversationMessage: React.FC<ConversationMessageProps> = ({
   return (
     <Message
       id={message.id}
-      pendingMessageId={message.pendingMessageId}
+      isPending={message.status === 'PENDING'}
       content={message.content}
       username={message.author.name || message.author.username}
       imageUrl={message.author.imageUrl}
       canEdit={canEdit}
       canDelete={canDelete}
-      deleted={message.deleted}
+      deleted={message.status === 'DELETED'}
       createdAt={message.createdAt}
       updatedAt={message.updatedAt}
       onSaveEdit={onSaveEdit}

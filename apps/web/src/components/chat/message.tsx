@@ -12,12 +12,12 @@ import MessageActions from './message-actions';
 import MessageAttachment from './message-attachment';
 
 interface MessageProps {
-  id?: number;
-  pendingMessageId?: string;
+  id?: string;
   content: string;
   imageUrl?: string | null;
   username: string;
   usernameColor?: string;
+  isPending?: boolean | null;
   deleted?: boolean;
   fileUrl?: string | null;
   createdAt: Date;
@@ -30,13 +30,13 @@ interface MessageProps {
 
 const Message: React.FC<MessageProps> = ({
   id,
-  pendingMessageId,
   content,
   imageUrl,
   username,
   usernameColor,
   canEdit,
   canDelete,
+  isPending,
   deleted,
   fileUrl,
   updatedAt,
@@ -53,6 +53,7 @@ const Message: React.FC<MessageProps> = ({
   const isAttachment = !!fileUrl;
 
   const saveEdit = async (data: UpdateMessageSchema) => {
+    if (isPending) return;
     try {
       setLoading(true);
       await onSaveEdit(data);
@@ -63,6 +64,7 @@ const Message: React.FC<MessageProps> = ({
   };
 
   const onConfirmDeleteMessage = async () => {
+    if (isPending) return;
     try {
       setLoading(true);
       await onDelete();
@@ -121,7 +123,7 @@ const Message: React.FC<MessageProps> = ({
       <div
         className={cn(
           'group relative flex gap-4 hover:bg-sidebar/20 py-2 px-6',
-          pendingMessageId && 'opacity-60'
+          isPending && 'opacity-60'
         )}
       >
         <Avatar
