@@ -18,10 +18,10 @@ export const getChannelMessages = (channelId: number, cursor?: number) =>
     })
     .then((res) => res.data.data);
 
-export const updateMessage = (id: number, data: UpdateMessageSchema) =>
+export const updateMessage = (id: string, data: UpdateMessageSchema) =>
   client
     .patch<MessageResponse>(`/messages/${id}`, data)
     .then((res) => res.data.data);
 
-export const deleteMessage = (id: number) =>
+export const deleteMessage = (id: string) =>
   client.delete<BaseResponseNoData>(`/messages/${id}`).then((res) => res.data);
