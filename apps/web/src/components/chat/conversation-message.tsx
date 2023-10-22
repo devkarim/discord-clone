@@ -1,7 +1,11 @@
+import { toast } from 'react-toastify';
+
 import { UpdateMessageSchema } from 'models';
 
 import useUser from '@/hooks/use-user';
+import { handleError } from '@/lib/utils';
 import { FullDirectMessage } from '@/types/db';
+import { deleteDirectMessage, updateDirectMessage } from '@/services/message';
 
 import Message from './message';
 
@@ -19,9 +23,25 @@ const ConversationMessage: React.FC<ConversationMessageProps> = ({
   const canEdit = user.id == message.authorId;
   const canDelete = user.id == message.authorId;
 
-  const onSaveEdit = async (data: UpdateMessageSchema) => {};
+  const onSaveEdit = async (data: UpdateMessageSchema) => {
+    if (!message.id || message.status !== 'DELIVERED')
+      return toast.error('This message is pending, please wait...');
+    try {
+      await updateDirectMessage(message.id, data);
+    } catch (err) {
+      handleError(err);
+    }
+  };
 
-  const onDelete = async () => {};
+  const onDelete = async () => {
+    if (!message.id || message.status !== 'DELIVERED')
+      return toast.error('This message is pending, please wait...');
+    try {
+      await deleteDirectMessage(message.id);
+    } catch (err) {
+      handleError(err);
+    }
+  };
 
   return (
     <Message
