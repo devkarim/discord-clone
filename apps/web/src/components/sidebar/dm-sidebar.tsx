@@ -11,11 +11,7 @@ const DMSidebar: React.FC<DMSidebarProps> = ({}) => {
   return (
     <SidebarContainer>
       <Content>
-        <SidebarSubHeader
-          label="Direct Messages"
-          tooltip="Create DM"
-          showAddButton
-        />
+        <SidebarSubHeader label="Direct Messages" />
         <DMList />
       </Content>
       <ClientControl />
