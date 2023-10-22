@@ -25,3 +25,17 @@ export const updateMessage = (id: string, data: UpdateMessageSchema) =>
 
 export const deleteMessage = (id: string) =>
   client.delete<BaseResponseNoData>(`/messages/${id}`).then((res) => res.data);
+
+/*
+
+  DIRECT MESSAGES
+
+*/
+
+export const updateDirectMessage = (id: string, data: UpdateMessageSchema) =>
+  client
+    .patch<MessageResponse>(`/direct/${id}`, data)
+    .then((res) => res.data.data);
+
+export const deleteDirectMessage = (id: string) =>
+  client.delete<BaseResponseNoData>(`/direct/${id}`).then((res) => res.data);
