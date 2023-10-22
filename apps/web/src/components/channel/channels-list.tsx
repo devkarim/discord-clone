@@ -40,11 +40,7 @@ const ChannelsList: React.FC<ChannelsListProps> = ({ channels }) => {
   const hasAccess = canMemberDoAction(member, 'MANAGE_SERVER');
 
   const onClick = (id: number, serverId: number, type: ChannelType) => {
-    if (type == ChannelType.TEXT) {
-      router.push(`/server/${serverId}/channel/${id}`);
-    } else {
-      // TODO: Add voice & video channels support
-    }
+    router.push(`/server/${serverId}/channel/${id}`);
   };
 
   const onDelete = (id: number) => {
