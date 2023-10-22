@@ -164,6 +164,68 @@ export const deleteMessageById = (id: string) =>
     },
   });
 
+/*
+
+  DIRECT MESSAGES
+
+*/
+
+export const createCustomDirectMessage = (message: DirectMessage) =>
+  prisma.directMessage.create({
+    data: { ...message, status: 'DELIVERED' },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          imageUrl: true,
+          status: true,
+        },
+      },
+    },
+  });
+
+export const createDirectMessage = (
+  conversationId: number,
+  authorId: number,
+  data: SendMessageSchema
+) =>
+  prisma.directMessage.create({
+    data: {
+      ...data,
+      conversationId,
+      authorId,
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          imageUrl: true,
+          status: true,
+        },
+      },
+    },
+  });
+
+export const getDirectMessageById = (id: string) =>
+  prisma.directMessage.findUnique({
+    where: { id },
+    include: {
+      author: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          imageUrl: true,
+          status: true,
+        },
+      },
+    },
+  });
+
 export const getMessagesByConversationId = (id: number, cursorTo?: string) =>
   prisma.directMessage.findMany({
     where: {
@@ -193,9 +255,13 @@ export const getMessagesByConversationId = (id: number, cursorTo?: string) =>
     },
   });
 
-export const createCustomDirectMessage = (message: DirectMessage) =>
-  prisma.directMessage.create({
-    data: { ...message, status: 'DELIVERED' },
+export const editDirectMessage = (
+  id: string,
+  data: Partial<UpdateMessageSchema>
+) =>
+  prisma.directMessage.update({
+    where: { id },
+    data,
     include: {
       author: {
         select: {
@@ -209,17 +275,10 @@ export const createCustomDirectMessage = (message: DirectMessage) =>
     },
   });
 
-export const createDirectMessage = (
-  conversationId: number,
-  authorId: number,
-  data: SendMessageSchema
-) =>
-  prisma.directMessage.create({
-    data: {
-      ...data,
-      conversationId,
-      authorId,
-    },
+export const deleteDirectMessageById = (id: string) =>
+  prisma.directMessage.update({
+    where: { id },
+    data: { status: 'DELETED', content: '', fileUrl: undefined },
     include: {
       author: {
         select: {
