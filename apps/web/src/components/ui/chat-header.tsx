@@ -10,7 +10,7 @@ import ChannelHeader from './channel-header';
 interface ChatHeaderProps {}
 
 const ChatHeader: React.FC<ChatHeaderProps> = ({}) => {
-  const { channelId, conversationId } = useParams();
+  const { channelId, userId, conversationId } = useParams();
   const pathname = usePathname();
 
   const isExplore = pathname == '/explore';
@@ -18,8 +18,8 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({}) => {
   return (
     <div className="w-full flex items-center px-3 py-3 h-16 shadow-md select-none">
       <MobileSidebar />
-      {conversationId && typeof conversationId == 'string' ? (
-        <UserHeader conversationId={conversationId} />
+      {conversationId || userId ? (
+        <UserHeader />
       ) : channelId && typeof channelId == 'string' ? (
         <ChannelHeader />
       ) : (
