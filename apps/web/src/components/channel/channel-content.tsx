@@ -1,3 +1,5 @@
+'use client';
+
 import useCurrentChannel from '@/hooks/use-current-channel';
 import ChannelChatBox from '@/components/chat/channel-chat-box';
 import ChannelChatMessages from '@/components/chat/channel-chat-messages';
