@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import { FaPen } from '@react-icons/all-files/fa/FaPen';
 import { FaCirclePlus } from '@react-icons/all-files/fa6/FaCirclePlus';
@@ -23,18 +23,25 @@ import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible';
 
 import ChannelsList from './channels-list';
 import CategorySubHeader from './category-sub-header';
+import { usePathname } from 'next/navigation';
 
 interface ChannelCategoryProps {
   category: Category & { channels: Channel[] };
 }
 
 const ChannelCategory: React.FC<ChannelCategoryProps> = ({ category }) => {
+  const pathname = usePathname();
   const [hide, setHide] = useState(false);
   const [loading, setLoading] = useState(false);
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const { refetch } = useCurrentServer();
   const { data: member } = useCurrentMember();
   const showModal = useModal((state) => state.show);
+  const activeChannels = useMemo(() => {
+    return category.channels.filter((channel) =>
+      pathname.includes(`/channel/${channel.id}`)
+    );
+  }, [category.channels, pathname]);
 
   const hasAccess = canMemberDoAction(member, 'MANAGE_SERVER');
 
@@ -114,6 +121,7 @@ const ChannelCategory: React.FC<ChannelCategoryProps> = ({ category }) => {
             </ContextMenuContent>
           )}
         </ContextMenu>
+        {!!hide && <ChannelsList channels={activeChannels} />}
         <CollapsibleContent>
           <ChannelsList channels={category.channels} />
         </CollapsibleContent>
