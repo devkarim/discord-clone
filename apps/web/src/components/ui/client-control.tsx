@@ -1,8 +1,6 @@
 'use client';
 
 import { FaGear } from '@react-icons/all-files/fa6/FaGear';
-import { MdHeadset } from '@react-icons/all-files/md/MdHeadset';
-import { MdHeadsetOff } from '@react-icons/all-files/md/MdHeadsetOff';
 import { BiSolidMicrophone } from '@react-icons/all-files/bi/BiSolidMicrophone';
 import { BiSolidMicrophoneOff } from '@react-icons/all-files/bi/BiSolidMicrophoneOff';
 
@@ -20,14 +18,12 @@ const ClientControl: React.FC<ClientControlProps> = ({}) => {
   const showModal = useModal((state) => state.show);
   const control = useControl();
 
+  const isMuted = control.isMuted;
+
   if (!user) return null;
 
   const onMute = () => {
     control.toggleMute();
-  };
-
-  const onDeafen = () => {
-    control.toggleDefean();
   };
 
   return (
@@ -54,29 +50,29 @@ const ClientControl: React.FC<ClientControlProps> = ({}) => {
           <IconButton
             className="opacity-60"
             onClick={onMute}
-            tooltip={control.isMuted ? 'Unmute' : 'Mute'}
+            tooltip={isMuted ? 'Unmute' : 'Mute'}
             side="top"
             bg
           >
-            {control.isMuted ? (
+            {isMuted ? (
               <BiSolidMicrophoneOff className="text-destructive" />
             ) : (
               <BiSolidMicrophone />
             )}
           </IconButton>
-          <IconButton
+          {/* <IconButton
             className="opacity-60"
             onClick={onDeafen}
-            tooltip={control.isDeafen ? 'Undefean' : 'Defean'}
+            tooltip={isDeafen ? 'Undefean' : 'Defean'}
             side="top"
             bg
           >
-            {control.isDeafen ? (
+            {isDeafen ? (
               <MdHeadsetOff className="text-destructive" />
             ) : (
               <MdHeadset />
             )}
-          </IconButton>
+          </IconButton> */}
           <IconButton
             className="opacity-60 text-lg"
             onClick={() => showModal('user-settings')}
