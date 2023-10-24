@@ -4,8 +4,8 @@ import { FaUserFriends } from '@react-icons/all-files/fa/FaUserFriends';
 
 import useUI from '@/hooks/use-ui';
 import useCurrentChannel from '@/hooks/use-current-channel';
+import ChannelTypeIcon from '@/components/channel/channel-type-icon';
 
-import Hashtag from './hashtag';
 import IconButton from './icon-button';
 
 interface ChannelHeaderProps {}
@@ -26,7 +26,7 @@ const ChannelHeader: React.FC<ChannelHeaderProps> = ({}) => {
   return (
     <div className="flex w-full items-center justify-between mx-3">
       <div className="flex gap-3 items-center">
-        <Hashtag className="text-2xl text-foreground/50" />
+        <ChannelTypeIcon type={channel.type} />
         <p className="text-lg font-medium">{channel.name}</p>
       </div>
       <div className="text-3xl flex">

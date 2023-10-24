@@ -1,13 +1,11 @@
 'use client';
 
-import { HiSpeakerWave } from '@react-icons/all-files/hi2/HiSpeakerWave';
-import { FaVideo } from '@react-icons/all-files/fa6/FaVideo';
-
 import { ChannelType } from 'database';
 
 import { cn } from '@/lib/utils';
-import Hashtag from '@/components/ui/hashtag';
 import SidebarCard from '@/components/sidebar/sidebar-card';
+
+import ChannelTypeIcon from './channel-type-icon';
 
 interface ChannelCardProps {
   name: string;
@@ -31,14 +29,10 @@ const ChannelCard: React.FC<ChannelCardProps> = ({
       active={active}
       onClick={onClick}
     >
-      {type == 'VIDEO' ? (
-        <FaVideo className="text-lg" />
-      ) : type == 'VOICE' ? (
-        <HiSpeakerWave className="text-xl" />
-      ) : (
-        <Hashtag className="text-lg" />
-      )}
-      <p className="font-semibold lowercase">{name}</p>
+      <ChannelTypeIcon type={type} className="w-6 text-xl" />
+      <p className={cn('font-semibold', type == 'TEXT' && 'lowercase')}>
+        {name}
+      </p>
     </SidebarCard>
   );
 };
