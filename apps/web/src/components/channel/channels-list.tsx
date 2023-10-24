@@ -75,45 +75,47 @@ const ChannelsList: React.FC<ChannelsListProps> = ({ channels }) => {
         onConfirm={onConfirmDelete}
         loading={loading}
       />
-      {channels.map((channel) => (
-        <ContextMenu key={channel.id}>
-          <ContextMenuTrigger>
-            <ChannelCard
-              name={channel.name}
-              type={channel.type}
-              active={pathname.includes(`/channel/${channel.id}`)}
-              onClick={() =>
-                onClick(channel.id, channel.serverId, channel.type)
-              }
-            />
-          </ContextMenuTrigger>
-          {hasAccess && (
-            <ContextMenuContent>
-              <ContextMenuItem
-                className="justify-between gap-12 font-medium cursor-pointer"
+      <div className="flex flex-col gap-1">
+        {channels.map((channel) => (
+          <ContextMenu key={channel.id}>
+            <ContextMenuTrigger>
+              <ChannelCard
+                name={channel.name}
+                type={channel.type}
+                active={pathname.includes(`/channel/${channel.id}`)}
                 onClick={() =>
-                  setTimeout(
-                    () => showModal('create-channel', { channel }),
-                    100
-                  )
+                  onClick(channel.id, channel.serverId, channel.type)
                 }
-                disabled={loading}
-              >
-                <p>Edit Channel</p>
-                <FaPen />
-              </ContextMenuItem>
-              <ContextMenuItem
-                className="justify-between gap-12 font-medium text-red-500 focus:text-foreground focus:bg-red-500 cursor-pointer"
-                onClick={() => setTimeout(() => onDelete(channel.id), 100)}
-                disabled={loading}
-              >
-                <p>Delete Channel</p>
-                <FaTrash />
-              </ContextMenuItem>
-            </ContextMenuContent>
-          )}
-        </ContextMenu>
-      ))}
+              />
+            </ContextMenuTrigger>
+            {hasAccess && (
+              <ContextMenuContent>
+                <ContextMenuItem
+                  className="justify-between gap-12 font-medium cursor-pointer"
+                  onClick={() =>
+                    setTimeout(
+                      () => showModal('create-channel', { channel }),
+                      100
+                    )
+                  }
+                  disabled={loading}
+                >
+                  <p>Edit Channel</p>
+                  <FaPen />
+                </ContextMenuItem>
+                <ContextMenuItem
+                  className="justify-between gap-12 font-medium text-red-500 focus:text-foreground focus:bg-red-500 cursor-pointer"
+                  onClick={() => setTimeout(() => onDelete(channel.id), 100)}
+                  disabled={loading}
+                >
+                  <p>Delete Channel</p>
+                  <FaTrash />
+                </ContextMenuItem>
+              </ContextMenuContent>
+            )}
+          </ContextMenu>
+        ))}
+      </div>
     </>
   );
 };

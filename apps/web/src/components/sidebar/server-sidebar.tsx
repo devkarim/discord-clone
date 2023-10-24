@@ -40,11 +40,7 @@ const ServerSidebar: React.FC<ServerSidebarProps> = ({ serverId }) => {
     <SidebarContainer>
       <ServerSidebarHeader id={server.id} name={server.name} />
       <Content className="space-y-0 py-4 scrollbar">
-        <div className="space-y-0">
-          <ChannelsList
-            channels={server.channels.filter((c) => !c.categoryId)}
-          />
-        </div>
+        <ChannelsList channels={server.channels.filter((c) => !c.categoryId)} />
         {mappedCategories.map((category) => (
           <ChannelCategory key={category.id} category={category} />
         ))}
