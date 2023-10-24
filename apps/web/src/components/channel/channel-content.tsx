@@ -4,6 +4,8 @@ import useCurrentChannel from '@/hooks/use-current-channel';
 import ChannelChatBox from '@/components/chat/channel-chat-box';
 import ChannelChatMessages from '@/components/chat/channel-chat-messages';
 
+import MediaRoom from './media-room';
+
 interface ChannelContentProps {}
 
 const ChannelContent: React.FC<ChannelContentProps> = ({}) => {
@@ -20,7 +22,13 @@ const ChannelContent: React.FC<ChannelContentProps> = ({}) => {
     );
   }
 
-  return <div></div>;
+  return (
+    <MediaRoom
+      chatId={currentChannel.id}
+      video={currentChannel.type === 'VIDEO'}
+      voice={currentChannel.type === 'VOICE'}
+    />
+  );
 };
 
 export default ChannelContent;
