@@ -2,7 +2,7 @@
 
 ## Overview
 
-A discord clone. This web application is a clone of Discord so this is **not intended** for commercial use.
+This application is a clone of Discord so this is **not intended** for commercial use. This monorepo consists of two apps, web and backend.
 
 Visit the website from [here](https://discord-clone.karimwael.com).
 
@@ -76,6 +76,14 @@ pnpm i
 These environment variables are required for the app to work:
 
 ```
+# for web
+UPLOADTHING_SECRET=
+UPLOADTHING_APP_ID=
+
+LIVEKIT_API_KEY=
+LIVEKIT_API_SECRET=
+NEXT_PUBLIC_LIVEKIT_URL=
+
 # for backend workspace
 NODE_ENV=
 PORT=
@@ -95,6 +103,11 @@ Use this command to start the development servers (Next.js & Express.js) in para
 ```
 pnpm dev
 ```
+
+## See also
+
+- [Discord Clone Backend](https://github.com/devkarim/discord-clone/tree/main/apps/backend)
+- [Discord Clone Web](https://github.com/devkarim/discord-clone/tree/main/apps/web)
 
 ## Author
 
