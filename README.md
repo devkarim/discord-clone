@@ -45,6 +45,12 @@ This project is inspired by this [video](https://www.youtube.com/watch?v=ZbX4Ok9
 - [PlanetScale](https://planetscale.com)
 - [react-hook-form](https://react-hook-form.com)
 - [react-toastify](https://fkhadra.github.io/react-toastify)
+- [Livekit](https://livekit.io)
+- [Upstash](https://upstash.com)
+- [Redis](https://redis.io)
+- [Socket.IO](https://socket.io)
+- [UploadThing](https://uploadthing.com)
+- [Passportjs](http://www.passportjs.org)
 
 ## Prerequisites
 
