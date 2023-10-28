@@ -13,3 +13,5 @@ export const updateUser = async (data: UpdateUserSchema) =>
 
 export const getUserMutuals = async () =>
   client.get<UsersResponse>(`/user/mutuals`).then((res) => res.data.data);
+
+export const logout = async () => client.post(`/user/logout`);
