@@ -6,6 +6,7 @@ import cors from 'cors';
 import express from 'express';
 import passport from 'passport';
 
+import prisma from './lib/prisma.js';
 import { env } from './config/env.js';
 import session from './lib/session.js';
 import apiRouter from './routes/api.js';
@@ -14,7 +15,6 @@ import errorLogger from './middlewares/error/error-logger.js';
 import errorSender from './middlewares/error/error-sender.js';
 import errorHandler from './middlewares/error/error-handler.js';
 import { API_URL, APP_URL, isProduction } from './config/constants.js';
-import prisma from './lib/prisma.js';
 
 const app = express();
 const server = http.createServer(app);

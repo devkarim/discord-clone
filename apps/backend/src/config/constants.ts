@@ -16,6 +16,8 @@ export const APP_URL = isDevelopment
   ? `http://${APP_DOMAIN}:3000`
   : `https://${APP_DOMAIN}`;
 
+export const COOKIE_NAME = 'discord_session';
+
 export const CHAT_ADD_KEY = 'chat:messages:new';
 export const CHAT_UPDATE_KEY = 'chat:messages:update';
 export const STATUS_CHANGE_KEY = 'status:change';

@@ -1,12 +1,12 @@
 import expressSession from 'express-session';
 
 import { env } from '../config/env.js';
-import { isProduction } from '../config/constants.js';
+import { COOKIE_NAME, isProduction } from '../config/constants.js';
 
 import redisStore from './redis.js';
 
 const session = expressSession({
-  name: 'discord_session',
+  name: COOKIE_NAME,
   cookie: {
     maxAge: 7 * 24 * 60 * 60 * 1000, // ms
     secure: isProduction,
