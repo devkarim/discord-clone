@@ -14,9 +14,15 @@ interface MediaRoomProps {
   chatId: number;
   video?: boolean;
   voice?: boolean;
+  onDisconnected?: () => void;
 }
 
-const MediaRoom: React.FC<MediaRoomProps> = ({ chatId, video, voice }) => {
+const MediaRoom: React.FC<MediaRoomProps> = ({
+  chatId,
+  video,
+  voice,
+  onDisconnected,
+}) => {
   const { data: user } = useUser();
   const [token, setToken] = useState('');
 
@@ -54,6 +60,7 @@ const MediaRoom: React.FC<MediaRoomProps> = ({ chatId, video, voice }) => {
       token={token}
       connectOptions={{ autoSubscribe: false }}
       serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
+      onDisconnected={onDisconnected}
     >
       <Conference />
     </LiveKitRoom>
