@@ -13,7 +13,13 @@ const ServerSidebar: React.FC<ServerSidebarProps> = ({}) => {
   return (
     <div className="relative h-full w-24 bg-sidebar flex flex-col items-center overflow-auto scrollbar-none">
       {/* Direct Messages */}
-      <HoverCircle tooltip="Direct Messages" activeRoute="/">
+      <HoverCircle
+        tooltip="Direct Messages"
+        activeRoute="/"
+        startsWithRoute="/me"
+        className="hover:text-white"
+        activeClassName="bg-primary !text-white"
+      >
         <FaDiscord className="text-3xl" />
       </HoverCircle>
       <Separator className="my-2 w-10 h-[2px]" />
@@ -22,7 +28,7 @@ const ServerSidebar: React.FC<ServerSidebarProps> = ({}) => {
       <AddServerHoverCircle />
       {/* Explore Servers */}
       <HoverCircle
-        className="hover:bg-green-500 text-green-500"
+        className="hover:bg-green-500 hover:text-white text-green-500"
         tooltip="Explore Servers"
         activeClassName="bg-green-500 !text-white"
         activeRoute="/explore"
