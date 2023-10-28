@@ -68,9 +68,9 @@ const HoverCircle: React.FC<HoverCircleProps> = ({
         {showIndiaction && (
           <span
             className={cn(
-              'absolute top-1/3 -left-[1rem] rounded-xl h-8 scale-y-0 bg-foreground peer-hover:scale-y-110 -translate-x-2 peer-hover:translate-x-0 w-4 transition-[transform] duration-300',
+              'absolute top-1/3 -left-[1.1rem] rounded-xl h-6 scale-y-0 bg-foreground peer-hover:scale-y-110 -translate-x-2 peer-hover:translate-x-0 w-4 transition-[transform] duration-300',
               {
-                'scale-y-150 translate-x-0 peer-hover:scale-y-150': isActive,
+                'scale-y-[2] translate-x-0 peer-hover:scale-y-[2]': isActive,
               }
             )}
           />
