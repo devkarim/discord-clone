@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Logger } from 'utils';
@@ -11,7 +12,7 @@ import { Exception, UpdateUserSchema, updateUserSchema } from 'models';
 import useUser from '@/hooks/use-user';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { updateUser } from '@/services/user';
+import { logout, updateUser } from '@/services/user';
 import ImageUpload from '@/components/ui/image-upload';
 import {
   Form,
@@ -20,12 +21,18 @@ import {
   FormItem,
   FormLabel,
 } from '@/components/ui/form';
+import useModal from '@/hooks/use-modal';
+import { handleError } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 import SaveChangesToast from '@/components/settings/save-changes-toast';
 
 interface UserAccountProps {}
 
 const UserAccount: React.FC<UserAccountProps> = ({}) => {
+  const hide = useModal((state) => state.hide);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const { data: user, refetch } = useUser();
+  const router = useRouter();
   const [saveChangesOpen, setSaveChangesOpen] = useState(false);
 
   const form = useForm<UpdateUserSchema>({
@@ -71,66 +78,100 @@ const UserAccount: React.FC<UserAccountProps> = ({}) => {
     setSaveChangesOpen(false);
   };
 
+  const onLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await logout();
+      router.push('/');
+      router.refresh();
+      hide();
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
+
   return (
-    <div className="py-6">
+    <>
       <SaveChangesToast
         isOpen={saveChangesOpen}
         onSaveChanges={form.handleSubmit(saveChanges)}
         onReset={onReset}
         loading={loading}
       />
-      <Form {...form}>
-        <form onChange={updateSaveChanges}>
-          <div className="space-y-8">
-            <div className="flex gap-12">
+      <div className="py-6 space-y-12">
+        <Form {...form}>
+          <form onChange={updateSaveChanges}>
+            <div className="space-y-8">
+              <div className="flex gap-12">
+                <FormField
+                  name="imageUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <ImageUpload
+                          imageUrl={field.value ?? user.imageUrl}
+                          name={form.getValues('username') ?? user.username}
+                          onUploadComplete={(url) => {
+                            field.onChange(url);
+                            setSaveChangesOpen(true);
+                          }}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name="username"
+                  render={({ field: { value, ...field } }) => (
+                    <FormItem className="w-72">
+                      <FormLabel>
+                        <Label>USERNAME</Label>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          value={value ?? user.username ?? ''}
+                          {...field}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
-                name="imageUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <ImageUpload
-                        imageUrl={field.value ?? user.imageUrl}
-                        name={form.getValues('username') ?? user.username}
-                        onUploadComplete={(url) => {
-                          field.onChange(url);
-                          setSaveChangesOpen(true);
-                        }}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name="username"
+                name="name"
                 render={({ field: { value, ...field } }) => (
-                  <FormItem className="w-72">
+                  <FormItem>
                     <FormLabel>
-                      <Label>USERNAME</Label>
+                      <Label>DISPLAY NAME</Label>
                     </FormLabel>
                     <FormControl>
-                      <Input value={value ?? user.username ?? ''} {...field} />
+                      <Input value={value ?? user.name ?? ''} {...field} />
                     </FormControl>
                   </FormItem>
                 )}
               />
             </div>
-            <FormField
-              name="name"
-              render={({ field: { value, ...field } }) => (
-                <FormItem>
-                  <FormLabel>
-                    <Label>DISPLAY NAME</Label>
-                  </FormLabel>
-                  <FormControl>
-                    <Input value={value ?? user.name ?? ''} {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+          </form>
+        </Form>
+        <div className="space-y-6">
+          <div className="space-y-1 text-foreground/60">
+            <h2 className="font-bold text-sm">SIGN OUT</h2>
+            <p className="text-sm">Log out from your account.</p>
           </div>
-        </form>
-      </Form>
-    </div>
+          <Button
+            variant="destructive"
+            size="sm"
+            className="font-semibold w-40"
+            onClick={onLogout}
+            loading={isLoggingOut}
+          >
+            Log Out
+          </Button>
+        </div>
+      </div>
+    </>
   );
 };
 
