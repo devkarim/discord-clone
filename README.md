@@ -36,7 +36,7 @@ This project is inspired by this [video](https://www.youtube.com/watch?v=ZbX4Ok9
 ## Technologies
 
 - [React.js](https://react.dev)
-- [Next.js 13](https://nextjs.org)
+- [Next.js 14](https://nextjs.org)
 - [TypeScript](https://www.typescriptlang.org)
 - [Express.js](https://expressjs.com)
 - [Zod](https://zod.dev)
