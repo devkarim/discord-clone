@@ -26,7 +26,7 @@ const ChannelContent: React.FC<ChannelContentProps> = ({}) => {
     <MediaRoom
       chatId={currentChannel.id}
       video={currentChannel.type === 'VIDEO'}
-      voice={currentChannel.type === 'VOICE'}
+      voice={currentChannel.type === 'VOICE' || currentChannel.type === 'VIDEO'}
     />
   );
 };
