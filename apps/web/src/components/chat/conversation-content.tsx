@@ -2,6 +2,7 @@
 
 import { Loader2 } from 'lucide-react';
 
+import useControl from '@/hooks/use-control';
 import MediaRoom from '@/components/channel/media-room';
 import useConversationMedia from '@/hooks/use-conversation-media';
 import useCurrentConversation from '@/hooks/use-current-conversation';
@@ -13,6 +14,7 @@ interface ConversationContentProps {}
 
 const ConversationContent: React.FC<ConversationContentProps> = ({}) => {
   const conversationMedia = useConversationMedia();
+  const isMuted = useControl((state) => state.isMuted);
   const { data: chat, isLoading: isConversationLoading } =
     useCurrentConversation();
 
@@ -43,7 +45,7 @@ const ConversationContent: React.FC<ConversationContentProps> = ({}) => {
         <MediaRoom
           chatId={chat.conversation.id}
           video={true}
-          voice={true}
+          voice={!isMuted}
           onDisconnected={onDisconnected}
         />
       );
@@ -52,7 +54,7 @@ const ConversationContent: React.FC<ConversationContentProps> = ({}) => {
       return (
         <MediaRoom
           chatId={chat.conversation.id}
-          voice={true}
+          voice={!isMuted}
           onDisconnected={onDisconnected}
         />
       );
