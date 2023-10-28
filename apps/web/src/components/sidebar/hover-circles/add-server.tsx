@@ -13,8 +13,8 @@ const AddServerHoverCircle: React.FC<AddServerHoverCircleProps> = ({}) => {
 
   return (
     <HoverCircle
-      className="hover:bg-green-500 text-green-500"
-      activeClassName="bg-green-500 !text-foreground"
+      className="hover:bg-green-500 hover:text-white text-green-500"
+      activeClassName="bg-green-500 !text-white"
       showIndiaction={false}
       tooltip="Add a Server"
       onClick={() => showServerModal('add-server')}
