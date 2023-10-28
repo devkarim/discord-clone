@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import { Errors } from 'models';
 
@@ -8,6 +8,7 @@ import {
   updateUser,
 } from '../services/user.js';
 import ServerResponse from '../models/response.js';
+import { COOKIE_NAME } from '../config/constants.js';
 import userValidator from '../validators/user.validator.js';
 
 const updateServerUser: typeof userValidator.updateServerUser = async (
@@ -30,4 +31,19 @@ const getMutuals = async (req: Request, res: Response) => {
   return ServerResponse.success(res, mutuals);
 };
 
-export default { updateServerUser, getMutuals };
+const logout = async (req: Request, res: Response, next: NextFunction) => {
+  if (!req.user) throw Errors.unauthenticated;
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    req.session.destroy(function (err) {
+      if (err) {
+        return next(err);
+      }
+      return ServerResponse.success(res);
+    });
+  });
+};
+
+export default { updateServerUser, getMutuals, logout };

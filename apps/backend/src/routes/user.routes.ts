@@ -21,4 +21,9 @@ userRouter.patch(
 // @access    Private
 userRouter.get('/mutuals', requireAuth, userController.getMutuals);
 
+// @route     POST /user/logout
+// @desc      Logout user
+// @access    Private
+userRouter.post('/logout', requireAuth, userController.logout);
+
 export default userRouter;
