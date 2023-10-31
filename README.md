@@ -2,7 +2,14 @@
 
 ## Overview
 
-This application is a clone of Discord so this is **not intended** for commercial use. This monorepo consists of two apps, web and backend.
+This application is a clone of Discord so this is **not intended** for commercial use. This monorepo consists of:
+
+- Backend app.
+- Web app.
+- Database package.
+- Models package.
+- tsconfig package.
+- Utils package.
 
 Visit the website from [here](https://discord-clone.karimwael.com).
 
