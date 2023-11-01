@@ -39,7 +39,7 @@ const UserAccount: React.FC<UserAccountProps> = ({}) => {
     resolver: zodResolver(updateUserSchema),
     defaultValues: {
       username: user?.username,
-      imageUrl: user?.imageUrl || '',
+      imageUrl: user?.imageUrl,
       name: user?.name || '',
     },
   });
@@ -64,7 +64,7 @@ const UserAccount: React.FC<UserAccountProps> = ({}) => {
   const onReset = () => {
     form.reset({
       name: user.name ?? '',
-      imageUrl: user.imageUrl ?? '',
+      imageUrl: user.imageUrl,
       username: user.username,
     });
     updateSaveChanges();
