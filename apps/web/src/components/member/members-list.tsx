@@ -9,7 +9,7 @@ const MembersList: React.FC<MembersListProps> = ({ members }) => {
   return (
     <div className="space-y-4">
       {members.map((member) => (
-        <div key={member.id} className="flex items-center space-x-2">
+        <div key={member.id} className="flex items-center space-x-3">
           <Avatar
             alt="member-image"
             src={member.user.imageUrl}
