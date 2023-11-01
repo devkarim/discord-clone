@@ -77,6 +77,7 @@ const ChannelCategory: React.FC<ChannelCategoryProps> = ({ category }) => {
               name={category.name}
               onCollapse={() => setHide(!hide)}
               isCollapsed={hide}
+              showAddButton={hasAccess}
             />
           </ContextMenuTrigger>
           {hasAccess && (

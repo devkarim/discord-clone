@@ -7,12 +7,14 @@ interface CategorySubHeaderProps {
   name: string;
   onCollapse?: () => void;
   isCollapsed?: boolean;
+  showAddButton?: boolean;
 }
 
 const CategorySubHeader: React.FC<CategorySubHeaderProps> = ({
   name,
   onCollapse,
   isCollapsed,
+  showAddButton = false,
 }) => {
   const show = useModal((state) => state.show);
 
@@ -20,7 +22,7 @@ const CategorySubHeader: React.FC<CategorySubHeaderProps> = ({
     <SidebarSubHeader
       tooltip="Create Channel"
       onClick={() => show('create-channel', { category: name })}
-      showAddButton
+      showAddButton={showAddButton}
       className="px-1 pt-4"
     >
       <p className="space-x-1 cursor-pointer py-2" onClick={onCollapse}>
