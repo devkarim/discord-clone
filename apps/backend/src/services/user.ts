@@ -29,8 +29,26 @@ export const getUserMutuals = async (id: number) =>
   prisma.user.findMany({
     where: {
       AND: [
-        { servers: { every: { members: { some: { userId: id } } } } },
-        { id: { not: id } },
+        {
+          members: {
+            some: {
+              server: {
+                members: {
+                  some: {
+                    user: {
+                      id,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        {
+          id: {
+            not: id,
+          },
+        },
       ],
     },
     select: {
