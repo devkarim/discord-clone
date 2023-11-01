@@ -6,7 +6,7 @@ import { registerSchema } from './auth-schema';
 
 export const updateUserSchema = z.object({
   username: registerSchema.shape.username,
-  imageUrl: z.string().url().optional(),
+  imageUrl: z.string().url().optional().nullable(),
   name: z
     .string()
     .min(Limits.name.min, Messages.limits.name.min)
