@@ -10,25 +10,26 @@ This project is inspired by this [video](https://www.youtube.com/watch?v=ZbX4Ok9
 
 ## Features
 
-- Login and registration using email and password.
+- Login and registration using email and password using Passport.js.
+- Backend API for the web app using Express.js.
 - Create and join servers with customization like changing server name and image.
-- Create and join text, voice and video channels in the server.
+- Create and join text, voice, and video channels in the server.
 - Send messages in the text channels.
 - Send direct messages to mutuals.
-- Customize user's profile by changing your username and profile picture.
-- Customize server's roles and permissions.
-- Join voice and video channels and talk with friends.
+- Customize the user's profile by changing your username and profile picture.
+- Customize the server's roles and permissions.
+- Join voice and video channels and talk with friends using LiveKit.
 - Send emojis and attachments in the chat.
 - MySQL database hosted on PlanetScale.
 - Redis database hosted on Upstash.
 - Infinite scrolling for messages.
 - Responsive design for mobile and desktop.
-- Light and dark mode.
+- Light and dark mode using shadcn/ui.
 - Websockets for real-time communication.
-- Manage server's members by kicking and banning them.
+- Manage server members by kicking and banning them.
 - Edit and delete messages.
 - Explore featured servers.
-- Edit and delete server's channels.
+- Edit and delete the server's channels.
 - Add, edit, and remove channel categories.
 - Status indicator for online and offline users.
 - Invite and join servers using invite links.
