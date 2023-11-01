@@ -60,6 +60,8 @@ const Message: React.FC<MessageProps> = ({
       setIsEditing(false);
     } catch (err) {
       handleError(err);
+    } finally {
+      setLoading(false);
     }
   };
 
