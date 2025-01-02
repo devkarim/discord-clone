@@ -20,8 +20,8 @@ This project is inspired by this [video](https://www.youtube.com/watch?v=ZbX4Ok9
 - Customize the server's roles and permissions.
 - Join voice and video channels and talk with friends using LiveKit.
 - Send emojis and attachments in the chat.
-- MySQL database hosted on PlanetScale.
-- Redis database hosted on Upstash.
+- PostgreSQL hosted on [neon.tech](https://neon.tech).
+- Redis database hosted on [Upstash](https://upstash.com).
 - Infinite scrolling for messages.
 - Responsive design for mobile and desktop.
 - Light and dark mode using shadcn/ui.
